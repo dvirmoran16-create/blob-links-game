@@ -9,10 +9,7 @@ var damaged_enemies = []
 @onready var sprite = $Sprite2D
 
 func _ready():
-	var grade_factor = sqrt(involved_blobs)
-	scale *= grade_factor
-	animation_time *= grade_factor
-	hurting_time *= grade_factor
+	apply_factor()
 	var shader_tween = create_tween()
 	shader_tween.tween_property(
 		sprite.material, 
@@ -26,6 +23,11 @@ func _ready():
 	await get_tree().create_timer(hurting_time).timeout
 	monitoring = false
 	
+func apply_factor():
+	scale *= involved_blobs
+	animation_time *= involved_blobs
+	hurting_time *= involved_blobs
+
 func _on_detect_player(body):
 	if body.is_in_group("enemies") and body not in damaged_enemies:
 		if body.has_method("blobify"):
