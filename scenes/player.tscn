@@ -56,3 +56,5 @@ offset_top = -5.0
 offset_right = 29.0
 offset_bottom = 29.0
 color = Color(1, 0, 0, 0.5)
+
+[connection signal="ammo_changed" from="." to="AmmoIndicator" method="_on_player_ammo_changed"]

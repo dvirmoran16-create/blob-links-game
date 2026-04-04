@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://y13a74oqjv7k"]
 
 [ext_resource type="Script" uid="uid://kswhb3gqpwtp" path="res://scripts/connection_lines.gd" id="1_iywne"]
+[ext_resource type="Script" uid="uid://b7ndu6t80riju" path="res://scripts/game.gd" id="1_t5sjj"]
 [ext_resource type="PackedScene" uid="uid://cxn05vunhmxqu" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://d3lguq5l5p761" path="res://assets/sprites/bg_starry.png" id="3_lbhrr"]
 [ext_resource type="Script" uid="uid://bbxyjjmao1bkf" path="res://scripts/enemy_spawner.gd" id="4_lbhrr"]
 [ext_resource type="Script" uid="uid://ip7tqtaaf1ha" path="res://scripts/score_keeper.gd" id="5_3wwfn"]
+[ext_resource type="Script" uid="uid://g0nrt5x143kr" path="res://scripts/stats_tracker.gd" id="7_leqql"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yqjtg"]
 size = Vector2(3000, 20)
@@ -13,8 +15,19 @@ size = Vector2(3000, 20)
 size = Vector2(20, 2000)
 
 [node name="Game" type="Node2D" unique_id=668669891]
+script = ExtResource("1_t5sjj")
+
+[node name="StatsTracker" type="Node" parent="." unique_id=1428325537]
+script = ExtResource("7_leqql")
+
+[node name="ScoreKeeper" type="Node" parent="." unique_id=1868260571]
+script = ExtResource("5_3wwfn")
+
+[node name="EnemySpawner" type="Node" parent="." unique_id=631308057]
+script = ExtResource("4_lbhrr")
 
 [node name="Player" parent="." unique_id=1281867858 instance=ExtResource("1_uwrxv")]
+top_level = true
 motion_mode = 1
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1674209232]
@@ -81,12 +94,6 @@ grow_vertical = 2
 texture = ExtResource("3_lbhrr")
 stretch_mode = 1
 
-[node name="EnemySpawner" type="Node" parent="." unique_id=631308057]
-script = ExtResource("4_lbhrr")
-
-[node name="ScoreKeeper" type="Node" parent="." unique_id=1868260571]
-script = ExtResource("5_3wwfn")
-
 [node name="UI" type="CanvasLayer" parent="." unique_id=195862715]
 
 [node name="AmmoLabel" type="Label" parent="UI" unique_id=524708735]
@@ -124,5 +131,10 @@ grow_horizontal = 0
 theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 
+[connection signal="highscore_changed" from="ScoreKeeper" to="StatsTracker" method="_on_score_keeper_highscore_changed"]
+[connection signal="score_changed" from="ScoreKeeper" to="StatsTracker" method="_on_score_keeper_score_changed"]
+[connection signal="ammo_changed" from="Player" to="StatsTracker" method="_on_player_ammo_changed"]
+[connection signal="died" from="Player" to="." method="_on_player_died"]
 [connection signal="lives_changed" from="Player" to="EnemySpawner" method="_on_player_lives_changed"]
 [connection signal="lives_changed" from="Player" to="ScoreKeeper" method="_on_player_lives_changed"]
+[connection signal="lives_changed" from="Player" to="StatsTracker" method="_on_player_lives_changed"]

@@ -6,26 +6,27 @@ var time_passed = 0.0
 var score = 0
 var highscore = 0
 
-@onready var score_label = get_parent().get_node("UI/ScoreLabel")
-@onready var highscore_label = get_parent().get_node("UI/HighscoreLabel")
+signal score_changed(new_score: int)
+signal highscore_changed(new_highscore: int)
 
 func _ready():
 	time_passed = 0.0
 	highscore = load_highscore()
-	score_label.text = "Score: %d" % score
-	highscore_label.text = "Highscore: %d" % highscore
+	score_changed.emit(score)
+	highscore_changed.emit(highscore)
 
 func _process(delta):
-	if is_player_alive:
+	if is_player_alive and not Player.god_mode:
 		time_passed += delta
-		if int(time_passed):
+		var is_score_changed = int(time_passed) > score
+		if is_score_changed:
 			score = int(time_passed)
-			score_label.text = "Score: %d" % score
+			score_changed.emit(score)
 			
-		if score > highscore:
+		if is_score_changed and score > highscore:
 			highscore = score
 			save_highscore(highscore)
-			highscore_label.text = "Highscore: %d" % highscore
+			highscore_changed.emit(highscore)
 
 func _on_player_lives_changed(current: int, max: int, delta: int) -> void:
 	if current == 0:

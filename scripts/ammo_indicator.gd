@@ -6,36 +6,37 @@ extends Node2D
 @export var rotation_speed = PI / 2
 
 var dots = []
-
 var ammo_sprite = preload("res://scenes/sprite_scenes/ammo_sprite.tscn")
 
 func _ready():
-	create_dots()
-	update_dots(max_ammo)  # Start with full ammo
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _physics_process(delta):
 	rotate(rotation_speed * delta)
 	for d in dots:
 		d.rotation -= rotation_speed * delta * 2
 	
-func create_dots():
-	# Create dots dynamically
-	for i in range(max_ammo):
+func create_dots(num_of_dots):
+	dots.clear()
+	for i in range(num_of_dots):
 		var dot := ammo_sprite.instantiate() as ColorRect
-		dot.position = Vector2(-dot.size.x / 2, -dot.size.y / 2)
 		dot.color.a = 0.5
 		add_child(dot)
 		dots.append(dot)
-	
 
-func update_dots(ammo_count: int):
-	# Show/hide dots based on ammo
-	for i in range(dots.size()):
-		dots[i].visible = (i < ammo_count)
-	
+func place_dots(num_of_dots: int):
 	# Position visible dots in a circle
-	for i in range(ammo_count):
-		var angle = (float(i) / max_ammo) * TAU  # TAU = 2 * PI
+	for i in range(num_of_dots):
+		var angle = (float(i) / dots.size()) * TAU  # TAU = 2 * PI
 		var x = cos(angle) * radius
 		var y = sin(angle) * radius
-		dots[i].position = Vector2(x, y) + Vector2(-dots[i].size.x / 2, -dots[i].size.y / 2)
+		var dot_center_vector = Vector2(-dots[0].size.x / 2, -dots[0].size.y / 2)
+		dots[i].position = Vector2(x, y) + dot_center_vector
+		
+func _on_player_ammo_changed(current, max, delta):
+	if max != dots.size():
+		create_dots(max)
+		place_dots(current)
+		
+	for i in range(dots.size()):
+		dots[i].visible = (i < current)

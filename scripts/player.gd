@@ -2,9 +2,6 @@ class_name Player
 extends CharacterBody2D
 
 static var god_mode = false
-@onready var ammo_label = get_parent().get_node("UI/AmmoLabel")
-@onready var lives_label = get_parent().get_node("UI/LivesLabel")
-@onready var ammo_indicator : AmmoIndicator = $AmmoIndicator
 @onready var wound_1 : ColorRect = $ColorRect/wound_1
 @onready var wound_2 : ColorRect = $ColorRect/wound_2
 @onready var wound_3 : ColorRect = $ColorRect/wound_3
@@ -23,18 +20,13 @@ var explosion_scene = preload("res://scenes/blob_explosion.tscn")
 
 signal lives_changed(current: int, max: int, delta: int)
 signal ammo_changed(current: int, max: int, delta: int)
+signal died
 
 func _ready():
 	if god_mode:
 		enter_god_mode()
 		
-	ammo_indicator.max_ammo = max_ammo  # Sync the max ammo
-	ammo_indicator.create_dots()  # Recreate dots if needed
-	ammo_indicator.update_dots(current_ammo)
-
-	if ammo_label:
-		ammo_label.text = "Ammo: %d/%d" % [current_ammo, max_ammo]	
-	
+	update_ammo_status(0)
 	update_lives_status(0)
 	
 func get_input():
@@ -84,13 +76,7 @@ func find_chosen_blob(blobs) -> Blob:
 	
 func update_ammo_status(delta : int, reset_timer=false):
 	current_ammo = clamp(current_ammo + delta, 0, max_ammo)
-	
-	# TODO: use signal for these two!
-	# ammo_changed.emit(current_ammo, max_ammo, delta)
-	ammo_indicator.update_dots(current_ammo)
-	if ammo_label:
-		ammo_label.text = "Ammo: %d/%d" % [current_ammo, max_ammo]
-		
+	ammo_changed.emit(current_ammo, max_ammo, delta)	
 	if reset_timer:
 		ammo_timer = 0.0
 	
@@ -117,10 +103,8 @@ func get_hit():
 func update_lives_status(delta):
 	lives = clamp(lives + delta, 0, max_lives)
 	update_lives_sprite()
-	if lives_label:
-		lives_label.text = "Lives: %d/%d" % [lives, max_lives]
 	if lives == 0:
-		print('IM DED :(')
+		die()
 	
 	lives_changed.emit(lives, max_lives, delta)
 		
@@ -136,6 +120,13 @@ func explode(num_of_involved_blobs):
 	explosion.involved_blobs = num_of_involved_blobs
 	var game = get_parent()
 	game.call_deferred("add_child", explosion)
+	
+func die():
+	set_physics_process(false)
+	var death_tween = create_tween()
+	death_tween.tween_property(self, "modulate:a", 0.2, 2.0)
+	await death_tween.finished
+	died.emit()
 	
 func enter_god_mode():
 		max_ammo = 12
