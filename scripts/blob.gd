@@ -13,6 +13,7 @@ var is_alert = false
 var age = 0.0
 var explosion_scene = preload("res://scenes/blob_explosion.tscn")
 var blob_line_scene = preload("res://scenes/blob_line.tscn")
+var is_dying = false
 
 @onready var sprite = $Sprite2D
 @onready var highlight_range = $HighlightRange
@@ -24,7 +25,7 @@ func _ready():
 	player = get_tree().get_first_node_in_group("player")
 	highlight_range.mouse_entered.connect(highlight)
 	highlight_range.mouse_exited.connect(undo_highlight)
-	highlight_range.body_entered.connect(_on_detect_player)
+	body_entered.connect(_on_detect_player)
 	add_to_group("blobs")
 	progress_circle.max_value = ttl
 	progress_circle.step = 0.25
@@ -34,7 +35,7 @@ func _physics_process(delta):
 	progress_circle.value = ttl - age
 	
 	if age >= ttl:
-		die()
+		queue_free()
 	
 		
 func die():
@@ -52,22 +53,23 @@ func undo_highlight():
 	
 func _on_detect_player(body):
 	if body.is_in_group("player"):
-		trigger_explosions()
-		
-func trigger_explosions():
-	explode()
-	explode_link()
-	die()
-	
+		explode()
 	
 func explode():
+	if is_dying:
+		return
 	var explosion = explosion_scene.instantiate()
 	explosion.global_position = global_position
 	var game = get_parent()
 	game.call_deferred("add_child", explosion)
+	queue_free()
 	
 func explode_link():
+	if is_dying:
+		return
+	is_dying = true
 	var line : BlobLine = blob_line_scene.instantiate()
 	var game = get_parent()
 	game.call_deferred("add_child", line)
 	line.call_deferred("setup", global_position, player.global_position)
+	queue_free()

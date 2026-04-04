@@ -20,7 +20,6 @@ alert_texture = ExtResource("4_7crg0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
 shape = SubResource("CircleShape2D_7p1mj")
-disabled = true
 debug_color = Color(0, 0.60038817, 0.70000815, 0.77400005)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=608333645]

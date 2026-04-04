@@ -62,12 +62,14 @@ func handle_leap(lit_blobs: Array):
 	var chosen_blob: Blob = find_chosen_blob(lit_blobs)
 	if chosen_blob and is_instance_valid(chosen_blob):
 		var leap_target_pos = chosen_blob.global_position
+		var num_of_blobs = lit_blobs.size()
 		for blob: Blob in lit_blobs:
-			blob.trigger_explosions()
-		explode(lit_blobs.size())
+			blob.explode_link()
+		explode(num_of_blobs)
 		global_position = leap_target_pos
+		explode(num_of_blobs)
 
-func find_chosen_blob(blobs):
+func find_chosen_blob(blobs) -> Blob:
 	var mouse_pos = get_global_mouse_position()
 	var chosen_blob : Blob = null
 	var chosen_distance_squared = INF

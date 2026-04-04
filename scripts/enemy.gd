@@ -21,8 +21,7 @@ var is_alert = false
 var alert_tween: Tween = null
 var is_spawning = true
 var is_carry_heart = false
-
-
+var is_dying = false
 
 @onready var sprite = $Sprite2D
 @onready var alert_range = $AlertRange
@@ -84,6 +83,9 @@ func change_speed(delta):
 			speed = clamp(speed, baseline_speed, max_speed)
 		
 func blobify():
+	if is_dying:
+		return
+	is_dying = true
 	var blob = blob_scene.instantiate()
 	blob.global_position = global_position
 	var game = get_parent()
@@ -95,7 +97,6 @@ func blobify():
 	
 	queue_free()	
 	
-
 func _on_detect_player(body):
 	if body.is_in_group("player"):
 		is_alert = true
@@ -130,6 +131,9 @@ func _on_hit_player(body):
 		explode()
 		
 func explode():
+	if is_dying:
+		return
+	is_dying = true
 	var explosion = explosion_scene.instantiate()
 	explosion.global_position = global_position
 	var game = get_parent()
