@@ -12,6 +12,22 @@ script = ExtResource("1_3vyb7")
 [node name="AmmoIndicator" type="Node2D" parent="." unique_id=1227880471]
 script = ExtResource("2_g2els")
 
+[node name="AmmoSprite" type="ColorRect" parent="AmmoIndicator" unique_id=224885444]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+color = Color(1, 0.92941177, 0.627451, 1)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2092138550]
 shape = SubResource("RectangleShape2D_g2els")
 debug_color = Color(0, 0.60038817, 0.70000815, 0.72700006)

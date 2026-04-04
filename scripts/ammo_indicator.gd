@@ -5,8 +5,8 @@ extends Node2D
 @export var max_ammo = 5  # Number of dots to create
 @export var rotation_speed = PI / 2
 
+@onready var ammo_sprite : ColorRect = $AmmoSprite
 var dots = []
-var ammo_sprite = preload("res://scenes/sprite_scenes/ammo_sprite.tscn")
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -17,9 +17,12 @@ func _physics_process(delta):
 		d.rotation -= rotation_speed * delta * 2
 	
 func create_dots(num_of_dots):
+	for d in dots:
+		d.queue_free()
 	dots.clear()
+	
 	for i in range(num_of_dots):
-		var dot := ammo_sprite.instantiate() as ColorRect
+		var dot := ammo_sprite.duplicate()
 		dot.color.a = 0.5
 		add_child(dot)
 		dots.append(dot)

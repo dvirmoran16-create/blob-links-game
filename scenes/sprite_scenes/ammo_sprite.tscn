@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://dextvevoy33jr"]
-
-[node name="AmmoSprite" type="ColorRect" unique_id=224885444]
-offset_right = 12.0
-offset_bottom = 12.0
-pivot_offset_ratio = Vector2(0.5, 0.5)
-color = Color(1, 0.92941177, 0.627451, 1)
