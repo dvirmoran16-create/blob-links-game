@@ -26,6 +26,7 @@ func create_dots():
 		dot.color.a = 0.5
 		add_child(dot)
 		dots.append(dot)
+	
 
 func update_dots(ammo_count: int):
 	# Show/hide dots based on ammo

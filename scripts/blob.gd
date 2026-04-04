@@ -56,7 +56,6 @@ func _on_detect_player(body):
 		
 func trigger_explosions():
 	explode()
-	player.explode()
 	explode_link()
 	die()
 	

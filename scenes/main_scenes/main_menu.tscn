@@ -42,12 +42,14 @@ icon_alignment = 1
 [node name="TutorialButton" type="Button" parent="VBoxContainer" unique_id=768635037]
 layout_mode = 2
 size_flags_vertical = 3
+disabled = true
 text = "TUTORIAL"
 icon_alignment = 1
 
 [node name="SandboxButton" type="Button" parent="VBoxContainer" unique_id=679702639]
 layout_mode = 2
 size_flags_vertical = 3
+disabled = true
 text = "SANDBOX"
 icon_alignment = 1
 
@@ -56,3 +58,6 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "EXIT"
 icon_alignment = 1
+
+[node name="GodModeToggle" type="CheckButton" parent="VBoxContainer" unique_id=1459656580]
+layout_mode = 2

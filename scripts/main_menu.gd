@@ -1,14 +1,17 @@
 extends Control
 
+var is_god_mode = false
+
 func _ready():
 	# Connect button signals
 	$VBoxContainer/PlayButton.pressed.connect(_on_play_pressed)
 	$VBoxContainer/TutorialButton.pressed.connect(_on_tutorial_pressed)
 	$VBoxContainer/SandboxButton.pressed.connect(_on_sandbox_pressed)
 	$VBoxContainer/ExitButton.pressed.connect(_on_exit_pressed)
+	$VBoxContainer/GodModeToggle.toggled.connect(_on_god_mode_toggled)
 
 func _on_play_pressed():
-	# Load the game scene
+	Player.god_mode = is_god_mode
 	get_tree().change_scene_to_file("res://scenes/main_scenes/game.tscn")
 
 func _on_tutorial_pressed():
@@ -19,3 +22,6 @@ func _on_sandbox_pressed():
 	
 func _on_exit_pressed():
 	get_tree().quit()
+	
+func _on_god_mode_toggled(is_on):
+	is_god_mode = is_on

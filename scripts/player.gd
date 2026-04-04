@@ -1,6 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
+static var god_mode = false
 @onready var ammo_label = get_parent().get_node("UI/AmmoLabel")
 @onready var lives_label = get_parent().get_node("UI/LivesLabel")
 @onready var ammo_indicator : AmmoIndicator = $AmmoIndicator
@@ -21,8 +22,12 @@ var projectile_scene = preload("res://scenes/projectile.tscn")
 var explosion_scene = preload("res://scenes/blob_explosion.tscn")
 
 signal lives_changed(current: int, max: int, delta: int)
+signal ammo_changed(current: int, max: int, delta: int)
 
 func _ready():
+	if god_mode:
+		enter_god_mode()
+		
 	ammo_indicator.max_ammo = max_ammo  # Sync the max ammo
 	ammo_indicator.create_dots()  # Recreate dots if needed
 	ammo_indicator.update_dots(current_ammo)
@@ -53,13 +58,13 @@ func _physics_process(delta):
 		if not lit_blobs.is_empty():
 			handle_leap(lit_blobs)
 		
-func handle_leap(lit_blobs):
-	var chosen_blob = find_chosen_blob(lit_blobs)
+func handle_leap(lit_blobs: Array):
+	var chosen_blob: Blob = find_chosen_blob(lit_blobs)
 	if chosen_blob and is_instance_valid(chosen_blob):
 		var leap_target_pos = chosen_blob.global_position
-		for blob : Blob in lit_blobs:
+		for blob: Blob in lit_blobs:
 			blob.trigger_explosions()
-			
+		explode(lit_blobs.size())
 		global_position = leap_target_pos
 
 func find_chosen_blob(blobs):
@@ -77,8 +82,10 @@ func find_chosen_blob(blobs):
 	
 func update_ammo_status(delta : int, reset_timer=false):
 	current_ammo = clamp(current_ammo + delta, 0, max_ammo)
-	ammo_indicator.update_dots(current_ammo)
 	
+	# TODO: use signal for these two!
+	# ammo_changed.emit(current_ammo, max_ammo, delta)
+	ammo_indicator.update_dots(current_ammo)
 	if ammo_label:
 		ammo_label.text = "Ammo: %d/%d" % [current_ammo, max_ammo]
 		
@@ -121,8 +128,17 @@ func update_lives_sprite():
 	wound_2.visible = missing_lives >= 2
 	wound_3.visible = missing_lives >= 3
 	
-func explode():
-	var explosion = explosion_scene.instantiate()
+func explode(num_of_involved_blobs):
+	var explosion : BlobExplosion = explosion_scene.instantiate()
 	explosion.global_position = global_position
+	explosion.involved_blobs = num_of_involved_blobs
 	var game = get_parent()
 	game.call_deferred("add_child", explosion)
+	
+func enter_god_mode():
+		max_ammo = 12
+		current_ammo = max_ammo
+		ammo_regen_time = 0.5
+		max_lives = 100
+		lives = max_lives
+		speed = 600
