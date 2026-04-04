@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cp7nc5h25nacn"]
+
+[ext_resource type="Shader" uid="uid://b7n4vvrhd1pgi" path="res://scripts/explosion.gdshader" id="1_qgwqa"]
+[ext_resource type="Texture2D" uid="uid://bl5hpjxa4kok6" path="res://assets/sprites/enemy_explosion.tres" id="3_pdswh"]
+[ext_resource type="Script" uid="uid://l4w7x7w1ffo0" path="res://scripts/enemy_explosion.gd" id="4_3jma3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qgwqa"]
+radius = 56.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qgwqa"]
+resource_local_to_scene = true
+shader = ExtResource("1_qgwqa")
+shader_parameter/tex_1 = ExtResource("3_pdswh")
+shader_parameter/has_second_texture = false
+shader_parameter/fade_factor = 1.0
+shader_parameter/progress = 0.0
+
+[node name="EnemyExplosion" type="Area2D" unique_id=540321236]
+collision_layer = 32
+script = ExtResource("4_3jma3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1716162921]
+shape = SubResource("CircleShape2D_qgwqa")
+debug_color = Color(0.90128595, 0.21484229, 0.56094867, 0.41960785)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=406013264]
+material = SubResource("ShaderMaterial_qgwqa")
+texture = ExtResource("3_pdswh")

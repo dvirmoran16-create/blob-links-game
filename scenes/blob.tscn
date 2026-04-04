@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://27y1q055o45a"]
+
+[ext_resource type="Script" uid="uid://ctmlr17st31px" path="res://scripts/blob.gd" id="1_ngma2"]
+[ext_resource type="Texture2D" uid="uid://bryqcet38uv0j" path="res://assets/sprites/blob2.tres" id="2_17po2"]
+[ext_resource type="Texture2D" uid="uid://b7o5xeug75it6" path="res://assets/sprites/blob1.tres" id="4_7crg0"]
+[ext_resource type="Texture2D" uid="uid://bcims5dylqpuf" path="res://assets/sprites/ammo_halo.tres" id="4_8gt5w"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
+radius = 20.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_17po2"]
+radius = 200.0
+
+[node name="Blob" type="Area2D" unique_id=1818380517]
+collision_layer = 8
+collision_mask = 15
+script = ExtResource("1_ngma2")
+normal_texture = ExtResource("2_17po2")
+alert_texture = ExtResource("4_7crg0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
+shape = SubResource("CircleShape2D_7p1mj")
+disabled = true
+debug_color = Color(0, 0.60038817, 0.70000815, 0.77400005)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=608333645]
+texture = ExtResource("2_17po2")
+
+[node name="HighlightRange" type="Area2D" parent="." unique_id=317768620]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HighlightRange" unique_id=1804502942]
+shape = SubResource("CircleShape2D_17po2")
+debug_color = Color(0.18889898, 0.5586878, 0.84867543, 0.41960785)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1967965762]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -19.0
+offset_top = -19.0
+offset_right = 19.0
+offset_bottom = 19.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+max_value = 48.0
+value = 48.0
+fill_mode = 4
+texture_progress = ExtResource("4_8gt5w")
+tint_progress = Color(1, 1, 1, 0.70000005)

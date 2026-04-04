@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://dju7s0rntmbpk"]
+
+[ext_resource type="Script" uid="uid://ditp2tfe6qwkm" path="res://scripts/main_menu.gd" id="1_xfcpj"]
+
+[sub_resource type="Theme" id="Theme_l6cm7"]
+default_font_size = 48
+
+[node name="MainMenu" type="Control" unique_id=1947022973]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xfcpj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=564041403]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -148.75
+offset_top = -207.0
+offset_right = 148.75
+offset_bottom = 207.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_l6cm7")
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="VBoxContainer" unique_id=793704886]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_outline_color = Color(0.8632231, 0, 0.10638081, 1)
+theme_override_constants/outline_size = 6
+text = "PLAY"
+icon_alignment = 1
+
+[node name="TutorialButton" type="Button" parent="VBoxContainer" unique_id=768635037]
+layout_mode = 2
+size_flags_vertical = 3
+text = "TUTORIAL"
+icon_alignment = 1
+
+[node name="SandboxButton" type="Button" parent="VBoxContainer" unique_id=679702639]
+layout_mode = 2
+size_flags_vertical = 3
+text = "SANDBOX"
+icon_alignment = 1
+
+[node name="ExitButton" type="Button" parent="VBoxContainer" unique_id=1151547360]
+layout_mode = 2
+size_flags_vertical = 3
+text = "EXIT"
+icon_alignment = 1

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://b5fse5ued6qtd"]
+
+[ext_resource type="Script" uid="uid://8ix883crge23" path="res://scripts/blob_line.gd" id="1_r60ku"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gbrub"]
+
+[node name="BlobLine" type="Line2D" unique_id=1444137202]
+width = 24.0
+default_color = Color(0.3, 0.25, 1, 1)
+script = ExtResource("1_r60ku")
+
+[node name="HitArea" type="Area2D" parent="." unique_id=145552374]
+collision_layer = 32
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea" unique_id=1784055200]
+shape = SubResource("CapsuleShape2D_gbrub")
+debug_color = Color(0.020910839, 0.26895723, 0.13380054, 0.41960785)

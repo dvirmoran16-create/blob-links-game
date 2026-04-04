@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://2acn26trnagk"]
+
+[ext_resource type="Script" uid="uid://cfevt5gyqbhh2" path="res://scripts/enemy.gd" id="1_7p1mj"]
+[ext_resource type="Texture2D" uid="uid://cpigbueqjo35h" path="res://assets/sprites/enemy1.tres" id="2_md0e3"]
+[ext_resource type="Texture2D" uid="uid://dtj0v8k3cyt1m" path="res://assets/sprites/enemy2.tres" id="3_4ra3w"]
+[ext_resource type="Shader" uid="uid://b7n4vvrhd1pgi" path="res://scripts/explosion.gdshader" id="4_5uy6h"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
+radius = 20.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c4w8v"]
+resource_local_to_scene = true
+shader = ExtResource("4_5uy6h")
+shader_parameter/tex_1 = ExtResource("2_md0e3")
+shader_parameter/tex_2 = ExtResource("3_4ra3w")
+shader_parameter/has_second_texture = true
+shader_parameter/fade_factor = 0.0
+shader_parameter/progress = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c4w8v"]
+radius = 600.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5uy6h"]
+radius = 32.0
+
+[node name="Enemy" type="CharacterBody2D" unique_id=2083001372]
+collision_layer = 2
+collision_mask = 23
+script = ExtResource("1_7p1mj")
+normal_texture = ExtResource("2_md0e3")
+alert_texture = ExtResource("3_4ra3w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
+shape = SubResource("CircleShape2D_7p1mj")
+debug_color = Color(0, 0.60038817, 0.70000815, 0.77400005)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=608333645]
+material = SubResource("ShaderMaterial_c4w8v")
+scale = Vector2(2, 2)
+texture = ExtResource("2_md0e3")
+
+[node name="AlertRange" type="Area2D" parent="." unique_id=203022998]
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AlertRange" unique_id=677596662]
+shape = SubResource("CircleShape2D_c4w8v")
+debug_color = Color(0.7021107, 0.49010885, 0.14733289, 0.21000001)
+
+[node name="ExplodeRange" type="Area2D" parent="." unique_id=1549812617]
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplodeRange" unique_id=186158943]
+shape = SubResource("CircleShape2D_5uy6h")
+debug_color = Color(0.74894917, 0.398529, 0.61939365, 0.41960785)
+
+[node name="Heart" type="Polygon2D" parent="." unique_id=539400431]
+visible = false
+top_level = true
+position = Vector2(-5.684342e-14, 2.2737368e-13)
+color = Color(0.9529412, 0, 0.627451, 0.8)
+polygon = PackedVector2Array(0.28366393, 18.058815, -11.786323, 6.3632536, -16.7984, -7.513576, -11.228278, -13.904664, -4.29091, -13.904677, 0.28392202, -9.12947, 4.439081, -13.904677, 11.796022, -13.904677, 17.366245, -7.513576, 11.886565, 6.215829)
+uv = PackedVector2Array(23.304, -55, 9.122284, -68.74178, 3.2333062, -85.04646, 9.777963, -92.55572, 17.929073, -92.55573, 23.304304, -86.94507, 28.186438, -92.55573, 36.83053, -92.55573, 43.3753, -85.04646, 36.936913, -68.915)

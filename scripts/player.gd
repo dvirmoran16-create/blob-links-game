@@ -1,0 +1,128 @@
+class_name Player
+extends CharacterBody2D
+
+@onready var ammo_label = get_parent().get_node("UI/AmmoLabel")
+@onready var lives_label = get_parent().get_node("UI/LivesLabel")
+@onready var ammo_indicator : AmmoIndicator = $AmmoIndicator
+@onready var wound_1 : ColorRect = $ColorRect/wound_1
+@onready var wound_2 : ColorRect = $ColorRect/wound_2
+@onready var wound_3 : ColorRect = $ColorRect/wound_3
+
+@export var speed : float = 200.0
+@export var max_ammo : int = 5
+@export var ammo_regen_time : float = 2.0
+@export var max_lives : int = 3
+
+var current_ammo = max_ammo
+var ammo_timer = 0.0
+var lives = max_lives
+
+var projectile_scene = preload("res://scenes/projectile.tscn")
+var explosion_scene = preload("res://scenes/blob_explosion.tscn")
+
+signal lives_changed(current: int, max: int, delta: int)
+
+func _ready():
+	ammo_indicator.max_ammo = max_ammo  # Sync the max ammo
+	ammo_indicator.create_dots()  # Recreate dots if needed
+	ammo_indicator.update_dots(current_ammo)
+
+	if ammo_label:
+		ammo_label.text = "Ammo: %d/%d" % [current_ammo, max_ammo]	
+	
+	update_lives_status(0)
+	
+func get_input():
+	var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	velocity = input_direction * speed
+
+func _physics_process(delta):
+	get_input()
+	move_and_slide()
+	
+	if current_ammo < max_ammo:
+		ammo_timer += delta
+		if ammo_timer >= ammo_regen_time:
+			update_ammo_status(1, true)
+			
+	if Input.is_action_just_pressed("shoot") and current_ammo > 0:
+		shoot()
+		
+	if Input.is_action_just_pressed("leap"):
+		var lit_blobs = get_tree().get_nodes_in_group("lit_blobs")
+		if not lit_blobs.is_empty():
+			handle_leap(lit_blobs)
+		
+func handle_leap(lit_blobs):
+	var chosen_blob = find_chosen_blob(lit_blobs)
+	if chosen_blob and is_instance_valid(chosen_blob):
+		var leap_target_pos = chosen_blob.global_position
+		for blob : Blob in lit_blobs:
+			blob.trigger_explosions()
+			
+		global_position = leap_target_pos
+
+func find_chosen_blob(blobs):
+	var mouse_pos = get_global_mouse_position()
+	var chosen_blob : Blob = null
+	var chosen_distance_squared = INF
+	for blob : Blob in blobs:
+		if is_instance_valid(blob):
+			var distance_squared = mouse_pos.distance_squared_to(blob.global_position)
+			if distance_squared < chosen_distance_squared:
+				chosen_blob = blob
+				chosen_distance_squared = distance_squared
+				
+	return chosen_blob		
+	
+func update_ammo_status(delta : int, reset_timer=false):
+	current_ammo = clamp(current_ammo + delta, 0, max_ammo)
+	ammo_indicator.update_dots(current_ammo)
+	
+	if ammo_label:
+		ammo_label.text = "Ammo: %d/%d" % [current_ammo, max_ammo]
+		
+	if reset_timer:
+		ammo_timer = 0.0
+	
+func shoot():
+	# Get mouse position in world coordinates
+	var mouse_pos = get_global_mouse_position()
+	var direction = (mouse_pos - global_position).normalized()
+	
+	# Create projectile
+	var projectile = projectile_scene.instantiate()
+	projectile.global_position = global_position + direction * 20
+	projectile.direction = direction.normalized()
+	projectile.rotation = direction.angle()
+	
+	# Add to scene (as sibling, not child, so it doesn't move with player)
+	get_parent().add_child(projectile)
+	
+	# Reduce ammo
+	update_ammo_status(-1, true)
+	
+func get_hit():
+	update_lives_status(-1)
+		
+func update_lives_status(delta):
+	lives = clamp(lives + delta, 0, max_lives)
+	update_lives_sprite()
+	if lives_label:
+		lives_label.text = "Lives: %d/%d" % [lives, max_lives]
+	if lives == 0:
+		print('IM DED :(')
+	
+	lives_changed.emit(lives, max_lives, delta)
+		
+func update_lives_sprite():
+	var missing_lives = max_lives - lives
+	wound_1.visible = missing_lives >= 1
+	wound_2.visible = missing_lives >= 2
+	wound_3.visible = missing_lives >= 3
+	
+func explode():
+	var explosion = explosion_scene.instantiate()
+	explosion.global_position = global_position
+	var game = get_parent()
+	game.call_deferred("add_child", explosion)

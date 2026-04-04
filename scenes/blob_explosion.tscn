@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://defqab7707s25"]
+
+[ext_resource type="Shader" uid="uid://b7n4vvrhd1pgi" path="res://scripts/explosion.gdshader" id="1_imuyu"]
+[ext_resource type="Texture2D" uid="uid://dyshu4514r8kw" path="res://assets/sprites/blob_explosion_start.tres" id="2_7q64j"]
+[ext_resource type="Texture2D" uid="uid://ckqptvhpn5x41" path="res://assets/sprites/blob_explosion_end.tres" id="3_7q64j"]
+[ext_resource type="Script" uid="uid://ci3kkwianc3kn" path="res://scripts/blob_explosion.gd" id="4_7q64j"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_imuyu"]
+radius = 48.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7q64j"]
+resource_local_to_scene = true
+shader = ExtResource("1_imuyu")
+shader_parameter/tex_1 = ExtResource("2_7q64j")
+shader_parameter/tex_2 = ExtResource("3_7q64j")
+shader_parameter/has_second_texture = true
+shader_parameter/fade_factor = 1.0
+shader_parameter/progress = 0.0
+
+[node name="BlobExplosion" type="Area2D" unique_id=1896747936]
+collision_layer = 32
+collision_mask = 2
+script = ExtResource("4_7q64j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1965501441]
+shape = SubResource("CircleShape2D_imuyu")
+debug_color = Color(0.24532345, 0.60867363, 0.527242, 0.41960785)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1435513232]
+material = SubResource("ShaderMaterial_7q64j")
+texture = ExtResource("2_7q64j")

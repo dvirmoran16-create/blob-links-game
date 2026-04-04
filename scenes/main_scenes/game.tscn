@@ -1,0 +1,128 @@
+[gd_scene format=3 uid="uid://y13a74oqjv7k"]
+
+[ext_resource type="Script" uid="uid://kswhb3gqpwtp" path="res://scripts/connection_lines.gd" id="1_iywne"]
+[ext_resource type="PackedScene" uid="uid://cxn05vunhmxqu" path="res://scenes/player.tscn" id="1_uwrxv"]
+[ext_resource type="Texture2D" uid="uid://d3lguq5l5p761" path="res://assets/sprites/bg_starry.png" id="3_lbhrr"]
+[ext_resource type="Script" uid="uid://bbxyjjmao1bkf" path="res://scripts/enemy_spawner.gd" id="4_lbhrr"]
+[ext_resource type="Script" uid="uid://ip7tqtaaf1ha" path="res://scripts/score_keeper.gd" id="5_3wwfn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yqjtg"]
+size = Vector2(3000, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lnu2h"]
+size = Vector2(20, 2000)
+
+[node name="Game" type="Node2D" unique_id=668669891]
+
+[node name="ConnectionLines" type="Node2D" parent="." unique_id=1586112023]
+script = ExtResource("1_iywne")
+
+[node name="Player" parent="." unique_id=1281867858 instance=ExtResource("1_uwrxv")]
+motion_mode = 1
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1674209232]
+limit_left = -1550
+limit_top = -1050
+limit_right = 1550
+limit_bottom = 1050
+position_smoothing_enabled = true
+
+[node name="Walls" type="Node2D" parent="." unique_id=338789857]
+
+[node name="WallTop" type="StaticBody2D" parent="Walls" unique_id=1290759980]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallTop" unique_id=1871431639]
+position = Vector2(0, -1010)
+shape = SubResource("RectangleShape2D_yqjtg")
+debug_color = Color(0.88584596, 0.28870192, 0.42961273, 0.41960785)
+
+[node name="WallBottom" type="StaticBody2D" parent="Walls" unique_id=406504756]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallBottom" unique_id=450431196]
+position = Vector2(0, 1010)
+shape = SubResource("RectangleShape2D_yqjtg")
+debug_color = Color(0.88584596, 0.28870192, 0.42961273, 0.41960785)
+
+[node name="WallLeft" type="StaticBody2D" parent="Walls" unique_id=1575705416]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallLeft" unique_id=1313517496]
+position = Vector2(-1510, 0)
+shape = SubResource("RectangleShape2D_lnu2h")
+debug_color = Color(0.88584596, 0.28870192, 0.42961273, 0.41960785)
+
+[node name="WallRight" type="StaticBody2D" parent="Walls" unique_id=802567710]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallRight" unique_id=1157670515]
+position = Vector2(1510, 0)
+shape = SubResource("RectangleShape2D_lnu2h")
+debug_color = Color(0.88584596, 0.28870192, 0.42961273, 0.41960785)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1417483915]
+show_behind_parent = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1500.0
+offset_top = -1000.0
+offset_right = 1500.0
+offset_bottom = 1000.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_lbhrr")
+stretch_mode = 1
+
+[node name="EnemySpawner" type="Node" parent="." unique_id=631308057]
+script = ExtResource("4_lbhrr")
+
+[node name="ScoreKeeper" type="Node" parent="." unique_id=1868260571]
+script = ExtResource("5_3wwfn")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=195862715]
+
+[node name="AmmoLabel" type="Label" parent="UI" unique_id=524708735]
+offset_right = 1.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 24
+
+[node name="LivesLabel" type="Label" parent="UI" unique_id=2081483456]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -34.0
+offset_right = 1.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+
+[node name="ScoreLabel" type="Label" parent="UI" unique_id=490562694]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 34.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="HighscoreLabel" type="Label" parent="UI" unique_id=1436625270]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1.0
+offset_bottom = 34.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[connection signal="lives_changed" from="Player" to="EnemySpawner" method="_on_player_lives_changed"]
+[connection signal="lives_changed" from="Player" to="ScoreKeeper" method="_on_player_lives_changed"]
