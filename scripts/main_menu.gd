@@ -3,7 +3,6 @@ extends Control
 var is_god_mode = false
 
 func _ready():
-	# Connect button signals
 	$VBoxContainer/PlayButton.pressed.connect(_on_play_pressed)
 	$VBoxContainer/TutorialButton.pressed.connect(_on_tutorial_pressed)
 	$VBoxContainer/SandboxButton.pressed.connect(_on_sandbox_pressed)

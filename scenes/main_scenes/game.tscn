@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://bbxyjjmao1bkf" path="res://scripts/enemy_spawner.gd" id="4_lbhrr"]
 [ext_resource type="Script" uid="uid://ip7tqtaaf1ha" path="res://scripts/score_keeper.gd" id="5_3wwfn"]
 [ext_resource type="Script" uid="uid://g0nrt5x143kr" path="res://scripts/stats_tracker.gd" id="7_leqql"]
-[ext_resource type="Script" uid="uid://ci84f1tyd17kg" path="res://scripts/pause_overlay.gd" id="8_cfqos"]
+[ext_resource type="Script" uid="uid://diy654oyswmt5" path="res://scripts/pause_handler.gd" id="8_cfqos"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yqjtg"]
 size = Vector2(3000, 20)
@@ -15,8 +15,11 @@ size = Vector2(3000, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lnu2h"]
 size = Vector2(20, 2000)
 
-[node name="Game" type="Node2D" unique_id=668669891]
+[node name="Game" type="Node2D" unique_id=534886823]
 script = ExtResource("1_t5sjj")
+
+[node name="PauseHandler" type="Node" parent="." unique_id=1678403191]
+script = ExtResource("8_cfqos")
 
 [node name="StatsTracker" type="Node" parent="." unique_id=1428325537]
 script = ExtResource("7_leqql")
@@ -132,13 +135,9 @@ grow_horizontal = 0
 theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 
-[node name="PauseOverlay" type="Node" parent="." unique_id=1937164167]
-script = ExtResource("8_cfqos")
-
 [connection signal="highscore_changed" from="ScoreKeeper" to="StatsTracker" method="_on_score_keeper_highscore_changed"]
 [connection signal="score_changed" from="ScoreKeeper" to="StatsTracker" method="_on_score_keeper_score_changed"]
 [connection signal="ammo_changed" from="Player" to="StatsTracker" method="_on_player_ammo_changed"]
-[connection signal="died" from="Player" to="." method="_on_player_died"]
 [connection signal="lives_changed" from="Player" to="StatsTracker" method="_on_player_lives_changed"]
 [connection signal="lives_changed" from="Player" to="ScoreKeeper" method="_on_player_lives_changed"]
 [connection signal="lives_changed" from="Player" to="EnemySpawner" method="_on_player_lives_changed"]
