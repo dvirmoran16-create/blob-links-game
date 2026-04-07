@@ -1,11 +1,18 @@
 [gd_scene format=3 uid="uid://clg7n7eff808p"]
 
 [ext_resource type="Script" uid="uid://bpy7riqeykoiq" path="res://scripts/game_over_overlay.gd" id="1_beecm"]
+[ext_resource type="Shader" uid="uid://dyfnsiajnvq18" path="res://scripts/blur_overlay.gdshader" id="2_d7i3h"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sai63"]
+shader = ExtResource("2_d7i3h")
+shader_parameter/blur_amount = 2.0
+shader_parameter/overlay_color = Color(0.09985284, 0, 0, 0.702)
 
 [node name="GameOverOverlay" type="CanvasLayer" unique_id=1352177317]
 script = ExtResource("1_beecm")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=802713981]
+material = SubResource("ShaderMaterial_sai63")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

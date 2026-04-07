@@ -1,11 +1,18 @@
 [gd_scene format=3 uid="uid://bmpjavl32iqoi"]
 
 [ext_resource type="Script" uid="uid://c5qf6eesgpa0b" path="res://scripts/pause_overlay.gd" id="1_spovd"]
+[ext_resource type="Shader" uid="uid://dyfnsiajnvq18" path="res://scripts/blur_overlay.gdshader" id="2_4ot8d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ot8d"]
+shader = ExtResource("2_4ot8d")
+shader_parameter/blur_amount = 2.0
+shader_parameter/overlay_color = Color(0, 0, 0, 0.7)
 
 [node name="PauseOverlay" type="CanvasLayer" unique_id=1352177317]
 script = ExtResource("1_spovd")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=802713981]
+material = SubResource("ShaderMaterial_4ot8d")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
