@@ -33,6 +33,7 @@ Thumbs.db
 *.lib
 *.exe
 *.pdb
+*.pck
 
 # IDE
 .vscode/
