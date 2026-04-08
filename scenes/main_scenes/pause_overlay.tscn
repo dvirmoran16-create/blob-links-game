@@ -60,14 +60,14 @@ horizontal_alignment = 1
 [node name="ResumeButton" type="Button" parent="Control/VBoxContainer" unique_id=354113148]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "resume game"
+text = "Resume Game"
 
 [node name="RestartButton" type="Button" parent="Control/VBoxContainer" unique_id=1867465236]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "restart"
+text = "Restart"
 
 [node name="MainMenuButton" type="Button" parent="Control/VBoxContainer" unique_id=1635252992]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "main menu"
+text = "Quit to Main Menu"
