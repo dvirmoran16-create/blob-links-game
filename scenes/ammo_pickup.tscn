@@ -1,14 +1,54 @@
 [gd_scene format=3 uid="uid://dgi0sk5jfht1k"]
 
 [ext_resource type="Script" uid="uid://kockplyy44nb" path="res://scripts/ammo_pickup.gd" id="1_jvvnm"]
-[ext_resource type="Texture2D" uid="uid://bcims5dylqpuf" path="res://assets/sprites/ammo_halo.tres" id="2_jrhku"]
+[ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/expiration_circle.tscn" id="2_jvvnm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 23.0
 
+[sub_resource type="Animation" id="Animation_jrhku"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AmmoSprite:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_jvvnm"]
+resource_name = "spin"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AmmoSprite:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.283185307179586]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jrhku"]
+_data = {
+&"RESET": SubResource("Animation_jrhku"),
+&"spin": SubResource("Animation_jvvnm")
+}
+
 [node name="AmmoPickup" type="Area2D" unique_id=1818380517]
 collision_layer = 8
 script = ExtResource("1_jvvnm")
+
+[node name="ExpirationCircle" parent="." unique_id=1423140789 instance=ExtResource("2_jvvnm")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
 shape = SubResource("CircleShape2D_7p1mj")
@@ -29,21 +69,5 @@ grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
 color = Color(1, 0.92941177, 0.627451, 1)
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1266695828]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -19.0
-offset_top = -19.0
-offset_right = 19.0
-offset_bottom = 19.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(2, 2)
-pivot_offset_ratio = Vector2(0.5, 0.5)
-max_value = 48.0
-value = 48.0
-fill_mode = 4
-texture_progress = ExtResource("2_jrhku")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1656530875]
+libraries/ = SubResource("AnimationLibrary_jrhku")

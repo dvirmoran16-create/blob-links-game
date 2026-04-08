@@ -134,4 +134,4 @@ func enter_god_mode():
 		ammo_regen_time = 0.5
 		max_lives = 100
 		lives = max_lives
-		speed = 600
+		speed = 1000

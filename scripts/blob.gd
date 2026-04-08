@@ -17,22 +17,22 @@ var is_dying = false
 
 @onready var sprite = $Sprite2D
 @onready var highlight_range = $HighlightRange
-@onready var progress_circle = $TextureProgressBar
+@onready var expiration_circle = $ExpirationCircle
 
 
 func _ready():
-	# Find the player in the scene
 	player = get_tree().get_first_node_in_group("player")
 	highlight_range.mouse_entered.connect(highlight)
 	highlight_range.mouse_exited.connect(undo_highlight)
 	body_entered.connect(_on_detect_player)
 	add_to_group("blobs")
-	progress_circle.max_value = ttl
-	progress_circle.step = 0.25
+	expiration_circle.max_value = ttl
+	expiration_circle.step = 0.25
+	expiration_circle.tint_progress.a = 0.7
 		
 func _physics_process(delta):
 	age += delta
-	progress_circle.value = ttl - age
+	expiration_circle.value = ttl - age
 	
 	if age >= ttl:
 		queue_free()

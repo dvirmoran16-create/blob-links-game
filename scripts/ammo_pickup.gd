@@ -1,23 +1,26 @@
 class_name AmmoPickup
 extends Area2D
 
-@export var rotation_speed = PI / 2
 @export var ttl = 12.0
 
 var look_for_player : bool = false
 var age = 0.0
-@onready var progress_circle = $TextureProgressBar
+@onready var expiration_circle = $ExpirationCircle
+@onready var animation_player = $AnimationPlayer
 
 func _ready():
 	body_entered.connect(_on_detect_player)
 	body_exited.connect(_on_stop_detect_player)
-	progress_circle.max_value = ttl
-	progress_circle.step = 0.25
+	
+	expiration_circle.max_value = ttl
+	expiration_circle.step = 0.25
+	
+	animation_player.process_mode = Node.PROCESS_MODE_ALWAYS
+	animation_player.play("spin")
 	
 func _physics_process(delta):
-	rotate(rotation_speed * delta)
 	age += delta
-	progress_circle.value = ttl - age
+	expiration_circle.value = ttl - age
 	
 	if age >= ttl:
 		queue_free()

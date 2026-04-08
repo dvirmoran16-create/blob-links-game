@@ -10,20 +10,25 @@ var look_for_player : bool = false
 var age = 0.0
 var direction = Vector2(0, 0)
 var speed = initial_speed
-@onready var progress_circle = $TextureProgressBar
-@onready var heart_shape : Polygon2D = $Polygon2D
+@onready var expiration_circle = $ExpirationCircle
+@onready var animation_player : AnimationPlayer = $AnimationPlayer
 
 func _ready():
 	var player = get_tree().get_first_node_in_group("player")
 	direction = (global_position - player.global_position).normalized()
+	
 	body_entered.connect(_on_touch)
 	body_exited.connect(_on_stop_detect_player)
-	progress_circle.max_value = ttl
-	progress_circle.step = 0.25
+	
+	expiration_circle.max_value = ttl
+	expiration_circle.step = 0.25
+	
+	animation_player.process_mode = Node.PROCESS_MODE_ALWAYS
+	animation_player.play("throb")
 	
 func _physics_process(delta):
 	age += delta
-	progress_circle.value = ttl - age
+	expiration_circle.value = ttl - age
 	if speed >= 0:
 		position += delta * speed * direction
 		speed -= delta * speed_loss_rate
@@ -37,9 +42,6 @@ func _physics_process(delta):
 		var bodies = get_overlapping_bodies()
 		for body in bodies:
 			_on_touch(body)
-			
-	var new_scale = 1.0 + 0.2 * sin(Time.get_ticks_msec() * 0.002 * PI)
-	heart_shape.scale = Vector2(new_scale, new_scale)
 		
 func _on_touch(body):
 	if not body.is_in_group("player"):
