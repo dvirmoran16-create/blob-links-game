@@ -85,16 +85,12 @@ func shoot():
 	var mouse_pos = get_global_mouse_position()
 	var direction = (mouse_pos - global_position).normalized()
 	
-	# Create projectile
 	var projectile = projectile_scene.instantiate()
 	projectile.global_position = global_position + direction * 20
 	projectile.direction = direction.normalized()
 	projectile.rotation = direction.angle()
-	
-	# Add to scene (as sibling, not child, so it doesn't move with player)
 	get_parent().add_child(projectile)
 	
-	# Reduce ammo
 	update_ammo_status(-1, true)
 	
 func get_hit():

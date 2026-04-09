@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://brq25h7dbh756"]
+
+[ext_resource type="Script" uid="uid://dcvg4lhn6oqql" path="res://scripts/enemy_shooter.gd" id="1_afvl6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
+radius = 24.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p4l84"]
+size = Vector2(6.75, 11)
+
+[sub_resource type="Gradient" id="Gradient_mneqe"]
+offsets = PackedFloat32Array(0.5, 0.509434)
+colors = PackedColorArray(0.85430586, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_t4tug"]
+gradient = SubResource("Gradient_mneqe")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="EnemyShooter" type="CharacterBody2D" unique_id=2083001372]
+collision_layer = 2
+collision_mask = 17
+motion_mode = 1
+script = ExtResource("1_afvl6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
+shape = SubResource("CircleShape2D_7p1mj")
+debug_color = Color(0, 0.60038817, 0.70000815, 0.77400005)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1460884919]
+position = Vector2(26.625, 0)
+shape = SubResource("RectangleShape2D_p4l84")
+debug_color = Color(0, 0.60038817, 0.70000815, 0.77400005)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=608333645]
+texture = SubResource("GradientTexture2D_t4tug")
+
+[node name="ColorRect" type="ColorRect" parent="Sprite2D" unique_id=1167025463]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -37.0
+offset_right = -34.0
+offset_bottom = -27.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(1, 0.15170373, 0, 1)
+
+[node name="Heart" type="Polygon2D" parent="." unique_id=539400431]
+visible = false
+top_level = true
+position = Vector2(-5.684342e-14, 2.2737368e-13)
+color = Color(0.9529412, 0, 0.627451, 0.8)
+polygon = PackedVector2Array(0.28366393, 18.058815, -11.786323, 6.3632536, -16.7984, -7.513576, -11.228278, -13.904664, -4.29091, -13.904677, 0.28392202, -9.12947, 4.439081, -13.904677, 11.796022, -13.904677, 17.366245, -7.513576, 11.886565, 6.215829)
+uv = PackedVector2Array(23.304, -55, 9.122284, -68.74178, 3.2333062, -85.04646, 9.777963, -92.55572, 17.929073, -92.55573, 23.304304, -86.94507, 28.186438, -92.55573, 36.83053, -92.55573, 43.3753, -85.04646, 36.936913, -68.915)

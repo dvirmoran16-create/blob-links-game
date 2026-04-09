@@ -2,7 +2,7 @@ class_name HeartPickup
 extends Area2D
 
 @export var rotation_speed = PI / 2
-@export var ttl = 12.0
+@export var ttl = 18.0
 @export var initial_speed = 300.0
 @export var speed_loss_rate = 200.0
 

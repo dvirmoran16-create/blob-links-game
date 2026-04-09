@@ -12,6 +12,7 @@ extends Node
 var spawn_interval = initial_spawn_interval
 
 var enemy_scene : PackedScene = preload("res://scenes/enemy.tscn")
+var enemy_shooter_scene : PackedScene = preload("res://scenes/enemy_shooter.tscn")
 var ammo_scene : PackedScene = preload("res://scenes/ammo_pickup.tscn")
 var spawn_timer = initial_spawn_interval - 1
 var heart_spawn_timer = 0.0
@@ -27,6 +28,7 @@ func _process(delta):
 func handle_enemy_spawn_logic():
 	if spawn_timer >= spawn_interval:
 		spawn_enemy()
+		spawn_enemy_shooter()
 		spawn_ammo()
 		spawn_timer = 0.0
 		# lower the spawn interval whenever an enemy is spawned:
@@ -50,6 +52,13 @@ func spawn_enemy():
 		
 	get_parent().add_child(enemy)
 	
+func spawn_enemy_shooter():
+	var enemy := enemy_shooter_scene.instantiate() as EnemyShooter
+	# random position:
+	enemy.global_position.x = clamp(randi() % int(map_bounds_max.x - map_bounds_min.x) + map_bounds_min.x, map_bounds_min.x + spawn_distance_from_edge, map_bounds_max.x - spawn_distance_from_edge)
+	enemy.global_position.y = clamp(randi() % int(map_bounds_max.y - map_bounds_min.y) + map_bounds_min.y, map_bounds_min.y + spawn_distance_from_edge, map_bounds_max.y - spawn_distance_from_edge)
+	get_parent().add_child(enemy)
+
 func spawn_ammo():
 	var ammo := ammo_scene.instantiate() as AmmoPickup
 	# random position:

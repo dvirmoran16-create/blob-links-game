@@ -22,5 +22,5 @@ func _on_sandbox_pressed():
 func _on_exit_pressed():
 	get_tree().quit()
 	
-func _on_god_mode_toggled(is_on):
-	is_god_mode = is_on
+func _on_god_mode_toggled(toggle_value: bool):
+	is_god_mode = toggle_value

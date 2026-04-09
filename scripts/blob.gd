@@ -4,7 +4,7 @@ extends Area2D
 @export var mouse_detection_distance = 200.0
 @export var normal_texture: Texture2D
 @export var alert_texture: Texture2D
-@export var ttl = 12.0
+@export var ttl = 15.0
 @export var expire_warning_threshold = 3.0
 @export var expire_warning_threshold_severe = 1.0
 
