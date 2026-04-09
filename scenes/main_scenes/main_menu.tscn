@@ -39,6 +39,15 @@ theme_override_constants/outline_size = 6
 text = "PLAY"
 icon_alignment = 1
 
+[node name="GodModeToggle" type="CheckButton" parent="VBoxContainer/PlayButton" unique_id=1459656580]
+layout_mode = 0
+offset_left = 126.0
+offset_top = -25.0
+offset_right = 170.0
+offset_bottom = -1.0
+size_flags_horizontal = 4
+icon_alignment = 1
+
 [node name="TutorialButton" type="Button" parent="VBoxContainer" unique_id=768635037]
 layout_mode = 2
 size_flags_vertical = 3
@@ -58,6 +67,3 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "EXIT"
 icon_alignment = 1
-
-[node name="GodModeToggle" type="CheckButton" parent="VBoxContainer" unique_id=1459656580]
-layout_mode = 2
