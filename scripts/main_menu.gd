@@ -7,7 +7,7 @@ func _ready():
 	$VBoxContainer/TutorialButton.pressed.connect(_on_tutorial_pressed)
 	$VBoxContainer/SandboxButton.pressed.connect(_on_sandbox_pressed)
 	$VBoxContainer/ExitButton.pressed.connect(_on_exit_pressed)
-	$VBoxContainer/PlayButtona/GodModeToggle.toggled.connect(_on_god_mode_toggled)
+	$VBoxContainer/PlayButton/GodModeToggle.toggled.connect(_on_god_mode_toggled)
 
 func _on_play_pressed():
 	Player.god_mode = is_god_mode
