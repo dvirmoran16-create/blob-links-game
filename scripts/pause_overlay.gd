@@ -12,10 +12,9 @@ func _ready():
 	hide()
 
 func _on_resume_pressed():
-	get_tree().paused = false
-	hide()
+	var game = get_parent()
+	game.resume_game()
 
-	
 func _on_restart_pressed():
 	get_tree().paused = false
 	get_tree().reload_current_scene()

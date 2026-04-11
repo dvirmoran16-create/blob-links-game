@@ -36,8 +36,9 @@ theme_override_font_sizes/font_size = 32
 text = "Tutorial not implemented yet!
 
 Instructions:
-shoot with left mouse click,
-teleport with right mouse click.
+Move with WASD
+Shoot with left mouse click
+Teleport with right mouse click
 
 Good luck!
 "
