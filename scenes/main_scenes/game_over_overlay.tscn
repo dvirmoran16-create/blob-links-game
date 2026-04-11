@@ -65,7 +65,7 @@ text = "Play Again"
 [node name="MainMenuButton" type="Button" parent="Control/VBoxContainer" unique_id=1635252992]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Return to Main Menu"
+text = "Back to Main Menu"
 
 [node name="ExitButton" type="Button" parent="Control/VBoxContainer" unique_id=502369433]
 layout_mode = 2
