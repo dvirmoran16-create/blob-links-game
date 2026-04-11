@@ -10,7 +10,7 @@ extends Node
 @export var map_bounds_max = Vector2(1500, 1000)    # Adjust to your map size
 
 
-var enemy_scene : PackedScene = preload("res://scenes/enemy.tscn")
+var enemy_chaser_scene : PackedScene = preload("res://scenes/enemy_chaser.tscn")
 var enemy_shooter_scene : PackedScene = preload("res://scenes/enemy_shooter.tscn")
 var ammo_scene : PackedScene = preload("res://scenes/ammo_pickup.tscn")
 var chaser_spawn_timer = shooter_spawn_interval
@@ -51,7 +51,7 @@ func handle_heart_spawn_logic():
 		
 
 func spawn_chaser():
-	var enemy := enemy_scene.instantiate() as Enemy
+	var enemy := enemy_chaser_scene.instantiate() as EnemyChaser
 	enemy.global_position = get_random_edge_position()
 	if next_enemy_carry_heart:
 		enemy.is_carry_heart = true

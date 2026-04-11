@@ -2,12 +2,12 @@ class_name Projectile
 extends CharacterBody2D
 
 @export var max_speed = 1000.0
-@export var min_homing_strength = 5.0
-@export var max_homing_strength = 35.0
-@export var homing_strengh_gain = 20
+@export var min_turn_rate = 2 * PI
+@export var max_turn_rate = 6 * PI
+@export var turn_rate_gain = 2 * PI
 @export var basic_ttl = 2.5
 
-var homing_strength = min_homing_strength
+var homing_strength = min_turn_rate
 var direction = Vector2.ZERO
 var target_enemy: CharacterBody2D = null
 var age = 0.0
@@ -64,8 +64,8 @@ func _home_toward_enemy(delta):
 		var rotation_amount = clamp(angle_to_target, -max_rotation_this_frame, max_rotation_this_frame)
 		direction = direction.rotated(rotation_amount)
 		
-		homing_strength += homing_strengh_gain * delta
-		homing_strength = clamp(homing_strength, min_homing_strength, max_homing_strength)
+		homing_strength += turn_rate_gain * delta
+		homing_strength = clamp(homing_strength, min_turn_rate, max_turn_rate)
 
 func _on_detect_enemy(body):
 	# Check if it's an enemy and we don't already have a target
@@ -75,7 +75,7 @@ func _on_detect_enemy(body):
 func _on_stop_detect_enemy(body):
 	if body == target_enemy:
 		target_enemy = null
-		homing_strength = min_homing_strength
+		homing_strength = min_turn_rate
 
 func _on_hit_enemy(body):
 	# Actual hit detection

@@ -1,4 +1,4 @@
-class_name Enemy
+class_name EnemyChaser
 extends CharacterBody2D
 
 @export var baseline_speed = 100.0
@@ -10,7 +10,7 @@ extends CharacterBody2D
 @export var max_extra_strech = 2.0
 @export var max_progress = 20.0
 @export var progress_alert_factor = 4.0
-@export var homing_strength = 2.0
+@export var turn_rate = PI
 
 
 var player: CharacterBody2D = null
@@ -77,7 +77,7 @@ func _physics_process(delta):
 	if player:
 		var direction_to_target = (player.global_position - global_position).normalized()
 		var angle_to_target = direction.angle_to(direction_to_target)
-		var max_rotation_this_frame = homing_strength * delta
+		var max_rotation_this_frame = turn_rate * delta
 		var rotation_amount = clamp(angle_to_target, -max_rotation_this_frame, max_rotation_this_frame)
 		direction = direction.rotated(rotation_amount)
 		adjust_speed_and_strech()

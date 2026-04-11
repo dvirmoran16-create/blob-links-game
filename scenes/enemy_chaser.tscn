@@ -1,18 +1,18 @@
 [gd_scene format=3 uid="uid://2acn26trnagk"]
 
-[ext_resource type="Script" uid="uid://cfevt5gyqbhh2" path="res://scripts/enemy.gd" id="1_7p1mj"]
-[ext_resource type="Texture2D" uid="uid://cpigbueqjo35h" path="res://assets/sprites/enemy1.tres" id="2_md0e3"]
-[ext_resource type="Texture2D" uid="uid://dtj0v8k3cyt1m" path="res://assets/sprites/enemy2.tres" id="3_4ra3w"]
-[ext_resource type="Shader" uid="uid://b7n4vvrhd1pgi" path="res://scripts/explosion.gdshader" id="4_5uy6h"]
+[ext_resource type="Script" uid="uid://cfevt5gyqbhh2" path="res://scripts/enemy_chaser.gd" id="1_3ddd7"]
+[ext_resource type="Texture2D" uid="uid://cpigbueqjo35h" path="res://assets/sprites/enemy1.tres" id="2_xdwg6"]
+[ext_resource type="Texture2D" uid="uid://dtj0v8k3cyt1m" path="res://assets/sprites/enemy2.tres" id="3_4ifjj"]
+[ext_resource type="Shader" uid="uid://b7n4vvrhd1pgi" path="res://scripts/explosion.gdshader" id="4_s6v6k"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 20.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c4w8v"]
 resource_local_to_scene = true
-shader = ExtResource("4_5uy6h")
-shader_parameter/tex_1 = ExtResource("2_md0e3")
-shader_parameter/tex_2 = ExtResource("3_4ra3w")
+shader = ExtResource("4_s6v6k")
+shader_parameter/tex_1 = ExtResource("2_xdwg6")
+shader_parameter/tex_2 = ExtResource("3_4ifjj")
 shader_parameter/has_second_texture = true
 shader_parameter/fade_factor = 0.0
 shader_parameter/progress = 0.0
@@ -23,13 +23,13 @@ radius = 500.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_5uy6h"]
 radius = 32.0
 
-[node name="Enemy" type="CharacterBody2D" unique_id=2083001372]
+[node name="EnemyChaser" type="CharacterBody2D" unique_id=2083001372]
 collision_layer = 2
 collision_mask = 21
 motion_mode = 1
-script = ExtResource("1_7p1mj")
-normal_texture = ExtResource("2_md0e3")
-alert_texture = ExtResource("3_4ra3w")
+script = ExtResource("1_3ddd7")
+normal_texture = ExtResource("2_xdwg6")
+alert_texture = ExtResource("3_4ifjj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
 visible = false
@@ -39,7 +39,7 @@ debug_color = Color(0, 0.60038817, 0.70000815, 0.77400005)
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=608333645]
 material = SubResource("ShaderMaterial_c4w8v")
 scale = Vector2(2, 2)
-texture = ExtResource("2_md0e3")
+texture = ExtResource("2_xdwg6")
 
 [node name="AlertRange" type="Area2D" parent="." unique_id=203022998]
 collision_layer = 0
