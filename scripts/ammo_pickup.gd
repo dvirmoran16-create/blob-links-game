@@ -11,6 +11,7 @@ var age = 0.0
 func _ready():
 	body_entered.connect(_on_detect_player)
 	body_exited.connect(_on_stop_detect_player)
+	add_to_group("pickups")
 	
 	expiration_circle.max_value = ttl
 	expiration_circle.step = 0.25

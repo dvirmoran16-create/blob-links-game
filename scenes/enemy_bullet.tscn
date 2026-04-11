@@ -1,21 +1,24 @@
-[gd_scene format=3 uid="uid://bka7uju8o5ino"]
+[gd_scene format=3 uid="uid://c2int1bftx5wf"]
 
-[ext_resource type="Script" uid="uid://daeeh1yjl1bm5" path="res://scripts/projectile.gd" id="1_c8fcr"]
+[ext_resource type="Script" uid="uid://8pbovilubvtc" path="res://scripts/enemy_bullet.gd" id="1_d2qol"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6qi02"]
+size = Vector2(10, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8fcr"]
-size = Vector2(45, 15)
+size = Vector2(10, 10)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c8fcr"]
 radius = 150.0
 
-[node name="Projectile" type="CharacterBody2D" unique_id=780977626]
-collision_layer = 4
+[node name="EnemyBullet" type="CharacterBody2D" unique_id=780977626]
+collision_layer = 32
 collision_mask = 16
 motion_mode = 1
-script = ExtResource("1_c8fcr")
+script = ExtResource("1_d2qol")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=157630091]
-shape = SubResource("RectangleShape2D_c8fcr")
+shape = SubResource("RectangleShape2D_6qi02")
 debug_color = Color(0.8683968, 0.26145205, 0.6043529, 0.41960785)
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1499944657]
@@ -24,18 +27,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -22.5
-offset_top = -7.5
-offset_right = 22.5
-offset_bottom = 7.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset_ratio = Vector2(0, 0.5)
-color = Color(1, 0.92941177, 0.627451, 1)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+color = Color(1, 0, 0, 1)
 
 [node name="HitBox" type="Area2D" parent="." unique_id=957724524]
 collision_layer = 4
-collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=454205742]
@@ -43,10 +45,12 @@ shape = SubResource("RectangleShape2D_c8fcr")
 debug_color = Color(0.8683968, 0.26145205, 0.6043529, 0.41960785)
 
 [node name="HomingRange" type="Area2D" parent="." unique_id=1728895127]
+visible = false
 collision_layer = 4
 collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HomingRange" unique_id=1827381852]
+visible = false
 position = Vector2(90, 0)
 shape = SubResource("CircleShape2D_c8fcr")

@@ -33,6 +33,7 @@ player=""
 enemies=""
 blobs=""
 lit_blobs=""
+pickups=""
 
 [input]
 
@@ -82,10 +83,11 @@ leap={
 [layer_names]
 
 2d_physics/layer_1="player"
-2d_physics/layer_2="eneimes"
-2d_physics/layer_3="projectiles"
-2d_physics/layer_4="interactibles"
+2d_physics/layer_2="enemies"
+2d_physics/layer_3="player_dmg"
+2d_physics/layer_4="pickups"
 2d_physics/layer_5="walls"
+2d_physics/layer_6="enemy_dmg"
 
 [rendering]
 

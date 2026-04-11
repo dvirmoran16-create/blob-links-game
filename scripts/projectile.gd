@@ -17,7 +17,6 @@ var ammo_scene : PackedScene = preload("res://scenes/ammo_pickup.tscn")
 
 @onready var homing_range = $HomingRange
 @onready var hitbox = $HitBox
-@onready var color_rect = $ColorRect
 
 func _ready():
 	age = 0.0

@@ -2,15 +2,15 @@ class_name Enemy
 extends CharacterBody2D
 
 @export var baseline_speed = 100.0
-@export var alert_min_speed = 200.0
-@export var max_speed = 600.0
-@export var normal_speed_gain = 25
-@export var alert_speed_gain = 100
+@export var speed_per_progress = 25
 @export var normal_texture: Texture2D
 @export var alert_texture: Texture2D
 @export var alert_animation_time = 0.3
-@export var min_strech = 2.0
-@export var max_strech = 4.0
+@export var baseline_strech = 2.0
+@export var max_extra_strech = 2.0
+@export var max_progress = 20.0
+@export var progress_alert_factor = 4.0
+@export var homing_strength = 2.0
 
 
 var player: CharacterBody2D = null
@@ -22,6 +22,8 @@ var is_alert = false
 var alert_tween: Tween = null
 var is_carry_heart = false
 var is_dying = false
+var progress = 0.0
+var direction = Vector2(0, 0)
 
 @onready var sprite = $Sprite2D
 @onready var alert_range = $AlertRange
@@ -37,6 +39,7 @@ func _ready():
 	explode_range.body_entered.connect(_on_hit_player)
 	heart.global_position = global_position
 	heart.visible = is_carry_heart
+	direction = (player.global_position - global_position).normalized()
 	
 	spawn()
 		
@@ -62,9 +65,22 @@ func spawn():
 	explode_range.monitoring = true
 
 func _physics_process(delta):
+	if is_alert:
+		progress += progress_alert_factor * delta
+	else:
+		progress += delta
+		
+	if progress >= max_progress:
+		explode()
+		return
+	
 	if player:
-		var direction = (player.global_position - global_position).normalized()
-		change_speed(delta)
+		var direction_to_target = (player.global_position - global_position).normalized()
+		var angle_to_target = direction.angle_to(direction_to_target)
+		var max_rotation_this_frame = homing_strength * delta
+		var rotation_amount = clamp(angle_to_target, -max_rotation_this_frame, max_rotation_this_frame)
+		direction = direction.rotated(rotation_amount)
+		adjust_speed_and_strech()
 		velocity = direction * speed
 		rotation = direction.angle()
 		move_and_slide()
@@ -74,14 +90,10 @@ func _physics_process(delta):
 		var heart_size_this_frame = 0.9 + 0.2 * sin(Time.get_ticks_msec() * 0.002 * PI)
 		heart.scale = Vector2(heart_size_this_frame, heart_size_this_frame)
 		
-func change_speed(delta):
-		if is_alert:
-			speed += alert_speed_gain * delta
-		else:
-			speed += normal_speed_gain * delta
-		speed = clamp(speed, baseline_speed, max_speed)
-		var progress = (speed - baseline_speed) / (max_speed - baseline_speed)
-		sprite.scale.x = 2 + progress * 2
+func adjust_speed_and_strech():
+		speed = baseline_speed + speed_per_progress * progress
+		var relative_progress = progress / max_progress
+		sprite.scale.x = baseline_strech + relative_progress * max_extra_strech
 		
 func blobify():
 	if is_dying:

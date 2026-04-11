@@ -4,7 +4,7 @@ extends Area2D
 @export var mouse_detection_distance = 200.0
 @export var normal_texture: Texture2D
 @export var alert_texture: Texture2D
-@export var ttl = 12.0
+@export var ttl = 15.0
 @export var expire_warning_threshold = 3.0
 @export var expire_warning_threshold_severe = 1.0
 
@@ -69,7 +69,8 @@ func explode_link():
 		return
 	is_dying = true
 	var line : BlobLine = blob_line_scene.instantiate()
+	line.start_pos = global_position
+	line.end_pos = player.global_position
 	var game = get_parent()
 	game.call_deferred("add_child", line)
-	line.call_deferred("setup", global_position, player.global_position)
 	queue_free()
