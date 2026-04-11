@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://bks13xrpfscbj"]
+
+[ext_resource type="Script" uid="uid://btie1a41cttex" path="res://scripts/tutorial_popup.gd" id="1_cd74a"]
+
+[node name="TutorialPopup" type="Popup" unique_id=208924807]
+transparent_bg = true
+oversampling_override = 1.0
+size = Vector2i(800, 600)
+transparent = true
+script = ExtResource("1_cd74a")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1505028181]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3491902, 0.3491902, 0.3491902, 0.94900006)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1088341341]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -171.0
+offset_right = 240.0
+offset_bottom = 171.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1627543687]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Tutorial not implemented yet!
+
+Instructions:
+shoot with left mouse click,
+teleport with right mouse click.
+
+Good luck!
+"
+
+[node name="CloseButton" type="Button" parent="VBoxContainer" unique_id=1673141624]
+custom_minimum_size = Vector2(182, 73)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 32
+text = "Close"
