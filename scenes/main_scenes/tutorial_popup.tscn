@@ -6,6 +6,7 @@
 transparent_bg = true
 oversampling_override = 1.0
 size = Vector2i(800, 600)
+visible = true
 transparent = true
 script = ExtResource("1_cd74a")
 
@@ -36,9 +37,9 @@ theme_override_font_sizes/font_size = 32
 text = "Tutorial not implemented yet!
 
 Instructions:
-Move with WASD
-Shoot with left mouse click
-Teleport with right mouse click
+- Move with WASD
+- Shoot with left mouse click
+- Teleport with right mouse click
 
 Good luck!
 "
