@@ -2,10 +2,10 @@ class_name EnemyShooter
 extends CharacterBody2D
 
 @export var speed = 50.0
-@export var bullet_interval = 11.0
+@export var bullet_interval = 2.0
 
 
-var player: CharacterBody2D = null
+var player: Player
 var blob_scene = preload("res://scenes/blob.tscn")
 var bullet_scene = preload("res://scenes/enemy_bullet.tscn")
 var heart_pickup_scene = preload("res://scenes/heart_pickup.tscn")
@@ -14,6 +14,7 @@ var player_is_far = false
 var is_carry_heart = false
 var is_dying = false
 var bullet_timer = bullet_interval
+var can_shoot = false
 
 @onready var heart : Polygon2D = $Heart
 
@@ -46,15 +47,17 @@ func _physics_process(delta):
 	if player:
 		var direction = (player.global_position - global_position).normalized()
 		var distance_squared = global_position.distance_squared_to(player.global_position)
-		if distance_squared < 800**2:
+		can_shoot = true
+		if distance_squared < 1100**2:
 			velocity = -direction * speed
-		elif distance_squared >= 1000**2:
+		elif distance_squared >= 1200**2:
 			velocity = direction * speed
+			can_shoot = false
 		else:
 			velocity = Vector2(0, 0)
 		rotation = direction.angle()
 		
-		if bullet_timer >= bullet_interval:
+		if bullet_timer >= bullet_interval and can_shoot:
 			shoot(direction)
 			bullet_timer = 0.0
 			

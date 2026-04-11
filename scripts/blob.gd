@@ -69,7 +69,8 @@ func explode_link():
 		return
 	is_dying = true
 	var line : BlobLine = blob_line_scene.instantiate()
+	line.start_pos = global_position
+	line.end_pos = player.global_position
 	var game = get_parent()
 	game.call_deferred("add_child", line)
-	line.call_deferred("setup", global_position, player.global_position)
 	queue_free()

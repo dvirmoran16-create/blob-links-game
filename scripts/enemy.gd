@@ -10,6 +10,7 @@ extends CharacterBody2D
 @export var max_extra_strech = 2.0
 @export var max_progress = 20.0
 @export var progress_alert_factor = 4.0
+@export var homing_strength = 2.0
 
 
 var player: CharacterBody2D = null
@@ -22,6 +23,7 @@ var alert_tween: Tween = null
 var is_carry_heart = false
 var is_dying = false
 var progress = 0.0
+var direction = Vector2(0, 0)
 
 @onready var sprite = $Sprite2D
 @onready var alert_range = $AlertRange
@@ -37,6 +39,7 @@ func _ready():
 	explode_range.body_entered.connect(_on_hit_player)
 	heart.global_position = global_position
 	heart.visible = is_carry_heart
+	direction = (player.global_position - global_position).normalized()
 	
 	spawn()
 		
@@ -72,7 +75,11 @@ func _physics_process(delta):
 		return
 	
 	if player:
-		var direction = (player.global_position - global_position).normalized()
+		var direction_to_target = (player.global_position - global_position).normalized()
+		var angle_to_target = direction.angle_to(direction_to_target)
+		var max_rotation_this_frame = homing_strength * delta
+		var rotation_amount = clamp(angle_to_target, -max_rotation_this_frame, max_rotation_this_frame)
+		direction = direction.rotated(rotation_amount)
 		adjust_speed_and_strech()
 		velocity = direction * speed
 		rotation = direction.angle()

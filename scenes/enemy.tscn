@@ -25,13 +25,14 @@ radius = 32.0
 
 [node name="Enemy" type="CharacterBody2D" unique_id=2083001372]
 collision_layer = 2
-collision_mask = 23
+collision_mask = 21
 motion_mode = 1
 script = ExtResource("1_7p1mj")
 normal_texture = ExtResource("2_md0e3")
 alert_texture = ExtResource("3_4ra3w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
+visible = false
 shape = SubResource("CircleShape2D_7p1mj")
 debug_color = Color(0, 0.60038817, 0.70000815, 0.77400005)
 

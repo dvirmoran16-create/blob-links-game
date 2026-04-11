@@ -8,19 +8,24 @@ extends Line2D
 
 var age = 0.0
 var damaged_enemies = []
+var start_pos: Vector2
+var end_pos: Vector2
 
 @onready var hit_area = $HitArea
+@onready var player: Player = get_tree().get_first_node_in_group("player")
 
 func _ready():
 	age = 0.0
 	width = max_width
-	
+	collision_shape_setup()
 	hit_area.monitoring = true
 	hit_area.body_entered.connect(_on_body_entered)
+	await get_tree().physics_frame
+	call_deferred("collect_pickups")
 	await get_tree().create_timer(0.2).timeout
 	hit_area.monitoring = false
 
-func _process(delta):
+func _physics_process(delta):	
 	age += delta
 	var progress = age / fade_duration  # 0 to 1
 	
@@ -32,7 +37,7 @@ func _process(delta):
 	default_color.a = 1.0 - progress
 	width = max_width * (1.0 - progress)
 
-func setup(start_pos: Vector2, end_pos: Vector2):
+func collision_shape_setup():
 	clear_points()
 	add_point(start_pos)
 	add_point(end_pos)
@@ -61,3 +66,12 @@ func _on_body_entered(body):
 		if body.has_method("blobify"):
 			body.blobify()
 		damaged_enemies.append(body)
+		
+func collect_pickups():
+	var bodies = hit_area.get_overlapping_areas()
+	for b in bodies:
+		if b.is_in_group("pickups"):
+			b._on_detect_player(player)
+		elif b.is_in_group("enemies"):
+			damaged_enemies.append(b)
+			b.blobify()

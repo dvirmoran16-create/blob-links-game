@@ -12,7 +12,7 @@ size = Vector2(10, 10)
 radius = 150.0
 
 [node name="EnemyBullet" type="CharacterBody2D" unique_id=780977626]
-collision_layer = 2
+collision_layer = 32
 collision_mask = 16
 motion_mode = 1
 script = ExtResource("1_d2qol")

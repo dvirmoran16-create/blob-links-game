@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-@export var speed = 200.0
-@export var ttl = 6.0
+@export var speed = 500.0
+@export var ttl = 2.5
 
 var direction: Vector2
 var age = 0.0
@@ -21,8 +21,9 @@ func _physics_process(delta):
 		queue_free()
 		return
 		
-	move_and_slide()
-	
+	var collision_body = move_and_collide(velocity * delta)
+	if collision_body:
+		queue_free()
 		
 func _on_hit_player(body):
 	if body.is_in_group("player"):

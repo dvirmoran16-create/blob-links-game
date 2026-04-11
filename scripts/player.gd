@@ -6,7 +6,8 @@ static var god_mode = false
 @onready var wound_2 : ColorRect = $ColorRect/wound_2
 @onready var wound_3 : ColorRect = $ColorRect/wound_3
 
-@export var speed : float = 200.0
+@export var max_speed : float = 225.0
+@export var speed_gain_rate : float = 1000.0
 @export var max_ammo : int = 5
 @export var ammo_regen_time : float = 2.0
 @export var max_lives : int = 3
@@ -14,6 +15,8 @@ static var god_mode = false
 var current_ammo = max_ammo
 var ammo_timer = 0.0
 var lives = max_lives
+var speed = 0.0
+var direction : Vector2
 
 var projectile_scene = preload("res://scenes/projectile.tscn")
 var explosion_scene = preload("res://scenes/blob_explosion.tscn")
@@ -29,12 +32,19 @@ func _ready():
 	update_ammo_status(0)
 	update_lives_status(0)
 	
-func get_input():
+func get_input(delta):
 	var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	velocity = input_direction * speed
+	if input_direction == Vector2(0, 0):
+		speed -= speed_gain_rate * delta
+	else:
+		direction = input_direction
+		speed += speed_gain_rate * delta
+	
+	speed = clamp(speed, 0.0, max_speed)
+	velocity = direction * speed
 
 func _physics_process(delta):
-	get_input()
+	get_input(delta)
 	move_and_slide()
 	
 	if current_ammo < max_ammo:
@@ -95,6 +105,9 @@ func shoot():
 	
 func get_hit():
 	update_lives_status(-1)
+	var hurt_tween = create_tween()
+	hurt_tween.tween_property(self, "modulate:v", 1, 0.4).from(2.5)
+	
 		
 func update_lives_status(delta):
 	lives = clamp(lives + delta, 0, max_lives)
@@ -130,4 +143,4 @@ func enter_god_mode():
 		ammo_regen_time = 0.5
 		max_lives = 100
 		lives = max_lives
-		speed = 1000
+		max_speed = 1000
