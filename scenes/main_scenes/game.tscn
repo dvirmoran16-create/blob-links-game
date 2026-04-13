@@ -34,7 +34,6 @@ script = ExtResource("4_lbhrr")
 
 [node name="Player" parent="." unique_id=1281867858 instance=ExtResource("1_uwrxv")]
 top_level = true
-motion_mode = 1
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1674209232]
 limit_left = -1550

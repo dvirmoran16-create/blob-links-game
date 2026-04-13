@@ -144,3 +144,4 @@ func enter_god_mode():
 		max_lives = 100
 		lives = max_lives
 		max_speed = 1000
+		speed_gain_rate = 4000

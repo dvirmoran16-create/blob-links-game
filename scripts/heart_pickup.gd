@@ -10,15 +10,16 @@ var look_for_player : bool = false
 var age = 0.0
 var direction = Vector2(0, 0)
 var speed = initial_speed
+var is_active = true
 @onready var expiration_circle = $ExpirationCircle
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
+@onready var player : Player = get_tree().get_first_node_in_group("player")
 
 func _ready():
-	var player = get_tree().get_first_node_in_group("player")
 	direction = (global_position - player.global_position).normalized()
 	
+	player.lives_changed.connect(_on_player_lives_changed)
 	body_entered.connect(_on_detect_player)
-	body_exited.connect(_on_stop_detect_player)
 	add_to_group("pickups")
 	
 	expiration_circle.max_value = ttl
@@ -48,13 +49,17 @@ func _on_detect_player(body):
 	if not body.is_in_group("player"):
 		speed = 0.0
 	else:
-		var player = body as Player
-		if player.lives >= player.max_lives:
-			look_for_player = true
-		else:
-			player.update_lives_status(1)
-			queue_free()
-			
-func _on_stop_detect_player(body):
-	if body.is_in_group("player"):
-		look_for_player = false
+		if player.lives < player.max_lives and is_active == true:
+			get_consumed()
+		
+func _on_player_lives_changed(current, max, delta):
+	if current < max and is_active == true:
+		var bodies = get_overlapping_bodies()
+		for body in bodies:
+			if body.is_in_group("player"):
+				get_consumed()
+				
+func get_consumed():
+	is_active = false
+	player.update_lives_status(1)
+	queue_free()

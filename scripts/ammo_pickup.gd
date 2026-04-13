@@ -3,14 +3,16 @@ extends Area2D
 
 @export var ttl = 12.0
 
-var look_for_player : bool = false
 var age = 0.0
+var is_active = true
+
 @onready var expiration_circle = $ExpirationCircle
 @onready var animation_player = $AnimationPlayer
+@onready var player : Player = get_tree().get_first_node_in_group("player")
 
 func _ready():
+	player.ammo_changed.connect(_on_player_ammo_changed)
 	body_entered.connect(_on_detect_player)
-	body_exited.connect(_on_stop_detect_player)
 	add_to_group("pickups")
 	
 	expiration_circle.max_value = ttl
@@ -26,21 +28,20 @@ func _physics_process(delta):
 	if age >= ttl:
 		queue_free()
 		return
-	
-	if look_for_player:
-		var bodies = get_overlapping_bodies()
-		for body in bodies:
-			_on_detect_player(body)
 		
 func _on_detect_player(body):
 	if body.is_in_group("player"):
-		var player = body as Player
-		if player.current_ammo >= player.max_ammo:
-			look_for_player = true
-		else:
-			player.update_ammo_status(1, false)
-			queue_free()
-			
-func _on_stop_detect_player(body):
-	if body.is_in_group("player"):
-		look_for_player = false
+		if player.current_ammo < player.max_ammo and is_active:
+			get_consumed()
+		
+func _on_player_ammo_changed(current, max, _delta):
+	if current < max and is_active:
+		var bodies = get_overlapping_bodies()
+		for body in bodies:
+			if body.is_in_group("player"):
+				get_consumed()
+				
+func get_consumed():
+	is_active = false
+	player.update_ammo_status(1, false)
+	queue_free()
