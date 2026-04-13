@@ -1,7 +1,11 @@
 class_name Blob
 extends Area2D
 
+enum BlobStatus { OUT_OF_RANGE, IN_RANGE, HIGHLIGHTED, CONSUMED }
+var blob_status = BlobStatus.OUT_OF_RANGE
+
 @export var mouse_detection_distance = 200.0
+@export var inactive_texture: Texture2D
 @export var normal_texture: Texture2D
 @export var alert_texture: Texture2D
 @export var ttl = 15.0
