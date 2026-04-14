@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dnygcf0qpbgbf"]
+
+[ext_resource type="Script" uid="uid://b46ojp2xvuqvi" path="res://scripts/lives_indicator.gd" id="1_ah50u"]
+
+[node name="LivesIndicator" type="Node2D" unique_id=1485867105]
+script = ExtResource("1_ah50u")
+
+[node name="wound_1" type="ColorRect" parent="." unique_id=475936666]
+offset_left = -15.0
+offset_top = -15.0
+offset_right = -1.0
+offset_bottom = -1.0
+color = Color(1, 0, 0, 0.50200003)
+metadata/_edit_use_anchors_ = true
+
+[node name="wound_2" type="ColorRect" parent="." unique_id=883486762]
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 15.0
+offset_bottom = 15.0
+color = Color(1, 0, 0, 0.5)
+metadata/_edit_use_anchors_ = true
+
+[node name="wound_3" type="ColorRect" parent="." unique_id=1984745683]
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+color = Color(1, 0, 0, 0.5)
+metadata/_edit_use_anchors_ = true

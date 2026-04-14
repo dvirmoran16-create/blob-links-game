@@ -1,4 +1,4 @@
-class_name Projectile
+class_name PlayerBullet
 extends CharacterBody2D
 
 @export var max_speed = 1000.0
@@ -53,7 +53,7 @@ func spawn_ammo_pickup():
 	var ammo := ammo_scene.instantiate() as AmmoPickup
 	ammo.global_position = global_position
 	ammo.age = ammo.ttl / 2
-	var game = get_parent()
+	var game = get_tree().current_scene
 	game.call_deferred("add_child", ammo)
 
 func _home_toward_enemy(delta):

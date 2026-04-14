@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cxn05vunhmxqu"]
+
+[ext_resource type="Script" uid="uid://ka2k4x0my7xj" path="res://scripts/player.gd" id="1_3vyb7"]
+[ext_resource type="PackedScene" uid="uid://1lk0ybrbu4ax" path="res://scenes/player_scenes/ammo_indicator.tscn" id="2_qhqgy"]
+[ext_resource type="PackedScene" uid="uid://dnygcf0qpbgbf" path="res://scenes/player_scenes/lives_indicator.tscn" id="3_dqkch"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
+
+[node name="Player" type="CharacterBody2D" unique_id=1318601094 groups=["player"]]
+collision_mask = 16
+motion_mode = 1
+script = ExtResource("1_3vyb7")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1617706281]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8350781, 0.48677072, 0.48452926, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2092138550]
+shape = SubResource("RectangleShape2D_g2els")
+debug_color = Color(0, 0.60038817, 0.70000815, 0.72700006)
+
+[node name="AmmoIndicator" parent="." unique_id=1485867105 instance=ExtResource("2_qhqgy")]
+
+[node name="LivesIndicator" parent="." unique_id=988840852 instance=ExtResource("3_dqkch")]
+
+[connection signal="ammo_changed" from="." to="AmmoIndicator" method="_on_player_ammo_changed"]
+[connection signal="lives_changed" from="." to="LivesIndicator" method="_on_player_lives_changed"]

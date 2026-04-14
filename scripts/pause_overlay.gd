@@ -12,7 +12,7 @@ func _ready():
 	hide()
 
 func _on_resume_pressed():
-	var game = get_parent()
+	var game = get_tree().current_scene
 	game.resume_game()
 
 func _on_restart_pressed():

@@ -2,23 +2,20 @@ class_name Player
 extends CharacterBody2D
 
 static var god_mode = false
-@onready var wound_1 : ColorRect = $ColorRect/wound_1
-@onready var wound_2 : ColorRect = $ColorRect/wound_2
-@onready var wound_3 : ColorRect = $ColorRect/wound_3
 
 @export var max_speed : float = 225.0
 @export var speed_gain_rate : float = 1000.0
 @export var max_ammo : int = 5
-@export var ammo_regen_time : float = 2.0
+@export var ammo_recharge_interval : float = 2.0
 @export var max_lives : int = 3
 
 var current_ammo = max_ammo
-var ammo_timer = 0.0
+var ammo_recharge_timer = 0.0
 var lives = max_lives
 var speed = 0.0
 var direction : Vector2
 
-var projectile_scene = preload("res://scenes/projectile.tscn")
+var bullet_scene = preload("res://scenes/player_scenes/player_bullet.tscn")
 var explosion_scene = preload("res://scenes/blob_scenes/blob_explosion.tscn")
 
 signal lives_changed(current: int, max: int, delta: int)
@@ -31,26 +28,10 @@ func _ready():
 		
 	update_ammo_status(0)
 	update_lives_status(0)
-	
-func get_input(delta):
-	var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	if input_direction == Vector2(0, 0):
-		speed -= speed_gain_rate * delta
-	else:
-		direction = input_direction
-		speed += speed_gain_rate * delta
-	
-	speed = clamp(speed, 0.0, max_speed)
-	velocity = direction * speed
 
 func _physics_process(delta):
-	get_input(delta)
-	move_and_slide()
-	
-	if current_ammo < max_ammo:
-		ammo_timer += delta
-		if ammo_timer >= ammo_regen_time:
-			update_ammo_status(1, true)
+	handle_movement(delta)
+	recharge_ammo(delta)
 			
 	if Input.is_action_just_pressed("shoot") and current_ammo > 0:
 		shoot()
@@ -59,6 +40,24 @@ func _physics_process(delta):
 		var lit_blobs = get_tree().get_nodes_in_group("lit_blobs")
 		if not lit_blobs.is_empty():
 			handle_leap(lit_blobs)
+			
+func handle_movement(delta):
+	var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	if input_direction == Vector2(0, 0):
+		speed -= speed_gain_rate * delta
+	else:
+		direction = input_direction
+		speed += speed_gain_rate * delta
+	
+	speed = clamp(speed, 0.0, max_speed)
+	set_velocity(direction * speed)
+	move_and_slide()
+
+func recharge_ammo(delta):
+	if current_ammo < max_ammo:
+		ammo_recharge_timer += delta
+		if ammo_recharge_timer >= ammo_recharge_interval:
+			update_ammo_status(1, true)
 		
 func handle_leap(lit_blobs: Array):
 	var chosen_blob: Blob = find_chosen_blob(lit_blobs)
@@ -82,52 +81,43 @@ func find_chosen_blob(blobs) -> Blob:
 				chosen_blob = blob
 				chosen_distance_squared = distance_squared
 				
-	return chosen_blob		
+	return chosen_blob	
 	
 func update_ammo_status(delta : int, reset_timer=false):
 	current_ammo = clamp(current_ammo + delta, 0, max_ammo)
 	ammo_changed.emit(current_ammo, max_ammo, delta)	
 	if reset_timer:
-		ammo_timer = 0.0
+		ammo_recharge_timer = 0.0
 	
 func shoot():
-	# Get mouse position in world coordinates
 	var mouse_pos = get_global_mouse_position()
-	var direction = (mouse_pos - global_position).normalized()
-	
-	var projectile = projectile_scene.instantiate()
-	projectile.global_position = global_position + direction * 20
-	projectile.direction = direction.normalized()
-	projectile.rotation = direction.angle()
-	get_parent().add_child(projectile)
-	
-	update_ammo_status(-1, true)
-	
+	var direction_to_mouse = (mouse_pos - global_position).normalized()
+	create_bullet(direction_to_mouse)
+	update_ammo_status(-1, true)	
+
+func create_bullet(dir_to_mouse):
+	var bullet = bullet_scene.instantiate()
+	bullet.global_position = global_position + dir_to_mouse * 20
+	bullet.direction = dir_to_mouse
+	bullet.rotation = dir_to_mouse.angle()
+	get_parent().add_child(bullet)
+
 func get_hit():
 	update_lives_status(-1)
 	var hurt_tween = create_tween()
 	hurt_tween.tween_property(self, "modulate:v", 1, 0.4).from(2.5)
 	
-		
 func update_lives_status(delta):
 	lives = clamp(lives + delta, 0, max_lives)
-	update_lives_sprite()
+	lives_changed.emit(lives, max_lives, delta)
 	if lives == 0:
 		die()
-	
-	lives_changed.emit(lives, max_lives, delta)
-		
-func update_lives_sprite():
-	var missing_lives = max_lives - lives
-	wound_1.visible = missing_lives >= 1
-	wound_2.visible = missing_lives >= 2
-	wound_3.visible = missing_lives >= 3
 	
 func explode(num_of_involved_blobs):
 	var explosion : BlobExplosion = explosion_scene.instantiate()
 	explosion.global_position = global_position
 	explosion.involved_blobs = num_of_involved_blobs
-	var game = get_parent()
+	var game = get_tree().current_scene
 	game.call_deferred("add_child", explosion)
 	
 func die():
@@ -138,10 +128,10 @@ func die():
 	died.emit()
 	
 func enter_god_mode():
-		max_ammo = 12
-		current_ammo = max_ammo
-		ammo_regen_time = 0.5
-		max_lives = 100
-		lives = max_lives
-		max_speed = 1000
-		speed_gain_rate = 4000
+	max_ammo = 12
+	current_ammo = max_ammo
+	ammo_recharge_interval = 0.5
+	max_lives = 100
+	lives = max_lives
+	max_speed = 1000
+	speed_gain_rate = 4000

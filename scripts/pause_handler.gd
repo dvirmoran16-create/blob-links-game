@@ -1,6 +1,6 @@
 extends Node
 
-@onready var game = get_parent()
+@onready var game = get_tree().current_scene
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS

@@ -73,7 +73,7 @@ func blobify():
 	is_dying = true
 	var blob = blob_scene.instantiate()
 	blob.global_position = global_position
-	var game = get_parent()
+	var game = get_tree().current_scene
 	game.call_deferred("add_child", blob)
 	if is_carry_heart:
 		var heart_pickup = heart_pickup_scene.instantiate()
@@ -87,5 +87,5 @@ func shoot(direction):
 	bullet.global_position = global_position + direction * 30
 	bullet.direction = direction
 	bullet.rotation = direction.angle()
-	var game = get_parent()
+	var game = get_tree().current_scene
 	game.call_deferred("add_child", bullet)
