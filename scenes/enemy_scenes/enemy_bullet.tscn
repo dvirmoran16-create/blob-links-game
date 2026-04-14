@@ -46,8 +46,7 @@ debug_color = Color(0.8683968, 0.26145205, 0.6043529, 0.41960785)
 
 [node name="HomingRange" type="Area2D" parent="." unique_id=1728895127]
 visible = false
-collision_layer = 4
-collision_mask = 2
+collision_layer = 0
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HomingRange" unique_id=1827381852]

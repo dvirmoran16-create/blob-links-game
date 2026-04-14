@@ -43,7 +43,7 @@ shape = SubResource("RectangleShape2D_c8fcr")
 debug_color = Color(0.8683968, 0.26145205, 0.6043529, 0.41960785)
 
 [node name="HomingRange" type="Area2D" parent="." unique_id=1728895127]
-collision_layer = 4
+collision_layer = 0
 collision_mask = 2
 monitorable = false
 
