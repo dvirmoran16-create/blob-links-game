@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dgi0sk5jfht1k"]
 
-[ext_resource type="Script" uid="uid://kockplyy44nb" path="res://scripts/ammo_pickup.gd" id="1_jvvnm"]
-[ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/expiration_circle.tscn" id="2_jvvnm"]
+[ext_resource type="Script" uid="uid://kockplyy44nb" path="res://scenes/pickup_scenes/ammo_pickup.gd" id="1_jvvnm"]
+[ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/common_scenes/expiration_circle.tscn" id="2_jvvnm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 23.0

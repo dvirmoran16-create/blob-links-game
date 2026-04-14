@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dju7s0rntmbpk"]
 
-[ext_resource type="Script" uid="uid://ditp2tfe6qwkm" path="res://scripts/main_menu.gd" id="1_xfcpj"]
-[ext_resource type="PackedScene" uid="uid://bks13xrpfscbj" path="res://scenes/meta_scenes/tutorial_popup.tscn" id="2_ggekg"]
+[ext_resource type="Script" uid="uid://ditp2tfe6qwkm" path="res://scenes/menu_scenes/main_menu.gd" id="1_xfcpj"]
+[ext_resource type="PackedScene" uid="uid://bks13xrpfscbj" path="res://scenes/menu_scenes/tutorial_popup.tscn" id="2_ggekg"]
 
 [sub_resource type="Theme" id="Theme_l6cm7"]
 default_font_size = 48

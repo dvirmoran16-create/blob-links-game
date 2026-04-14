@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bks13xrpfscbj"]
 
-[ext_resource type="Script" uid="uid://btie1a41cttex" path="res://scripts/tutorial_popup.gd" id="1_cd74a"]
+[ext_resource type="Script" uid="uid://btie1a41cttex" path="res://scenes/menu_scenes/tutorial_popup.gd" id="1_cd74a"]
 
 [node name="TutorialPopup" type="Popup" unique_id=208924807]
 transparent_bg = true

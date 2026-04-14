@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://2acn26trnagk"]
 
-[ext_resource type="Script" uid="uid://cfevt5gyqbhh2" path="res://scripts/enemy_chaser.gd" id="1_3ddd7"]
+[ext_resource type="Script" uid="uid://cfevt5gyqbhh2" path="res://scenes/enemy_scenes/enemy_chaser.gd" id="1_3ddd7"]
 [ext_resource type="Texture2D" uid="uid://cpigbueqjo35h" path="res://assets/sprites/enemy1.tres" id="2_xdwg6"]
 [ext_resource type="Texture2D" uid="uid://dtj0v8k3cyt1m" path="res://assets/sprites/enemy2.tres" id="3_4ifjj"]
-[ext_resource type="Shader" uid="uid://b7n4vvrhd1pgi" path="res://scripts/explosion.gdshader" id="4_s6v6k"]
+[ext_resource type="Shader" uid="uid://b7n4vvrhd1pgi" path="res://shaders/explosion.gdshader" id="4_s6v6k"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 20.0

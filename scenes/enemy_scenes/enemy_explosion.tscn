@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cp7nc5h25nacn"]
 
-[ext_resource type="Shader" uid="uid://b7n4vvrhd1pgi" path="res://scripts/explosion.gdshader" id="1_qgwqa"]
+[ext_resource type="Shader" uid="uid://b7n4vvrhd1pgi" path="res://shaders/explosion.gdshader" id="1_qgwqa"]
 [ext_resource type="Texture2D" uid="uid://bl5hpjxa4kok6" path="res://assets/sprites/enemy_explosion.tres" id="3_pdswh"]
-[ext_resource type="Script" uid="uid://l4w7x7w1ffo0" path="res://scripts/enemy_explosion.gd" id="4_3jma3"]
+[ext_resource type="Script" uid="uid://l4w7x7w1ffo0" path="res://scenes/enemy_scenes/enemy_explosion.gd" id="4_3jma3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qgwqa"]
 radius = 56.0

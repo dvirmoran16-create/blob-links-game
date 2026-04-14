@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://27y1q055o45a"]
 
-[ext_resource type="Script" uid="uid://ctmlr17st31px" path="res://scripts/blob.gd" id="1_ngma2"]
-[ext_resource type="Texture2D" uid="uid://bv44de28tcfnm" path="res://assets/sprites/blob3.tres" id="2_8gt5w"]
-[ext_resource type="Texture2D" uid="uid://bryqcet38uv0j" path="res://assets/sprites/blob2.tres" id="2_17po2"]
-[ext_resource type="Texture2D" uid="uid://b7o5xeug75it6" path="res://assets/sprites/blob1.tres" id="4_7crg0"]
-[ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/expiration_circle.tscn" id="4_u7pkv"]
+[ext_resource type="Script" uid="uid://ctmlr17st31px" path="res://scenes/blob_scenes/blob.gd" id="1_85kls"]
+[ext_resource type="Texture2D" uid="uid://bv44de28tcfnm" path="res://assets/sprites/blob3.tres" id="2_njrda"]
+[ext_resource type="Texture2D" uid="uid://bryqcet38uv0j" path="res://assets/sprites/blob2.tres" id="3_5e6ao"]
+[ext_resource type="Texture2D" uid="uid://b7o5xeug75it6" path="res://assets/sprites/blob1.tres" id="4_inhyj"]
+[ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/common_scenes/expiration_circle.tscn" id="5_fuqb5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 20.0
@@ -15,13 +15,13 @@ radius = 200.0
 [node name="Blob" type="Area2D" unique_id=1818380517]
 collision_layer = 8
 collision_mask = 15
-script = ExtResource("1_ngma2")
-inactive_texture = ExtResource("2_8gt5w")
-normal_texture = ExtResource("2_17po2")
-alert_texture = ExtResource("4_7crg0")
+script = ExtResource("1_85kls")
+inactive_texture = ExtResource("2_njrda")
+normal_texture = ExtResource("3_5e6ao")
+alert_texture = ExtResource("4_inhyj")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=608333645]
-texture = ExtResource("2_17po2")
+texture = ExtResource("3_5e6ao")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
 shape = SubResource("CircleShape2D_7p1mj")
@@ -34,4 +34,4 @@ collision_layer = 8
 shape = SubResource("CircleShape2D_17po2")
 debug_color = Color(0.18889898, 0.5586878, 0.84867543, 0.41960785)
 
-[node name="ExpirationCircle" parent="." unique_id=1423140789 instance=ExtResource("4_u7pkv")]
+[node name="ExpirationCircle" parent="." unique_id=1423140789 instance=ExtResource("5_fuqb5")]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://1lk0ybrbu4ax"]
 
-[ext_resource type="Script" uid="uid://fetylr86gje0" path="res://scripts/ammo_indicator.gd" id="1_5rvpj"]
+[ext_resource type="Script" uid="uid://fetylr86gje0" path="res://scenes/player_scenes/ammo_indicator.gd" id="1_5rvpj"]
 
 [node name="AmmoIndicator" type="Node2D" unique_id=1485867105]
 script = ExtResource("1_5rvpj")

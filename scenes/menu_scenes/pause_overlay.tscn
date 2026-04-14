@@ -1,18 +1,18 @@
-[gd_scene format=3 uid="uid://clg7n7eff808p"]
+[gd_scene format=3 uid="uid://bmpjavl32iqoi"]
 
-[ext_resource type="Script" uid="uid://bpy7riqeykoiq" path="res://scripts/game_over_overlay.gd" id="1_beecm"]
-[ext_resource type="Shader" uid="uid://dyfnsiajnvq18" path="res://scripts/blur_overlay.gdshader" id="2_d7i3h"]
+[ext_resource type="Script" uid="uid://c5qf6eesgpa0b" path="res://scenes/menu_scenes/pause_overlay.gd" id="1_spovd"]
+[ext_resource type="Shader" uid="uid://dyfnsiajnvq18" path="res://shaders/blur_overlay.gdshader" id="2_4ot8d"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sai63"]
-shader = ExtResource("2_d7i3h")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ot8d"]
+shader = ExtResource("2_4ot8d")
 shader_parameter/blur_amount = 2.0
-shader_parameter/overlay_color = Color(0.09985284, 0, 0, 0.702)
+shader_parameter/overlay_color = Color(0, 0, 0, 0.7)
 
-[node name="GameOverOverlay" type="CanvasLayer" unique_id=1352177317]
-script = ExtResource("1_beecm")
+[node name="PauseOverlay" type="CanvasLayer" unique_id=1352177317]
+script = ExtResource("1_spovd")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=802713981]
-material = SubResource("ShaderMaterial_sai63")
+material = SubResource("ShaderMaterial_4ot8d")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -42,32 +42,32 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -116.5
-offset_right = 150.0
-offset_bottom = 116.5
+offset_left = -195.0
+offset_top = -158.0
+offset_right = 195.0
+offset_bottom = 158.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
 theme_override_constants/separation = 30
 
-[node name="GameOverLabel" type="Label" parent="Control/VBoxContainer" unique_id=1454702942]
+[node name="PausedLabel" type="Label" parent="Control/VBoxContainer" unique_id=1454702942]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
-text = "GAME OVER"
+text = "GAME IS PAUSED"
 horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="Control/VBoxContainer" unique_id=354113148]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Resume Game"
 
 [node name="RestartButton" type="Button" parent="Control/VBoxContainer" unique_id=1867465236]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Play Again"
+text = "Restart"
 
 [node name="MainMenuButton" type="Button" parent="Control/VBoxContainer" unique_id=1635252992]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Back to Main Menu"
-
-[node name="ExitButton" type="Button" parent="Control/VBoxContainer" unique_id=502369433]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Exit Game"
+text = "Exit to Main Menu"

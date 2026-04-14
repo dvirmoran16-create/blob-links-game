@@ -39,4 +39,4 @@ func restart_game():
 func return_to_main_menu():
 	game_state = GameState.PLAYING
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/meta_scenes/main_menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/menu_scenes/main_menu.tscn")
