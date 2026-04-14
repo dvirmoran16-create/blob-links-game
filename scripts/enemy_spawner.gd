@@ -10,9 +10,9 @@ extends Node
 @export var map_bounds_max = Vector2(1500, 1000)    # Adjust to your map size
 
 
-var enemy_chaser_scene : PackedScene = preload("res://scenes/enemy_chaser.tscn")
-var enemy_shooter_scene : PackedScene = preload("res://scenes/enemy_shooter.tscn")
-var ammo_scene : PackedScene = preload("res://scenes/ammo_pickup.tscn")
+var enemy_chaser_scene : PackedScene = preload("res://scenes/enemy_scenes/enemy_chaser.tscn")
+var enemy_shooter_scene : PackedScene = preload("res://scenes/enemy_scenes/enemy_shooter.tscn")
+var ammo_scene : PackedScene = preload("res://scenes/pickup_scenes/ammo_pickup.tscn")
 var chaser_spawn_timer = shooter_spawn_interval
 var shooter_spawn_timer = shooter_spawn_interval
 var ammo_spawn_timer = shooter_spawn_interval

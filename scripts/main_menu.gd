@@ -13,7 +13,7 @@ func _ready():
 
 func _on_play_pressed():
 	Player.god_mode = is_god_mode
-	get_tree().change_scene_to_file("res://scenes/main_scenes/game.tscn")
+	get_tree().change_scene_to_file("res://scenes/meta_scenes/game.tscn")
 
 func _on_tutorial_pressed():
 	print("Tutorial clicked - implement later!")

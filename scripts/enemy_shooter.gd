@@ -4,11 +4,10 @@ extends CharacterBody2D
 @export var speed = 50.0
 @export var bullet_interval = 2.0
 
-
 var player: Player
-var blob_scene = preload("res://scenes/blob.tscn")
-var bullet_scene = preload("res://scenes/enemy_bullet.tscn")
-var heart_pickup_scene = preload("res://scenes/heart_pickup.tscn")
+var blob_scene = preload("res://scenes/blob_scenes/blob.tscn")
+var bullet_scene = preload("res://scenes/enemy_scenes/enemy_bullet.tscn")
+var heart_pickup_scene = preload("res://scenes/pickup_scenes/heart_pickup.tscn")
 var player_is_close = false
 var player_is_far = false
 var is_carry_heart = false

@@ -8,8 +8,8 @@
 [ext_resource type="Script" uid="uid://ip7tqtaaf1ha" path="res://scripts/score_keeper.gd" id="5_3wwfn"]
 [ext_resource type="Script" uid="uid://g0nrt5x143kr" path="res://scripts/stats_tracker.gd" id="7_leqql"]
 [ext_resource type="Script" uid="uid://diy654oyswmt5" path="res://scripts/pause_handler.gd" id="8_cfqos"]
-[ext_resource type="PackedScene" uid="uid://clg7n7eff808p" path="res://scenes/main_scenes/game_over_overlay.tscn" id="9_rbptj"]
-[ext_resource type="PackedScene" uid="uid://bmpjavl32iqoi" path="res://scenes/main_scenes/pause_overlay.tscn" id="10_5amgp"]
+[ext_resource type="PackedScene" uid="uid://clg7n7eff808p" path="res://scenes/meta_scenes/game_over_overlay.tscn" id="9_rbptj"]
+[ext_resource type="PackedScene" uid="uid://bmpjavl32iqoi" path="res://scenes/meta_scenes/pause_overlay.tscn" id="10_5amgp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yqjtg"]
 size = Vector2(3000, 20)

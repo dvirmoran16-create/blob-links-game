@@ -13,7 +13,7 @@ var target_enemy: CharacterBody2D = null
 var age = 0.0
 var ttl = basic_ttl
 var speed = max_speed
-var ammo_scene : PackedScene = preload("res://scenes/ammo_pickup.tscn")
+var ammo_scene : PackedScene = preload("res://scenes/pickup_scenes/ammo_pickup.tscn")
 
 @onready var homing_range = $HomingRange
 @onready var hitbox = $HitBox

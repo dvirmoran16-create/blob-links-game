@@ -19,7 +19,7 @@ var speed = 0.0
 var direction : Vector2
 
 var projectile_scene = preload("res://scenes/projectile.tscn")
-var explosion_scene = preload("res://scenes/blob_explosion.tscn")
+var explosion_scene = preload("res://scenes/blob_scenes/blob_explosion.tscn")
 
 signal lives_changed(current: int, max: int, delta: int)
 signal ammo_changed(current: int, max: int, delta: int)

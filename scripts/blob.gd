@@ -15,8 +15,9 @@ var blob_status = BlobStatus.OUT_OF_RANGE
 var player: CharacterBody2D = null
 var is_alert = false
 var age = 0.0
-var explosion_scene = preload("res://scenes/blob_explosion.tscn")
-var blob_line_scene = preload("res://scenes/blob_line.tscn")
+var explosion_scene = preload("res://scenes/blob_scenes/blob_explosion.tscn")
+var blob_line_scene = preload("res://scenes/blob_scenes/blob_line.tscn")
+var range_indicator_scene = preload("res://scenes/blob_scenes/blob_range_indicator.tscn")
 var is_dying = false
 
 @onready var sprite = $Sprite2D

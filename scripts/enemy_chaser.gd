@@ -15,9 +15,9 @@ extends CharacterBody2D
 
 var player: CharacterBody2D = null
 var speed = baseline_speed
-var blob_scene = preload("res://scenes/blob.tscn")
-var explosion_scene = preload("res://scenes/enemy_explosion.tscn")
-var heart_pickup_scene = preload("res://scenes/heart_pickup.tscn")
+var blob_scene = preload("res://scenes/blob_scenes/blob.tscn")
+var explosion_scene = preload("res://scenes/enemy_scenes/enemy_explosion.tscn")
+var heart_pickup_scene = preload("res://scenes/pickup_scenes/heart_pickup.tscn")
 var is_alert = false
 var alert_tween: Tween = null
 var is_carry_heart = false
