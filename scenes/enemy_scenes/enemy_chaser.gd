@@ -71,7 +71,7 @@ func _physics_process(delta):
 	if not explode_timer.is_stopped() and explode_timer.time_left <= 2.0 and not is_gonna_explode:
 		is_gonna_explode = true
 		run_gonna_explode_animation()
-		# add exipration ring?
+		# add expiration ring?
 		
 	if is_alert:
 		adjust_speed_and_strech(delta)
@@ -122,7 +122,7 @@ func run_alert_animation():
 	alert_tween.tween_property(
 		sprite.material, 
 		"shader_parameter/progress", 
-		0.0,
+		0.2,
 		1.0).from(1.0)
 		
 func run_gonna_explode_animation():
@@ -131,7 +131,7 @@ func run_gonna_explode_animation():
 		sprite.material, 
 		"shader_parameter/progress", 
 		1.0,
-		0.2)
+		0.5)
 		
 func _on_hit_player(body):
 	if body.is_in_group("player"):
