@@ -105,12 +105,9 @@ func set_status(new_status: BlobStatus):
 	
 	if new_status == BlobStatus.OUT_OF_RANGE:
 		sprite.texture = inactive_texture
-		remove_from_group("lit_blobs")
 		range_indicator.show()
 	elif new_status == BlobStatus.IN_RANGE:
 		sprite.texture = normal_texture
-		remove_from_group("lit_blobs")
 		range_indicator.hide()
 	elif new_status == BlobStatus.HIGHLIGHTED:
 		sprite.texture = alert_texture
-		add_to_group("lit_blobs")

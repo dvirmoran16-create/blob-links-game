@@ -37,7 +37,11 @@ func _physics_process(delta):
 		shoot()
 		
 	if Input.is_action_just_pressed("leap"):
-		var lit_blobs = get_tree().get_nodes_in_group("lit_blobs")
+		var blobs = get_tree().get_nodes_in_group("blobs")
+		var lit_blobs = []
+		for blob: Blob in blobs:
+			if blob.blob_status == Blob.BlobStatus.HIGHLIGHTED:
+				lit_blobs.append(blob)
 		if not lit_blobs.is_empty():
 			handle_leap(lit_blobs)
 			
