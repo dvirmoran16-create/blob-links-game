@@ -4,7 +4,6 @@ extends Area2D
 enum BlobStatus { OUT_OF_RANGE, IN_RANGE, HIGHLIGHTED, CONSUMED }
 var blob_status = BlobStatus.OUT_OF_RANGE
 
-@export var mouse_detection_distance = 200.0
 @export var inactive_texture: Texture2D
 @export var normal_texture: Texture2D
 @export var alert_texture: Texture2D
@@ -13,23 +12,28 @@ var blob_status = BlobStatus.OUT_OF_RANGE
 @export var expire_warning_threshold_severe = 1.0
 
 var player: CharacterBody2D = null
-var is_alert = false
 var age = 0.0
 var explosion_scene = preload("res://scenes/blob_scenes/blob_explosion.tscn")
 var blob_line_scene = preload("res://scenes/blob_scenes/blob_line.tscn")
-var range_indicator_scene = preload("res://scenes/blob_scenes/blob_range_indicator.tscn")
 var is_dying = false
 
 @onready var sprite = $Sprite2D
 @onready var highlight_range = $HighlightRange
+@onready var highlight_distance = $HighlightRange/CollisionShape2D.shape.radius
+@onready var available_range = $AvailableRange
+@onready var available_distance = $AvailableRange/CollisionShape2D.shape.radius
 @onready var expiration_circle = $ExpirationCircle
+@onready var range_indicator = $RangeIndocator
 
 
 func _ready():
+	set_status(BlobStatus.OUT_OF_RANGE)
 	player = get_tree().get_first_node_in_group("player")
+	available_range.body_entered.connect(_player_in_range)
+	available_range.body_exited.connect(_player_out_of_range)
 	highlight_range.mouse_entered.connect(highlight)
 	highlight_range.mouse_exited.connect(undo_highlight)
-	body_entered.connect(_on_detect_player)
+	body_entered.connect(_on_stepped_on_by_player)
 	add_to_group("blobs")
 	expiration_circle.max_value = ttl
 	expiration_circle.step = 0.25
@@ -41,22 +45,29 @@ func _physics_process(delta):
 	
 	if age >= ttl:
 		queue_free()
-	
+		return
 		
-func die():
-	queue_free()
+	if range_indicator.visible:
+		set_indicator_pos()
+		
+func set_indicator_pos():
+	var direction_to_player = (player.global_position - global_position).normalized()
+	var indicator_offset = direction_to_player * available_distance
+	range_indicator.position = indicator_offset
 	
 func highlight():
-	is_alert = true
-	add_to_group("lit_blobs")
-	sprite.texture = alert_texture
+	if blob_status == BlobStatus.IN_RANGE:
+		set_status(BlobStatus.HIGHLIGHTED)
 	
 func undo_highlight():
-	is_alert = false
-	remove_from_group("lit_blobs")
-	sprite.texture = normal_texture
+	if blob_status == BlobStatus.HIGHLIGHTED:
+		set_status(BlobStatus.IN_RANGE)
+		
+func manually_check_for_hightlight():
+	if global_position.distance_squared_to(get_global_mouse_position()) <= highlight_distance ** 2:
+		highlight()
 	
-func _on_detect_player(body):
+func _on_stepped_on_by_player(body):
 	if body.is_in_group("player"):
 		explode()
 	
@@ -79,3 +90,24 @@ func explode_link():
 	var game = get_parent()
 	game.call_deferred("add_child", line)
 	queue_free()
+
+func _player_in_range(body):
+	if body.is_in_group("player"):
+		set_status(BlobStatus.IN_RANGE)
+		manually_check_for_hightlight()
+		
+func _player_out_of_range(body):
+	if body.is_in_group("player"):
+		set_status(BlobStatus.OUT_OF_RANGE)
+		
+func set_status(new_status: BlobStatus):
+	blob_status = new_status
+	
+	if new_status == BlobStatus.OUT_OF_RANGE:
+		sprite.texture = inactive_texture
+		range_indicator.show()
+	elif new_status == BlobStatus.IN_RANGE:
+		sprite.texture = normal_texture
+		range_indicator.hide()
+	elif new_status == BlobStatus.HIGHLIGHTED:
+		sprite.texture = alert_texture

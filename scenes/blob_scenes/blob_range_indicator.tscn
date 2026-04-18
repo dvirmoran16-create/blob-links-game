@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://co3h8qafiir6r"]
-
-[node name="BlobRangeIndicator" type="Node2D" unique_id=329899137]
-
-[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1075391748]
-color = Color(0, 0.3491902, 1, 0.702)
-polygon = PackedVector2Array(-10, 0, -3, -3, 0, -10, 3, -3, 10, 0, 3, 3, 0, 10, -3, 3)

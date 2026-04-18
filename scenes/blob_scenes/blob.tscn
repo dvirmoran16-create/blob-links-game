@@ -9,8 +9,11 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 20.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_17po2"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_85kls"]
 radius = 200.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_17po2"]
+radius = 1200.0
 
 [node name="Blob" type="Area2D" unique_id=1818380517]
 collision_layer = 8
@@ -21,7 +24,7 @@ normal_texture = ExtResource("3_5e6ao")
 alert_texture = ExtResource("4_inhyj")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=608333645]
-texture = ExtResource("3_5e6ao")
+texture = ExtResource("2_njrda")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
 shape = SubResource("CircleShape2D_7p1mj")
@@ -29,9 +32,25 @@ debug_color = Color(0, 0.60038817, 0.70000815, 0.77400005)
 
 [node name="HighlightRange" type="Area2D" parent="." unique_id=317768620]
 collision_layer = 8
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HighlightRange" unique_id=1804502942]
-shape = SubResource("CircleShape2D_17po2")
+shape = SubResource("CircleShape2D_85kls")
 debug_color = Color(0.18889898, 0.5586878, 0.84867543, 0.41960785)
 
+[node name="AvailableRange" type="Area2D" parent="." unique_id=111104294]
+collision_layer = 8
+input_pickable = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AvailableRange" unique_id=1899670457]
+shape = SubResource("CircleShape2D_17po2")
+debug_color = Color(0.61138725, 0.61138725, 0.73337764, 0.2)
+
 [node name="ExpirationCircle" parent="." unique_id=1423140789 instance=ExtResource("5_fuqb5")]
+
+[node name="RangeIndocator" type="Polygon2D" parent="." unique_id=2122025416]
+visible = false
+color = Color(0, 0.3491902, 1, 0.702)
+polygon = PackedVector2Array(-10, 0, -3, -3, 0, -10, 3, -3, 10, 0, 3, 3, 0, 10, -3, 3)

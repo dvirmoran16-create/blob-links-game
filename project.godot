@@ -32,7 +32,6 @@ window/size/window_height_override=1000
 player=""
 enemies=""
 blobs=""
-lit_blobs=""
 pickups=""
 
 [input]

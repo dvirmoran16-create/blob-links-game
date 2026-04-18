@@ -18,7 +18,7 @@ shader_parameter/fade_factor = 0.0
 shader_parameter/progress = 0.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c4w8v"]
-radius = 500.0
+radius = 1000.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5uy6h"]
 radius = 32.0
@@ -32,7 +32,6 @@ normal_texture = ExtResource("2_xdwg6")
 alert_texture = ExtResource("3_4ifjj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
-visible = false
 shape = SubResource("CircleShape2D_7p1mj")
 debug_color = Color(0, 0.60038817, 0.70000815, 0.77400005)
 
@@ -47,7 +46,7 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AlertRange" unique_id=677596662]
 shape = SubResource("CircleShape2D_c4w8v")
-debug_color = Color(0.7021107, 0.49010885, 0.14733289, 0.21000001)
+debug_color = Color(0.7021107, 0.49010885, 0.14733289, 0.15)
 
 [node name="ExplodeRange" type="Area2D" parent="." unique_id=1549812617]
 collision_layer = 0
@@ -64,3 +63,7 @@ position = Vector2(-5.684342e-14, 2.2737368e-13)
 color = Color(0.9529412, 0, 0.627451, 0.8)
 polygon = PackedVector2Array(0.28366393, 18.058815, -11.786323, 6.3632536, -16.7984, -7.513576, -11.228278, -13.904664, -4.29091, -13.904677, 0.28392202, -9.12947, 4.439081, -13.904677, 11.796022, -13.904677, 17.366245, -7.513576, 11.886565, 6.215829)
 uv = PackedVector2Array(23.304, -55, 9.122284, -68.74178, 3.2333062, -85.04646, 9.777963, -92.55572, 17.929073, -92.55573, 23.304304, -86.94507, 28.186438, -92.55573, 36.83053, -92.55573, 43.3753, -85.04646, 36.936913, -68.915)
+
+[node name="ExplodeTimer" type="Timer" parent="." unique_id=1409138314]
+wait_time = 7.0
+one_shot = true
