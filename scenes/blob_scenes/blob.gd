@@ -12,8 +12,6 @@ var blob_status = BlobStatus.OUT_OF_RANGE
 @export var expire_warning_threshold_severe = 1.0
 
 var player: CharacterBody2D = null
-var is_alert = false
-var is_in_range = false
 var age = 0.0
 var explosion_scene = preload("res://scenes/blob_scenes/blob_explosion.tscn")
 var blob_line_scene = preload("res://scenes/blob_scenes/blob_line.tscn")
