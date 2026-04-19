@@ -43,9 +43,6 @@ func _physics_process(delta):
 	
 	if collision:
 		direction = direction.bounce(collision.get_normal())
-		# old logic:
-		# ttl = clamp(age + basic_ttl, ttl, ttl + basic_ttl)
-		# new logic (better incentive to use walls):
 		age = 0.0
 		
 	

@@ -35,7 +35,6 @@ var is_gonna_explode = false
 @onready var explode_timer : Timer = $ExplodeTimer
 
 func _ready():
-	# Find the player in the scene
 	player = get_tree().get_first_node_in_group("player")
 	add_to_group("enemies")
 	alert_range.body_entered.connect(_on_detect_player)
@@ -75,16 +74,18 @@ func _physics_process(delta):
 		
 	if is_alert:
 		adjust_speed_and_strech(delta)
-		
-	if player:
 		var direction_to_target = (player.global_position - global_position).normalized()
 		var angle_to_target = direction.angle_to(direction_to_target)
 		var max_rotation_this_frame = turn_rate * delta
 		var rotation_amount = clamp(angle_to_target, -max_rotation_this_frame, max_rotation_this_frame)
 		direction = direction.rotated(rotation_amount)
-		velocity = direction * speed
-		rotation = direction.angle()
-		move_and_slide()
+		
+	velocity = direction * speed
+	rotation = direction.angle()
+	var collision = move_and_collide(velocity * delta)
+	
+	if collision:
+		direction = direction.bounce(collision.get_normal())
 		
 	if is_carry_heart:
 		heart.global_position = global_position
@@ -146,3 +147,12 @@ func explode():
 	var game = get_parent()
 	game.call_deferred("add_child", explosion)
 	queue_free()
+	
+func yellow_dmg():
+	blobify()
+	
+func blue_dmg():
+	blobify()
+	
+func purple_dmg():
+	blobify()

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cpigbueqjo35h" path="res://assets/sprites/enemy1.tres" id="2_xdwg6"]
 [ext_resource type="Texture2D" uid="uid://dtj0v8k3cyt1m" path="res://assets/sprites/enemy2.tres" id="3_4ifjj"]
 [ext_resource type="Shader" uid="uid://b7n4vvrhd1pgi" path="res://shaders/explosion.gdshader" id="4_s6v6k"]
+[ext_resource type="PackedScene" uid="uid://c34asqkk2bohy" path="res://scenes/common_scenes/yellow_ring.tscn" id="5_l15ue"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 20.0
@@ -55,6 +56,9 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplodeRange" unique_id=186158943]
 shape = SubResource("CircleShape2D_5uy6h")
 debug_color = Color(0.74894917, 0.398529, 0.61939365, 0.41960785)
+
+[node name="YellowRing" parent="." unique_id=1777431516 instance=ExtResource("5_l15ue")]
+visible = false
 
 [node name="Heart" type="Polygon2D" parent="." unique_id=539400431]
 visible = false
