@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://ip7tqtaaf1ha" path="res://scripts/score_keeper.gd" id="4_e71x3"]
 [ext_resource type="Script" uid="uid://bbxyjjmao1bkf" path="res://scripts/enemy_spawner.gd" id="5_nk7qa"]
 [ext_resource type="PackedScene" uid="uid://cxn05vunhmxqu" path="res://scenes/player_scenes/player.tscn" id="6_m0ooe"]
-[ext_resource type="Script" uid="uid://kswhb3gqpwtp" path="res://scripts/connection_lines.gd" id="7_vlbvn"]
+[ext_resource type="Script" uid="uid://kswhb3gqpwtp" path="res://scripts/blob_lines_drawer.gd" id="7_vlbvn"]
 [ext_resource type="Texture2D" uid="uid://d3lguq5l5p761" path="res://assets/sprites/bg_starry.png" id="8_uba5x"]
 [ext_resource type="PackedScene" uid="uid://clg7n7eff808p" path="res://scenes/menu_scenes/game_over_overlay.tscn" id="9_emjx4"]
 [ext_resource type="PackedScene" uid="uid://bmpjavl32iqoi" path="res://scenes/menu_scenes/pause_overlay.tscn" id="10_bbl8c"]
@@ -42,7 +42,7 @@ limit_right = 1550
 limit_bottom = 1050
 position_smoothing_enabled = true
 
-[node name="ConnectionLines" type="Node2D" parent="." unique_id=1586112023]
+[node name="BlobLinesDrawer" type="Node2D" parent="." unique_id=1586112023]
 script = ExtResource("7_vlbvn")
 
 [node name="Walls" type="Node2D" parent="." unique_id=338789857]
