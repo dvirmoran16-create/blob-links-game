@@ -6,6 +6,7 @@ extends Node2D
 @export var normal_line_width = 4.0
 @export var highlight_line_width = 8.0
 @export var blink_speed = 10.0
+@export var dashed_line_range_squared = 1000 ** 2
 
 var player: CharacterBody2D = null
 
@@ -21,6 +22,7 @@ func _draw():
 	
 	# Get all enemies
 	var blobs = get_tree().get_nodes_in_group("blobs")
+	var is_dashed = false
 	
 	# Draw a line from each enemy to the player
 	for blob : Blob in blobs:
@@ -35,7 +37,10 @@ func _draw():
 				line_width = highlight_line_width
 			if is_frame_blink:
 				line_color.a *= 0.3
-			draw_line(blob.global_position, player.global_position, line_color, line_width)
+			if blob.global_position.distance_squared_to(player.global_position) >= dashed_line_range_squared:
+				draw_dashed_line(blob.global_position, player.global_position, line_color, line_width, 10)
+			else:
+				draw_line(blob.global_position, player.global_position, line_color, line_width)
 
 func get_is_frame_blink(blob: Blob):
 	var is_frame_blink = false
