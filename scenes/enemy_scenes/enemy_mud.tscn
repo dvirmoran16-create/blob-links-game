@@ -70,7 +70,10 @@ texture = ExtResource("3_k0g2e")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=635906988]
 libraries/ = SubResource("AnimationLibrary_orpep")
 
-[node name="Timer" type="Timer" parent="." unique_id=2043018391]
+[node name="LifeTimer" type="Timer" parent="." unique_id=2043018391]
 wait_time = 7.0
 one_shot = true
 autostart = true
+
+[node name="BurnTimer" type="Timer" parent="." unique_id=1219947818]
+wait_time = 0.1

@@ -1,10 +1,11 @@
 class_name EnemyMud
 extends Area2D
 
-var is_player_on = false
+var player : Player = null
 
 @onready var animation_player = $AnimationPlayer
-@onready var timer = $Timer
+@onready var life_timer : Timer = $LifeTimer
+@onready var burn_timer : Timer = $BurnTimer
 
 func _ready():
 	var tween = create_tween()
@@ -13,20 +14,21 @@ func _ready():
 	animation_player.play("ground_burn")
 	body_entered.connect(_on_detect_player)
 	body_exited.connect(_on_detect_player_exit)
-	timer.timeout.connect(queue_free)
+	life_timer.timeout.connect(queue_free)
+	burn_timer.timeout.connect(burn_player)
 	
-func _physics_process(delta: float) -> void:
-	if is_player_on:
-		var bodies = get_overlapping_bodies()
-		for body in bodies:
-			if body.is_in_group("player"):
-				var player : Player = body
-				player.burn()
+func burn_player():
+	if player:
+		player.burn()
 	
 func _on_detect_player(body):
 	if body.is_in_group("player"):
-		is_player_on = true
+		player = body
+		burn_player()
+		burn_timer.start()
 		
 func _on_detect_player_exit(body):
 	if body.is_in_group("player"):
-		is_player_on = false
+		player = null
+		burn_timer.stop()
+		
