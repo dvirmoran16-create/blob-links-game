@@ -4,8 +4,8 @@ extends Area2D
 var player : Player = null
 
 @onready var animation_player = $AnimationPlayer
-@onready var life_timer : Timer = $LifeTimer
-@onready var burn_timer : Timer = $BurnTimer
+@onready var life_timer = $LifeTimer
+@onready var burn_timer = $BurnTimer
 
 func _ready():
 	var tween = create_tween()
@@ -31,4 +31,3 @@ func _on_detect_player_exit(body):
 	if body.is_in_group("player"):
 		player = null
 		burn_timer.stop()
-		
