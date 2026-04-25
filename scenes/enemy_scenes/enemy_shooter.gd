@@ -4,11 +4,11 @@ extends CharacterBody2D
 @export var side_speed = 50.0
 @export var forward_speed = 100.0
 @export var bullet_interval = 2.0
+@export var blob_scene : PackedScene
+@export var bullet_scene : PackedScene
+@export var explosion_scene : PackedScene
 
 var player: Player
-var blob_scene = preload("res://scenes/blob_scenes/blob.tscn")
-var bullet_scene = preload("res://scenes/enemy_scenes/enemy_bullet.tscn")
-var explosion_scene = preload("res://scenes/enemy_scenes/enemy_explosion.tscn")
 var player_is_close = false
 var player_is_far = false
 var is_carry_heart = false

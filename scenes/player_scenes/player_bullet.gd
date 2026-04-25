@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var max_turn_rate = 6 * PI
 @export var turn_rate_gain = 2 * PI
 @export var basic_ttl = 2.5
+@export var ammo_scene : PackedScene
 
 var homing_strength = min_turn_rate
 var direction = Vector2.ZERO
@@ -13,7 +14,6 @@ var target_enemy: CharacterBody2D = null
 var age = 0.0
 var ttl = basic_ttl
 var speed = max_speed
-var ammo_scene : PackedScene = preload("res://scenes/pickup_scenes/ammo_pickup.tscn")
 
 @onready var homing_range = $HomingRange
 @onready var hitbox = $HitBox

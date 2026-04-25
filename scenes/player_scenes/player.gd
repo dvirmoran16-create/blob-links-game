@@ -8,6 +8,8 @@ static var god_mode = false
 @export var max_ammo : int = 5
 @export var ammo_recharge_interval : float = 2.0
 @export var max_lives : int = 3
+@export var bullet_scene : PackedScene
+@export var explosion_scene : PackedScene
 
 var current_ammo = max_ammo
 var ammo_recharge_timer = 0.0
@@ -15,8 +17,7 @@ var lives = max_lives
 var speed = 0.0
 var direction : Vector2
 
-var bullet_scene = preload("res://scenes/player_scenes/player_bullet.tscn")
-var explosion_scene = preload("res://scenes/blob_scenes/blob_explosion.tscn")
+
 
 signal lives_changed(current: int, max: int, delta: int)
 signal ammo_changed(current: int, max: int, delta: int)

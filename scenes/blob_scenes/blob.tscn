@@ -4,7 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://bv44de28tcfnm" path="res://assets/sprites/blob3.tres" id="2_njrda"]
 [ext_resource type="Texture2D" uid="uid://bryqcet38uv0j" path="res://assets/sprites/blob2.tres" id="3_5e6ao"]
 [ext_resource type="Texture2D" uid="uid://b7o5xeug75it6" path="res://assets/sprites/blob1.tres" id="4_inhyj"]
+[ext_resource type="PackedScene" uid="uid://defqab7707s25" path="res://scenes/blob_scenes/blob_explosion.tscn" id="5_5e6ao"]
 [ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/common_scenes/expiration_circle.tscn" id="5_fuqb5"]
+[ext_resource type="PackedScene" uid="uid://b5fse5ued6qtd" path="res://scenes/blob_scenes/blob_line.tscn" id="6_inhyj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 20.0
@@ -22,6 +24,8 @@ script = ExtResource("1_85kls")
 inactive_texture = ExtResource("2_njrda")
 normal_texture = ExtResource("3_5e6ao")
 alert_texture = ExtResource("4_inhyj")
+explosion_scene = ExtResource("5_5e6ao")
+blob_line_scene = ExtResource("6_inhyj")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=608333645]
 texture = ExtResource("2_njrda")
