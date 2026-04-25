@@ -16,8 +16,6 @@ func _ready():
 	await get_tree().create_timer(0.2).timeout
 	monitoring = false
 	
-	
-	
 func _on_detect_player(body):
 	if body.is_in_group("player"):
 		body.get_hit()
