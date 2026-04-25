@@ -10,11 +10,11 @@ var blob_status = BlobStatus.OUT_OF_RANGE
 @export var ttl = 15.0
 @export var expire_warning_threshold = 3.0
 @export var expire_warning_threshold_severe = 1.0
+@export var explosion_scene : PackedScene
+@export var blob_line_scene : PackedScene
 
 var player: CharacterBody2D = null
 var age = 0.0
-var explosion_scene = preload("res://scenes/blob_scenes/blob_explosion.tscn")
-var blob_line_scene = preload("res://scenes/blob_scenes/blob_line.tscn")
 var is_dying = false
 
 @onready var sprite = $Sprite2D

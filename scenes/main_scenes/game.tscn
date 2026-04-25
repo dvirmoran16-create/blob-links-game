@@ -5,8 +5,11 @@
 [ext_resource type="Script" uid="uid://g0nrt5x143kr" path="res://scripts/stats_tracker.gd" id="3_ve26b"]
 [ext_resource type="Script" uid="uid://ip7tqtaaf1ha" path="res://scripts/score_keeper.gd" id="4_e71x3"]
 [ext_resource type="Script" uid="uid://bbxyjjmao1bkf" path="res://scripts/enemy_spawner.gd" id="5_nk7qa"]
+[ext_resource type="PackedScene" uid="uid://2acn26trnagk" path="res://scenes/enemy_scenes/enemy_chaser.tscn" id="6_e71x3"]
 [ext_resource type="PackedScene" uid="uid://cxn05vunhmxqu" path="res://scenes/player_scenes/player.tscn" id="6_m0ooe"]
+[ext_resource type="PackedScene" uid="uid://brq25h7dbh756" path="res://scenes/enemy_scenes/enemy_shooter.tscn" id="7_nk7qa"]
 [ext_resource type="Script" uid="uid://kswhb3gqpwtp" path="res://scripts/blob_lines_drawer.gd" id="7_vlbvn"]
+[ext_resource type="PackedScene" uid="uid://dgi0sk5jfht1k" path="res://scenes/pickup_scenes/ammo_pickup.tscn" id="8_m0ooe"]
 [ext_resource type="Texture2D" uid="uid://d3lguq5l5p761" path="res://assets/sprites/bg_starry.png" id="8_uba5x"]
 [ext_resource type="PackedScene" uid="uid://clg7n7eff808p" path="res://scenes/menu_scenes/game_over_overlay.tscn" id="9_emjx4"]
 [ext_resource type="PackedScene" uid="uid://bmpjavl32iqoi" path="res://scenes/menu_scenes/pause_overlay.tscn" id="10_bbl8c"]
@@ -31,6 +34,9 @@ script = ExtResource("4_e71x3")
 
 [node name="EnemySpawner" type="Node" parent="." unique_id=631308057]
 script = ExtResource("5_nk7qa")
+enemy_chaser_scene = ExtResource("6_e71x3")
+enemy_shooter_scene = ExtResource("7_nk7qa")
+ammo_scene = ExtResource("8_m0ooe")
 
 [node name="Player" parent="." unique_id=1281867858 instance=ExtResource("6_m0ooe")]
 top_level = true

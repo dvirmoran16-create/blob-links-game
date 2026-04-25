@@ -10,7 +10,7 @@ offset_left = -15.0
 offset_top = -15.0
 offset_right = -1.0
 offset_bottom = -1.0
-color = Color(1, 0, 0, 0.50200003)
+color = Color(1, 0, 0, 0.5019608)
 metadata/_edit_use_anchors_ = true
 
 [node name="wound_2" type="ColorRect" parent="." unique_id=883486762]
@@ -27,4 +27,12 @@ offset_top = -17.0
 offset_right = 17.0
 offset_bottom = 17.0
 color = Color(1, 0, 0, 0.5)
+metadata/_edit_use_anchors_ = true
+
+[node name="hurt_rect" type="ColorRect" parent="." unique_id=1060083482]
+modulate = Color(1, 1, 1, 0)
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
 metadata/_edit_use_anchors_ = true

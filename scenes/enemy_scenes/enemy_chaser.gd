@@ -2,7 +2,7 @@ class_name EnemyChaser
 extends CharacterBody2D
 
 @export var base_speed = 100.0
-@export var speed_per_sec = 75.0
+@export var speed_per_sec = 80.0
 @export var base_strech = 2.0
 @export var strech_per_sec = 0.3
 @export var normal_texture: Texture2D
@@ -13,13 +13,13 @@ extends CharacterBody2D
 @export var max_progress = 20.0
 @export var progress_alert_factor = 4.0
 @export var turn_rate = PI
+@export var blob_scene : PackedScene
+@export var explosion_scene : PackedScene
+@export var heart_pickup_scene : PackedScene
 
 
 var player: CharacterBody2D = null
 var speed = base_speed
-var blob_scene = preload("res://scenes/blob_scenes/blob.tscn")
-var explosion_scene = preload("res://scenes/enemy_scenes/enemy_explosion.tscn")
-var heart_pickup_scene = preload("res://scenes/pickup_scenes/heart_pickup.tscn")
 var is_alert = false
 var alert_tween: Tween = null
 var is_carry_heart = false
@@ -67,7 +67,7 @@ func spawn():
 	explode_range.monitoring = true
 
 func _physics_process(delta):
-	if not explode_timer.is_stopped() and explode_timer.time_left <= 2.0 and not is_gonna_explode:
+	if not explode_timer.is_stopped() and not is_gonna_explode and explode_timer.time_left <= 2.0:
 		is_gonna_explode = true
 		run_gonna_explode_animation()
 		# add expiration ring?
