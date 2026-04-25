@@ -108,8 +108,6 @@ func create_bullet(dir_to_mouse):
 
 func get_hit():
 	update_lives_status(-1)
-	var hurt_tween = create_tween()
-	hurt_tween.tween_property(self, "modulate:v", 1, 0.4).from(2.5)
 	
 func update_lives_status(delta):
 	lives = clamp(lives + delta, 0, max_lives)

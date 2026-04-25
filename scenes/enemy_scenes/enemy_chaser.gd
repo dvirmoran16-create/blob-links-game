@@ -2,7 +2,7 @@ class_name EnemyChaser
 extends CharacterBody2D
 
 @export var base_speed = 100.0
-@export var speed_per_sec = 75.0
+@export var speed_per_sec = 80.0
 @export var base_strech = 2.0
 @export var strech_per_sec = 0.3
 @export var normal_texture: Texture2D
@@ -67,7 +67,7 @@ func spawn():
 	explode_range.monitoring = true
 
 func _physics_process(delta):
-	if not explode_timer.is_stopped() and explode_timer.time_left <= 2.0 and not is_gonna_explode:
+	if not explode_timer.is_stopped() and not is_gonna_explode and explode_timer.time_left <= 2.0:
 		is_gonna_explode = true
 		run_gonna_explode_animation()
 		# add expiration ring?
