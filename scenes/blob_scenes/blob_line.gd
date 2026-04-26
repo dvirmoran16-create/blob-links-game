@@ -19,7 +19,7 @@ func _ready():
 	width = max_width
 	collision_shape_setup()
 	hit_area.monitoring = true
-	hit_area.body_entered.connect(_on_body_entered)
+	hit_area.body_entered.connect(_on_detect_enemy)
 	await get_tree().physics_frame
 	call_deferred("collect_pickups")
 	await get_tree().create_timer(0.2).timeout
@@ -61,10 +61,9 @@ func collision_shape_setup():
 			collision_shape.position = line_center
 			collision_shape.rotation = line_angle
 
-func _on_body_entered(body):
-	if body.is_in_group("enemies") and body not in damaged_enemies:
-		if body.has_method("blobify"):
-			body.blobify()
+func _on_detect_enemy(body):
+	if body not in damaged_enemies and body.has_method("blue_dmg"):
+		body.blue_dmg()
 		damaged_enemies.append(body)
 		
 func collect_pickups():
@@ -72,6 +71,5 @@ func collect_pickups():
 	for b in bodies:
 		if b.is_in_group("pickups"):
 			b._on_detect_player(player)
-		elif b.is_in_group("enemies"):
-			damaged_enemies.append(b)
-			b.blobify()
+		else:
+			_on_detect_enemy(b)

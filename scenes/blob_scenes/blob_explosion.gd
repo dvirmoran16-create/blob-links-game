@@ -19,7 +19,7 @@ func _ready():
 	shader_tween.tween_callback(queue_free)
 	
 	monitoring = true
-	body_entered.connect(_on_detect_player)
+	body_entered.connect(_on_detect_enemy)
 	await get_tree().create_timer(hurting_time).timeout
 	monitoring = false
 	
@@ -28,8 +28,7 @@ func apply_factor():
 	animation_time *= involved_blobs
 	hurting_time *= involved_blobs
 
-func _on_detect_player(body):
-	if body.is_in_group("enemies") and body not in damaged_enemies:
-		if body.has_method("blobify"):
-			body.blobify()
+func _on_detect_enemy(body):
+	if body not in damaged_enemies and body.has_method("blue_dmg"):
+		body.blue_dmg()
 		damaged_enemies.append(body)

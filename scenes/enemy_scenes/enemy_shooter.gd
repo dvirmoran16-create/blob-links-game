@@ -97,3 +97,12 @@ func explode():
 func _on_detect_player(body):
 	if body.is_in_group("player"):
 		explode()
+		
+func yellow_dmg():
+	blobify()
+	
+func blue_dmg():
+	blobify()
+	
+func purple_dmg():
+	blobify()
