@@ -37,5 +37,8 @@ debug_color = Color(0, 0.60038817, 0.70000815, 0.72700006)
 
 [node name="LivesIndicator" parent="." unique_id=988840852 instance=ExtResource("3_dqkch")]
 
+[node name="BurnTimer" type="Timer" parent="." unique_id=1552136839]
+one_shot = true
+
 [connection signal="ammo_changed" from="." to="AmmoIndicator" method="_on_player_ammo_changed"]
 [connection signal="lives_changed" from="." to="LivesIndicator" method="_on_player_lives_changed"]

@@ -24,8 +24,6 @@ func _ready():
 	bullet_timer = bullet_interval
 	player = get_tree().get_first_node_in_group("player")
 	add_to_group("enemies")
-	explode_range.body_entered.connect(_on_detect_player)
-	
 	spawn()
 		
 func spawn():
@@ -39,6 +37,7 @@ func spawn():
 		1.0, 
 		1.0)
 	await showup_tween.finished
+	explode_range.body_entered.connect(_on_detect_player)
 	
 	set_physics_process(true)
 
@@ -81,8 +80,7 @@ func blobify():
 func shoot(direction):
 	var bullet = bullet_scene.instantiate()
 	bullet.global_position = global_position + direction * 30
-	bullet.direction = direction
-	bullet.rotation = direction.angle()
+	bullet.target_position = player.global_position
 	var game = get_tree().current_scene
 	game.call_deferred("add_child", bullet)
 	
@@ -99,3 +97,12 @@ func explode():
 func _on_detect_player(body):
 	if body.is_in_group("player"):
 		explode()
+		
+func yellow_dmg():
+	blobify()
+	
+func blue_dmg():
+	blobify()
+	
+func purple_dmg():
+	blobify()

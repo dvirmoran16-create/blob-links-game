@@ -17,7 +17,7 @@ var lives = max_lives
 var speed = 0.0
 var direction : Vector2
 
-
+@onready var burn_timer = $BurnTimer
 
 signal lives_changed(current: int, max: int, delta: int)
 signal ammo_changed(current: int, max: int, delta: int)
@@ -109,6 +109,11 @@ func create_bullet(dir_to_mouse):
 
 func get_hit():
 	update_lives_status(-1)
+	
+func burn():
+	if burn_timer.is_stopped():
+		burn_timer.start()
+		update_lives_status(-1)
 	
 func update_lives_status(delta):
 	lives = clamp(lives + delta, 0, max_lives)
