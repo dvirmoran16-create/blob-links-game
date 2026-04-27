@@ -5,8 +5,8 @@ enum BulletStatus { IN_FLIGHT, SLOWING, LEAPING, STANDING }
 var bullet_status = BulletStatus.IN_FLIGHT
 
 @export var min_distance = 250.0
-@export var max_distance = 1500.0
-@export var initial_speed = 1200.0
+@export var max_distance = 1250.0
+@export var initial_speed = 1250.0
 @export var ammo_scene : PackedScene
 
 var speed = initial_speed
@@ -14,6 +14,7 @@ var direction = Vector2.ZERO
 var slow_rate_per_sec = 0.5 * initial_speed * (initial_speed / min_distance)
 var target_enemy: CharacterBody2D = null
 var target_position = Vector2.ZERO
+var full_speed_ttl = 0.0
 
 @onready var homing_range = $HomingRange
 @onready var hitbox = $HitBox
@@ -34,8 +35,7 @@ func _ready():
 func _calcuate_flight_time():
 	var distance = global_position.distance_to(target_position)
 	distance = clamp(distance, min_distance, max_distance)
-	var full_speed_distance = distance - min_distance
-	var full_speed_ttl = full_speed_distance / speed
+	full_speed_ttl = distance / speed
 	if full_speed_ttl > 0.0:
 		full_speed_timer.start(full_speed_ttl)
 		bullet_status = BulletStatus.IN_FLIGHT
@@ -52,8 +52,11 @@ func _physics_process(delta):
 			direction = direction.bounce(collision.get_normal())
 			rotation = direction.angle()
 			velocity = direction * speed
-			
-		if bullet_status == BulletStatus.SLOWING:
+		elif bullet_status == BulletStatus.LEAPING and is_instance_valid(target_enemy):
+			direction = (target_enemy.global_position - global_position).normalized()
+			rotation = direction.angle()
+			velocity = direction * speed		
+		elif bullet_status == BulletStatus.SLOWING:
 			speed -= slow_rate_per_sec * delta
 			speed = clamp(speed, 0.0, initial_speed)
 			velocity = direction * speed
@@ -71,9 +74,6 @@ func _on_detect_enemy(body):
 	if body.is_in_group("enemies") and target_enemy == null:
 		target_enemy = body
 		speed = initial_speed
-		direction = (target_enemy.global_position - global_position).normalized()
-		rotation = direction.angle()
-		velocity = direction * speed
 		full_speed_timer.stop()
 		bullet_status = BulletStatus.LEAPING
 
@@ -83,10 +83,10 @@ func _on_stop_detect_enemy(body):
 		bullet_status = BulletStatus.SLOWING
 
 func _on_hit_enemy(body):
-	# Actual hit detection
 	if body.is_in_group("enemies"):
-		if body.has_method("blobify"):
-			body.blobify()
+		if body.has_method("yellow_dmg"):
+			body.yellow_dmg()
+		# TODO: instantiate ammo with same speed and direction
 		queue_free()
 
 func _on_full_speed_end():
