@@ -12,10 +12,18 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 20.0
 
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_78gb5"]
+width = 3000
+height = 2000
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.6, 0.5)
+repeat = 1
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c4w8v"]
 resource_local_to_scene = true
 shader = ExtResource("4_s6v6k")
-shader_parameter/tex_1 = ExtResource("2_xdwg6")
+shader_parameter/tex_1 = SubResource("GradientTexture2D_78gb5")
 shader_parameter/tex_2 = ExtResource("3_4ifjj")
 shader_parameter/has_second_texture = true
 shader_parameter/fade_factor = 0.0
