@@ -96,15 +96,13 @@ func update_ammo_status(delta : int, reset_timer=false):
 	
 func shoot():
 	var mouse_pos = get_global_mouse_position()
-	var direction_to_mouse = (mouse_pos - global_position).normalized()
-	create_bullet(direction_to_mouse)
+	create_bullet(mouse_pos)
 	update_ammo_status(-1, true)	
 
-func create_bullet(dir_to_mouse):
+func create_bullet(mouse_pos):
 	var bullet = bullet_scene.instantiate()
-	bullet.global_position = global_position + dir_to_mouse * 20
-	bullet.direction = dir_to_mouse
-	bullet.rotation = dir_to_mouse.angle()
+	bullet.global_position = global_position
+	bullet.target_position = mouse_pos
 	get_parent().add_child(bullet)
 
 func get_hit():

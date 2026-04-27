@@ -50,5 +50,7 @@ collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HomingRange" unique_id=1827381852]
-position = Vector2(90, 0)
 shape = SubResource("CircleShape2D_c8fcr")
+
+[node name="FullSpeedTimer" type="Timer" parent="." unique_id=578000014]
+one_shot = true
