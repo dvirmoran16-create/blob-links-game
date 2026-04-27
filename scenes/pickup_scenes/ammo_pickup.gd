@@ -2,8 +2,12 @@ class_name AmmoPickup
 extends Area2D
 
 @export var ttl = 12.0
+@export var initial_speed = 300.0
+@export var speed_loss_rate = 200.0
 
 var age = 0.0
+var direction = Vector2(0, 0)
+var speed = initial_speed
 var is_active = true
 
 @onready var expiration_circle = $ExpirationCircle
@@ -18,12 +22,15 @@ func _ready():
 	expiration_circle.max_value = ttl
 	expiration_circle.step = 0.25
 	
-	animation_player.process_mode = Node.PROCESS_MODE_ALWAYS
 	animation_player.play("spin")
 	
 func _physics_process(delta):
 	age += delta
 	expiration_circle.value = ttl - age
+	if speed >= 0:
+		position += delta * speed * direction
+		speed -= delta * speed_loss_rate
+		speed = clamp(speed, 0, initial_speed)
 	
 	if age >= ttl:
 		queue_free()

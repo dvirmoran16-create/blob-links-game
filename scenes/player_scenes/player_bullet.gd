@@ -4,15 +4,16 @@ extends CharacterBody2D
 enum BulletStatus { IN_FLIGHT, LEAPING, STANDING }
 var bullet_status = BulletStatus.IN_FLIGHT
 
-@export var min_distance = 250.0
-@export var max_distance = 1250.0
-@export var initial_speed = 1250.0
+@export var min_distance = 200.0
+@export var max_distance = 1000.0
+@export var initial_speed = 1200.0
 @export var ammo_scene : PackedScene
 
 var speed = initial_speed
 var direction = Vector2.ZERO
 var slow_rate_per_sec = 0.5 * initial_speed * (initial_speed / min_distance)
 var target_enemy: CharacterBody2D = null
+var player: Player = null
 var target_position = Vector2.ZERO
 var full_speed_ttl = 0.0
 var is_slowing = false
@@ -55,7 +56,11 @@ func _physics_process(delta):
 			velocity = direction * speed
 			full_speed_timer.start(full_speed_ttl)
 			is_slowing = false
-		elif bullet_status == BulletStatus.LEAPING and is_instance_valid(target_enemy):
+		elif is_instance_valid(player):
+			direction = (player.global_position - global_position).normalized()
+			rotation = direction.angle()
+			velocity = direction * speed
+		elif is_instance_valid(target_enemy):
 			direction = (target_enemy.global_position - global_position).normalized()
 			rotation = direction.angle()
 			velocity = direction * speed
@@ -70,6 +75,8 @@ func _physics_process(delta):
 func spawn_ammo_pickup():
 	var ammo := ammo_scene.instantiate() as AmmoPickup
 	ammo.global_position = global_position
+	ammo.speed = speed
+	ammo.direction = direction
 	ammo.age = ammo.ttl / 2
 	var game = get_tree().current_scene
 	game.call_deferred("add_child", ammo)
@@ -91,9 +98,8 @@ func _on_hit_enemy(body):
 	if body.is_in_group("enemies"):
 		if body.has_method("yellow_dmg"):
 			body.yellow_dmg()
-		# TODO: instantiate ammo with same speed and direction
+		spawn_ammo_pickup()
 		queue_free()
 
 func _on_full_speed_end():
-	if bullet_status == BulletStatus.IN_FLIGHT:
-		is_slowing = true
+	is_slowing = true
