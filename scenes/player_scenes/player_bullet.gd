@@ -1,7 +1,7 @@
 class_name PlayerBullet
 extends CharacterBody2D
 
-enum BulletStatus { IN_FLIGHT, SLOWING, LEAPING, STANDING }
+enum BulletStatus { IN_FLIGHT, LEAPING, STANDING }
 var bullet_status = BulletStatus.IN_FLIGHT
 
 @export var min_distance = 250.0
@@ -15,6 +15,7 @@ var slow_rate_per_sec = 0.5 * initial_speed * (initial_speed / min_distance)
 var target_enemy: CharacterBody2D = null
 var target_position = Vector2.ZERO
 var full_speed_ttl = 0.0
+var is_slowing = false
 
 @onready var homing_range = $HomingRange
 @onready var hitbox = $HitBox
@@ -52,11 +53,14 @@ func _physics_process(delta):
 			direction = direction.bounce(collision.get_normal())
 			rotation = direction.angle()
 			velocity = direction * speed
+			full_speed_timer.start(full_speed_ttl)
+			is_slowing = false
 		elif bullet_status == BulletStatus.LEAPING and is_instance_valid(target_enemy):
 			direction = (target_enemy.global_position - global_position).normalized()
 			rotation = direction.angle()
-			velocity = direction * speed		
-		elif bullet_status == BulletStatus.SLOWING:
+			velocity = direction * speed
+			
+		if is_slowing:
 			speed -= slow_rate_per_sec * delta
 			speed = clamp(speed, 0.0, initial_speed)
 			velocity = direction * speed
@@ -75,12 +79,13 @@ func _on_detect_enemy(body):
 		target_enemy = body
 		speed = initial_speed
 		full_speed_timer.stop()
+		is_slowing = false
 		bullet_status = BulletStatus.LEAPING
 
 func _on_stop_detect_enemy(body):
 	if body == target_enemy:
 		target_enemy = null
-		bullet_status = BulletStatus.SLOWING
+		is_slowing = true
 
 func _on_hit_enemy(body):
 	if body.is_in_group("enemies"):
@@ -91,4 +96,4 @@ func _on_hit_enemy(body):
 
 func _on_full_speed_end():
 	if bullet_status == BulletStatus.IN_FLIGHT:
-		bullet_status = BulletStatus.SLOWING
+		is_slowing = true
