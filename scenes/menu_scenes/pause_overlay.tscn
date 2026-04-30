@@ -70,4 +70,9 @@ text = "Restart"
 [node name="MainMenuButton" type="Button" parent="Control/VBoxContainer" unique_id=1635252992]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Exit to Main Menu"
+text = "Go to Main Menu"
+
+[node name="ExitButton" type="Button" parent="Control/VBoxContainer" unique_id=1044529667]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Exit Game"
