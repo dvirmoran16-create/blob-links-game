@@ -54,6 +54,7 @@ func set_indicator_pos():
 	var direction_to_player = (player.global_position - global_position).normalized()
 	var indicator_offset = direction_to_player * available_distance
 	range_indicator.position = indicator_offset
+	range_indicator.rotation = (-direction_to_player).angle()
 	
 func highlight():
 	if blob_status == BlobStatus.IN_RANGE:

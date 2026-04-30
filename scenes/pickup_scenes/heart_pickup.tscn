@@ -49,6 +49,9 @@ collision_mask = 17
 script = ExtResource("1_m16xc")
 
 [node name="ExpirationCircle" parent="." unique_id=1423140789 instance=ExtResource("2_grbqr")]
+max_value = 18.0
+step = 0.1
+value = 18.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
 shape = SubResource("CircleShape2D_7p1mj")
@@ -61,5 +64,11 @@ polygon = PackedVector2Array(0.28366393, 18.058815, -11.786323, 6.3632536, -16.7
 uv = PackedVector2Array(23.304, -55, 9.122284, -68.74178, 3.2333062, -85.04646, 9.777963, -92.55572, 17.929073, -92.55573, 23.304304, -86.94507, 28.186438, -92.55573, 36.83053, -92.55573, 43.3753, -85.04646, 36.936913, -68.915)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1196279643]
+process_mode = 3
 libraries/ = SubResource("AnimationLibrary_grbqr")
 autoplay = &"throb"
+
+[node name="Timer" type="Timer" parent="." unique_id=8778799]
+wait_time = 20.0
+one_shot = true
+autostart = true
