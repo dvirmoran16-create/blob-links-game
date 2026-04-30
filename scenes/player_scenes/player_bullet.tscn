@@ -61,7 +61,7 @@ debug_color = Color(0.8683968, 0.26145205, 0.6043529, 0.41960785)
 
 [node name="HitBox" type="Area2D" parent="." unique_id=957724524]
 collision_layer = 4
-collision_mask = 2
+collision_mask = 3
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=454205742]

@@ -22,6 +22,7 @@ var direction : Vector2
 signal lives_changed(current: int, max: int, delta: int)
 signal ammo_changed(current: int, max: int, delta: int)
 signal died
+signal recall
 
 func _ready():
 	if god_mode:
@@ -38,6 +39,8 @@ func _physics_process(delta):
 		shoot()
 		
 	if Input.is_action_just_pressed("leap"):
+		recall.emit() # pull in all standing bullets
+		
 		var blobs = get_tree().get_nodes_in_group("blobs")
 		var lit_blobs = []
 		for blob: Blob in blobs:
@@ -102,8 +105,9 @@ func shoot():
 func create_bullet(mouse_pos):
 	var bullet = bullet_scene.instantiate()
 	var direction_to_mouse = (mouse_pos - global_position).normalized()
-	bullet.global_position = global_position + direction_to_mouse * 20
+	bullet.global_position = global_position + direction_to_mouse * 40
 	bullet.target_position = mouse_pos
+	bullet.source_player = self
 	get_parent().add_child(bullet)
 
 func get_hit():

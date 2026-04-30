@@ -13,10 +13,11 @@ var speed = initial_speed
 var direction = Vector2.ZERO
 var slow_rate_per_sec = 0.5 * initial_speed * (initial_speed / min_distance)
 var target_enemy: CharacterBody2D = null
-var player: Player = null
+var source_player: Player
 var target_position = Vector2.ZERO
 var full_speed_ttl = 0.0
 var is_slowing = false
+var is_recalled = false
 
 @onready var homing_range = $HomingRange
 @onready var hitbox = $HitBox
@@ -34,12 +35,12 @@ func _ready():
 	
 	expiration_circle.max_value = become_ammo_timer.wait_time
 	
-	
 	homing_range.body_entered.connect(_on_detect_enemy)
 	homing_range.body_exited.connect(_on_stop_detect_enemy)
-	hitbox.body_entered.connect(_on_hit_enemy)
+	hitbox.body_entered.connect(_on_hitbox_hit)
 	full_speed_timer.timeout.connect(_on_full_speed_end)
 	become_ammo_timer.timeout.connect(become_ammo)
+	source_player.recall.connect(_on_player_recall)
 
 func _calcuate_flight_time():
 	var distance = global_position.distance_to(target_position)
@@ -75,8 +76,8 @@ func _physics_process(delta):
 		move_and_slide()
 		if is_instance_valid(target_enemy):
 			direction = (target_enemy.global_position - global_position).normalized()
-		elif is_instance_valid(player):
-			direction = (player.global_position - global_position).normalized()
+		elif is_recalled:
+			direction = (source_player.global_position - global_position).normalized()
 			
 		rotation = direction.angle()
 		velocity = direction * speed
@@ -87,6 +88,15 @@ func become_standing():
 	expiration_circle.show()
 	become_ammo_timer.start()
 	animation.play("spin")
+	
+func become_leaping():
+	bullet_status = BulletStatus.LEAPING
+	animation.stop()
+	speed = initial_speed
+	full_speed_timer.stop()
+	become_ammo_timer.paused = true
+	expiration_circle.hide()
+	is_slowing = false
 
 func become_ammo():
 	var ammo := ammo_scene.instantiate() as AmmoPickup
@@ -99,24 +109,26 @@ func become_ammo():
 	
 func _on_detect_enemy(body):
 	if body.is_in_group("enemies") and target_enemy == null:
-		bullet_status = BulletStatus.LEAPING
-		animation.stop()
-		speed = initial_speed
 		target_enemy = body
-		full_speed_timer.stop()
-		become_ammo_timer.paused = true
-		is_slowing = false
+		become_leaping()
 
 func _on_stop_detect_enemy(body):
 	if body == target_enemy:
 		target_enemy = null
 		is_slowing = true
 
-func _on_hit_enemy(body):
+func _on_hitbox_hit(body):
 	if body.is_in_group("enemies"):
 		if body.has_method("yellow_dmg"):
 			body.yellow_dmg()
 		become_ammo()
+	elif body == source_player and not bullet_status == BulletStatus.IN_FLIGHT:
+		source_player.update_ammo_status(1)
+		queue_free()
 
 func _on_full_speed_end():
 	is_slowing = true
+	
+func _on_player_recall():
+	is_recalled = true
+	become_leaping()

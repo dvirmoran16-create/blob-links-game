@@ -9,7 +9,7 @@ var player : Player = null
 
 func _ready():
 	var tween = create_tween()
-	tween.tween_property(self, "scale", Vector2(2, 2), 1.0)
+	tween.tween_property(self, "scale", Vector2(2, 2), 1.0).from(Vector2(0.2, 0.2))
 	animation_player.play("ground_burn")
 	body_entered.connect(_on_detect_player)
 	body_exited.connect(_on_detect_player_exit)
