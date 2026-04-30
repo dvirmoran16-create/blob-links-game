@@ -14,6 +14,7 @@ var is_active = true
 
 func _ready():
 	speed = initial_speed
+	global_position += direction * speed / 10
 	player.ammo_changed.connect(_on_player_ammo_changed)
 	body_entered.connect(_on_detect_player)
 	add_to_group("pickups")
@@ -28,8 +29,10 @@ func _physics_process(delta):
 		speed = clamp(speed, 0, initial_speed)
 		
 func _on_detect_player(body):
-	if body.is_in_group("player"):
-		if player.current_ammo < player.max_ammo and is_active:
+	if not body.is_in_group("player"):
+		speed = 0.0
+	else:
+		if player.current_ammo < player.max_ammo and is_active == true:
 			get_consumed()
 		
 func _on_player_ammo_changed(current, max, _delta):

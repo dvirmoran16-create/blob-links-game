@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://kockplyy44nb" path="res://scenes/pickup_scenes/ammo_pickup.gd" id="1_jvvnm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
-radius = 23.0
+radius = 25.0
 
 [sub_resource type="Animation" id="Animation_jrhku"]
 length = 0.001

@@ -32,7 +32,7 @@ func _ready():
 
 func _physics_process(delta):
 	handle_movement(delta)
-	recharge_ammo(delta)
+	#recharge_ammo(delta)
 			
 	if Input.is_action_just_pressed("shoot") and current_ammo > 0:
 		shoot()

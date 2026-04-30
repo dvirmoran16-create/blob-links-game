@@ -72,7 +72,7 @@ process_mode = 3
 libraries/ = SubResource("AnimationLibrary_orpep")
 
 [node name="LifeTimer" type="Timer" parent="." unique_id=2043018391]
-wait_time = 7.0
+wait_time = 5.0
 one_shot = true
 autostart = true
 

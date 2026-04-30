@@ -13,7 +13,7 @@ func _ready():
 	animation_player.play("ground_burn")
 	body_entered.connect(_on_detect_player)
 	body_exited.connect(_on_detect_player_exit)
-	life_timer.timeout.connect(queue_free)
+	life_timer.timeout.connect(dissipate)
 	burn_timer.timeout.connect(burn_player)
 	
 func burn_player():
@@ -30,3 +30,8 @@ func _on_detect_player_exit(body):
 	if body.is_in_group("player"):
 		player = null
 		burn_timer.stop()
+		
+func dissipate():
+	var tween = create_tween()
+	tween.tween_property(self, "scale", Vector2(0.2, 0.2), 1.0)
+	tween.tween_callback(queue_free)
