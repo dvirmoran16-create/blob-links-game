@@ -60,12 +60,12 @@ horizontal_alignment = 1
 [node name="RestartButton" type="Button" parent="Control/VBoxContainer" unique_id=1867465236]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Play Again"
+text = "Restart"
 
 [node name="MainMenuButton" type="Button" parent="Control/VBoxContainer" unique_id=1635252992]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Back to Main Menu"
+text = "Go to Main Menu"
 
 [node name="ExitButton" type="Button" parent="Control/VBoxContainer" unique_id=502369433]
 layout_mode = 2
