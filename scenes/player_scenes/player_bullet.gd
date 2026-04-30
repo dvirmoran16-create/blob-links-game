@@ -7,6 +7,7 @@ var bullet_status = BulletStatus.IN_FLIGHT
 @export var min_distance = 200.0
 @export var max_distance = 1000.0
 @export var initial_speed = 1200.0
+@export var recall_speed = 2400.0
 @export var ammo_scene : PackedScene
 
 var speed = initial_speed
@@ -93,10 +94,10 @@ func become_standing():
 		recall_timer.start()
 	animation.play("spin")
 	
-func become_leaping():
+func become_leaping(leap_speed):
 	bullet_status = BulletStatus.LEAPING
 	animation.stop()
-	speed = initial_speed
+	speed = leap_speed
 	full_speed_timer.stop()
 	is_slowing = false
 	recall_timer.paused = true
@@ -105,7 +106,6 @@ func become_leaping():
 func become_ammo():
 	var ammo := ammo_scene.instantiate() as AmmoPickup
 	ammo.global_position = global_position
-	ammo.initial_speed = speed / 2
 	ammo.direction = direction
 	ammo.player = source_player
 	var game = get_tree().current_scene
@@ -115,7 +115,7 @@ func become_ammo():
 func _on_detect_enemy(body):
 	if body.is_in_group("enemies") and target_enemy == null:
 		target_enemy = body
-		become_leaping()
+		become_leaping(initial_speed)
 
 func _on_stop_detect_enemy(body):
 	if body == target_enemy:
@@ -137,4 +137,4 @@ func _on_full_speed_end():
 func _on_player_recall():
 	if bullet_status != BulletStatus.IN_FLIGHT:
 		is_recalled = true
-		become_leaping()
+		become_leaping(recall_speed)

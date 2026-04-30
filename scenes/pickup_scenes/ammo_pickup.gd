@@ -6,8 +6,8 @@ extends Area2D
 @export var atract_to_player_speed_gain_rate = 100.0
 
 var direction = Vector2(0, 0)
-var initial_speed = 0.0
-var speed : float
+var initial_speed = 600.0
+var speed = 0.0
 var is_active = true
 var is_atract_to_player = false
 
@@ -15,8 +15,10 @@ var is_atract_to_player = false
 @onready var player : Player = get_tree().get_first_node_in_group("player")
 
 func _ready():
-	speed = initial_speed
-	global_position += direction * speed / 10
+	if direction != Vector2.ZERO:
+		speed = initial_speed
+		global_position += direction * speed / 10
+		
 	player.ammo_changed.connect(_on_player_ammo_changed)
 	body_entered.connect(_on_detect_player)
 	add_to_group("pickups")
