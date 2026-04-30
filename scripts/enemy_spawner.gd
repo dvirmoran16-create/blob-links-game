@@ -11,6 +11,7 @@ extends Node
 @export var enemy_chaser_scene : PackedScene
 @export var enemy_shooter_scene : PackedScene
 @export var ammo_scene : PackedScene
+@export var heart_scene : PackedScene
 
 var chaser_spawn_timer = shooter_spawn_interval
 var shooter_spawn_timer = shooter_spawn_interval
@@ -24,6 +25,8 @@ func _process(delta):
 	shooter_spawn_timer += delta
 	#ammo_spawn_timer += delta
 	heart_spawn_timer += delta
+	if not is_player_wounded:
+		heart_spawn_timer = clamp(heart_spawn_timer, 0.0, heart_spawn_full_hp_threshold)
 	handle_spawn_logic()
 	
 func handle_spawn_logic():
@@ -39,31 +42,23 @@ func handle_spawn_logic():
 		spawn_ammo()
 		ammo_spawn_timer = 0.0
 		
-	handle_heart_spawn_logic()
+	if heart_spawn_timer >= heart_spawn_interval:
+		spawn_heart()
+		heart_spawn_timer = 0.0
 	
-func handle_heart_spawn_logic():
-	if not is_player_wounded:
-		# heart spawn timer can't pass a threshold when player is full hp:
-		heart_spawn_timer = clamp(heart_spawn_timer, 0.0, heart_spawn_full_hp_threshold)
-	elif heart_spawn_timer >= heart_spawn_interval and not next_enemy_carry_heart: 
-		next_enemy_carry_heart = true
-		
+func spawn_heart():
+	var heart := heart_scene.instantiate() as HeartPickup
+	heart.global_position = get_corner_farthest_from_player()
+	get_parent().add_child(heart)
 
 func spawn_chaser():
 	var enemy := enemy_chaser_scene.instantiate() as EnemyChaser
 	enemy.global_position = get_random_edge_position()
-	if next_enemy_carry_heart:
-		enemy.is_carry_heart = true
-		next_enemy_carry_heart = false
-		heart_spawn_timer = 0.0
-		
 	get_parent().add_child(enemy)
 	
 func spawn_shooter():
 	var enemy := enemy_shooter_scene.instantiate() as EnemyShooter
 	enemy.global_position = get_random_edge_position()
-	#enemy.global_position.x = clamp(randi() % int(map_bounds_max.x - map_bounds_min.x) + map_bounds_min.x, map_bounds_min.x + spawn_distance_from_edge, map_bounds_max.x - spawn_distance_from_edge)
-	#enemy.global_position.y = clamp(randi() % int(map_bounds_max.y - map_bounds_min.y) + map_bounds_min.y, map_bounds_min.y + spawn_distance_from_edge, map_bounds_max.y - spawn_distance_from_edge)
 	get_parent().add_child(enemy)
 
 func spawn_ammo():
@@ -93,6 +88,22 @@ func get_random_edge_position() -> Vector2:
 			pos.y = randf_range(map_bounds_min.y, map_bounds_max.y)
 	
 	return pos
+	
+func get_corner_farthest_from_player() -> Vector2:
+	var player = get_tree().get_first_node_in_group("player") as Player
+	var max_dist_squared = 0.0
+	var chosen_corner = Vector2.ZERO
+	var corners = [Vector2(map_bounds_min.x, map_bounds_min.y), 
+					Vector2(map_bounds_min.x, map_bounds_max.y), 
+					Vector2(map_bounds_max.x, map_bounds_min.y), 
+					Vector2(map_bounds_max.x, map_bounds_max.y)]
+	for corner : Vector2 in corners:
+		var dist_squared = corner.distance_squared_to(player.global_position)
+		if dist_squared > max_dist_squared:
+			max_dist_squared = dist_squared
+			chosen_corner = corner
+			
+	return chosen_corner
 
 
 func _on_player_lives_changed(current: int, max: int, delta: int) -> void:
