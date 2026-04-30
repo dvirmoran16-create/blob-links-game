@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dk7xbouy0acc8"]
 
-[ext_resource type="Script" uid="uid://kswhb3gqpwtp" path="res://scenes/blob_scenes/blob_lines_drawer.gd" id="1_pw4j6"]
+[ext_resource type="Script" uid="uid://kswhb3gqpwtp" path="res://scenes/blob_scenes/blob_line_drawer.gd" id="1_pw4j6"]
 
 [node name="BlobLineDrawer" type="Node2D" unique_id=1532536550]
 script = ExtResource("1_pw4j6")

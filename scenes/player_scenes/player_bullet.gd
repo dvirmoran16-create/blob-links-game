@@ -19,9 +19,12 @@ var target_position = Vector2.ZERO
 var full_speed_ttl = 0.0
 var is_slowing = false
 var is_recalled = false
+var is_player_far = false
 
-@onready var homing_range = $HomingRange
 @onready var hitbox = $HitBox
+@onready var homing_range = $HomingRange
+@onready var auto_recall_range = $AutoRecallRange
+@onready var auto_recall_distance = $AutoRecallRange/CollisionShape2D.shape.radius
 @onready var full_speed_timer = $FullSpeedTimer
 @onready var recall_timer = $RecallTimer
 @onready var animation = $AnimationPlayer
@@ -36,13 +39,15 @@ func _ready():
 	
 	expiration_circle.max_value = recall_timer.wait_time
 	full_speed_timer.timeout.connect(_on_full_speed_end)
-	recall_timer.timeout.connect(_on_player_recall)
+	recall_timer.timeout.connect(recall_to_player)
 	hitbox.body_entered.connect(_on_hitbox_hit)
+	auto_recall_range.body_entered.connect(_on_player_close_enough)
+	auto_recall_range.body_exited.connect(_on_player_too_far)
 	
 	await get_tree().create_timer(0.05).timeout
 	homing_range.body_entered.connect(_on_detect_enemy)
 	homing_range.body_exited.connect(_on_stop_detect_enemy)
-	source_player.recall.connect(_on_player_recall)
+	source_player.recall.connect(recall_to_player)
 
 func _calcuate_flight_time():
 	var distance = global_position.distance_to(target_position)
@@ -94,6 +99,9 @@ func become_standing():
 		recall_timer.start()
 	animation.play("spin")
 	
+	if is_player_far:
+		recall_to_player()
+	
 func become_leaping(leap_speed):
 	bullet_status = BulletStatus.LEAPING
 	animation.stop()
@@ -134,7 +142,16 @@ func _on_hitbox_hit(body):
 func _on_full_speed_end():
 	is_slowing = true
 	
-func _on_player_recall():
+func recall_to_player():
 	if bullet_status != BulletStatus.IN_FLIGHT:
 		is_recalled = true
 		become_leaping(recall_speed)
+
+func _on_player_close_enough(body):
+	if body == source_player:
+		is_player_far = false
+
+func _on_player_too_far(body):
+	if body == source_player:
+		is_player_far = true
+		recall_to_player()

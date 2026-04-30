@@ -1,8 +1,8 @@
 extends Node2D
 
-@export var normal_line_color = Color(0.3, 0.5, 1.0, 0.4)  # Semi-opaque blue
-@export var highlight_line_color = Color(0.3, 0.5, 1.0, 0.6)  # Semi-opaque blue
-@export var inactive_line_color = Color(0.3, 0.3, 0.3, 0.6)  # Semi-opaque blue
+@export var normal_line_color = Color(0.3, 0.5, 1.0, 0.4)
+@export var highlight_line_color = Color(0.3, 0.5, 1.0, 0.6)
+@export var inactive_line_color = Color(0.3, 0.3, 0.3, 0.6)
 @export var normal_line_width = 4.0
 @export var highlight_line_width = 8.0
 @export var blink_speed = 10.0
@@ -15,7 +15,7 @@ func _process(_delta):
 	queue_redraw()
 
 func _draw():
-	var is_frame_blink = get_is_frame_blink(blob)
+	var is_frame_blink = get_is_frame_blink()
 	var line_color = normal_line_color
 	var line_width = normal_line_width
 	if blob.blob_status == Blob.BlobStatus.OUT_OF_RANGE:
@@ -30,7 +30,7 @@ func _draw():
 	else:
 		draw_line(Vector2.ZERO, to_local(player.global_position), line_color, line_width)
 
-func get_is_frame_blink(blob: Blob):
+func get_is_frame_blink():
 	var is_frame_blink = false
 	var remaining_time = blob.ttl - blob.age
 	if remaining_time <= blob.expire_warning_threshold and remaining_time > blob.expire_warning_threshold_severe:

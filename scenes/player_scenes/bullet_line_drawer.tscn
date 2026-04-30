@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b1bb8qt7nmhed"]
+
+[ext_resource type="Script" uid="uid://dmcfdxoccu8gj" path="res://scenes/player_scenes/bullet_line_drawer.gd" id="1_g88r4"]
+
+[node name="BulletLineDrawer" type="Node2D" unique_id=1532536550]
+script = ExtResource("1_g88r4")
