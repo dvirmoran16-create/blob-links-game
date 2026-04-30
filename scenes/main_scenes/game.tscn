@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://2acn26trnagk" path="res://scenes/enemy_scenes/enemy_chaser.tscn" id="6_e71x3"]
 [ext_resource type="PackedScene" uid="uid://cxn05vunhmxqu" path="res://scenes/player_scenes/player.tscn" id="6_m0ooe"]
 [ext_resource type="PackedScene" uid="uid://brq25h7dbh756" path="res://scenes/enemy_scenes/enemy_shooter.tscn" id="7_nk7qa"]
-[ext_resource type="Script" uid="uid://kswhb3gqpwtp" path="res://scripts/blob_lines_drawer.gd" id="7_vlbvn"]
 [ext_resource type="PackedScene" uid="uid://dgi0sk5jfht1k" path="res://scenes/pickup_scenes/ammo_pickup.tscn" id="8_m0ooe"]
 [ext_resource type="Texture2D" uid="uid://d3lguq5l5p761" path="res://assets/sprites/bg_starry.png" id="8_uba5x"]
 [ext_resource type="PackedScene" uid="uid://clg7n7eff808p" path="res://scenes/menu_scenes/game_over_overlay.tscn" id="9_emjx4"]
@@ -47,9 +46,6 @@ limit_top = -1050
 limit_right = 1550
 limit_bottom = 1050
 position_smoothing_enabled = true
-
-[node name="BlobLinesDrawer" type="Node2D" parent="." unique_id=1586112023]
-script = ExtResource("7_vlbvn")
 
 [node name="Walls" type="Node2D" parent="." unique_id=338789857]
 
