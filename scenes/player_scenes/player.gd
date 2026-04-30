@@ -105,7 +105,7 @@ func shoot():
 func create_bullet(mouse_pos):
 	var bullet = bullet_scene.instantiate()
 	var direction_to_mouse = (mouse_pos - global_position).normalized()
-	bullet.global_position = global_position + direction_to_mouse * 40
+	bullet.global_position = global_position + direction_to_mouse * 30
 	bullet.target_position = mouse_pos
 	bullet.source_player = self
 	get_parent().add_child(bullet)

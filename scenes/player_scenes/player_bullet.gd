@@ -22,7 +22,7 @@ var is_recalled = false
 @onready var homing_range = $HomingRange
 @onready var hitbox = $HitBox
 @onready var full_speed_timer = $FullSpeedTimer
-@onready var become_ammo_timer = $BecomeAmmoTimer
+@onready var recall_timer = $RecallTimer
 @onready var animation = $AnimationPlayer
 @onready var expiration_circle = $ExpirationCircle
 
@@ -33,13 +33,14 @@ func _ready():
 	rotation = direction.angle()
 	velocity = direction * speed
 	
-	expiration_circle.max_value = become_ammo_timer.wait_time
+	expiration_circle.max_value = recall_timer.wait_time
+	full_speed_timer.timeout.connect(_on_full_speed_end)
+	recall_timer.timeout.connect(_on_player_recall)
+	hitbox.body_entered.connect(_on_hitbox_hit)
 	
+	await get_tree().create_timer(0.1).timeout
 	homing_range.body_entered.connect(_on_detect_enemy)
 	homing_range.body_exited.connect(_on_stop_detect_enemy)
-	hitbox.body_entered.connect(_on_hitbox_hit)
-	full_speed_timer.timeout.connect(_on_full_speed_end)
-	become_ammo_timer.timeout.connect(become_ammo)
 	source_player.recall.connect(_on_player_recall)
 
 func _calcuate_flight_time():
@@ -62,7 +63,7 @@ func _physics_process(delta):
 			become_standing()
 	
 	if bullet_status == BulletStatus.STANDING:
-		expiration_circle.value = become_ammo_timer.time_left
+		expiration_circle.value = recall_timer.time_left
 	elif bullet_status == BulletStatus.IN_FLIGHT:
 		var collision = move_and_collide(velocity * delta)
 		if collision:
@@ -86,7 +87,10 @@ func become_standing():
 	bullet_status = BulletStatus.STANDING
 	expiration_circle.rotation = -rotation
 	expiration_circle.show()
-	become_ammo_timer.start()
+	if recall_timer.paused == true:
+		recall_timer.paused = false
+	else:
+		recall_timer.start()
 	animation.play("spin")
 	
 func become_leaping():
@@ -94,15 +98,16 @@ func become_leaping():
 	animation.stop()
 	speed = initial_speed
 	full_speed_timer.stop()
-	become_ammo_timer.paused = true
-	expiration_circle.hide()
 	is_slowing = false
+	recall_timer.paused = true
+	expiration_circle.hide()
 
 func become_ammo():
 	var ammo := ammo_scene.instantiate() as AmmoPickup
 	ammo.global_position = global_position
 	ammo.initial_speed = speed / 2
 	ammo.direction = direction
+	ammo.player = source_player
 	var game = get_tree().current_scene
 	game.call_deferred("add_child", ammo)
 	queue_free()
@@ -130,5 +135,6 @@ func _on_full_speed_end():
 	is_slowing = true
 	
 func _on_player_recall():
-	is_recalled = true
-	become_leaping()
+	if bullet_status != BulletStatus.IN_FLIGHT:
+		is_recalled = true
+		become_leaping()

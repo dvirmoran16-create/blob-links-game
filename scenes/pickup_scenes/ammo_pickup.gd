@@ -2,12 +2,14 @@ class_name AmmoPickup
 extends Area2D
 
 @export var speed_loss_rate = 600.0
+@export var atract_to_player_max_speed = 50.0
+@export var atract_to_player_speed_gain_rate = 100.0
 
-var age = 0.0
 var direction = Vector2(0, 0)
 var initial_speed = 0.0
 var speed : float
 var is_active = true
+var is_atract_to_player = false
 
 @onready var animation_player = $AnimationPlayer
 @onready var player : Player = get_tree().get_first_node_in_group("player")
@@ -22,11 +24,18 @@ func _ready():
 	animation_player.play("spin")
 	
 func _physics_process(delta):
-	age += delta
-	if speed >= 0:
-		position += delta * speed * direction
-		speed -= delta * speed_loss_rate
-		speed = clamp(speed, 0, initial_speed)
+	if is_atract_to_player:
+		direction = (player.global_position - global_position).normalized()
+		speed += delta * atract_to_player_speed_gain_rate
+		speed = clamp(speed, 0, atract_to_player_max_speed) 
+	else:
+		if speed <= 0:
+			is_atract_to_player = true
+		else:
+			speed -= delta * speed_loss_rate
+			speed = clamp(speed, 0, initial_speed)
+			
+	position += delta * speed * direction
 		
 func _on_detect_player(body):
 	if not body.is_in_group("player"):
