@@ -127,7 +127,7 @@ func _on_hitbox_hit(body):
 		if body.has_method("yellow_dmg"):
 			body.yellow_dmg()
 		become_ammo()
-	elif body == source_player and not bullet_status == BulletStatus.IN_FLIGHT:
+	elif body == source_player and (is_recalled or bullet_status == BulletStatus.STANDING):
 		source_player.update_ammo_status(1)
 		queue_free()
 
