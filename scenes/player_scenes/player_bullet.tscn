@@ -2,12 +2,50 @@
 
 [ext_resource type="Script" uid="uid://daeeh1yjl1bm5" path="res://scenes/player_scenes/player_bullet.gd" id="1_qvyco"]
 [ext_resource type="PackedScene" uid="uid://dgi0sk5jfht1k" path="res://scenes/pickup_scenes/ammo_pickup.tscn" id="2_v40gq"]
+[ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/common_scenes/expiration_circle.tscn" id="3_sv1wv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8fcr"]
-size = Vector2(45, 15)
+size = Vector2(22, 22)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c8fcr"]
 radius = 150.0
+
+[sub_resource type="Animation" id="Animation_v40gq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Shape:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_sv1wv"]
+resource_name = "spin"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Shape:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.283185307179586]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_suti7"]
+_data = {
+&"RESET": SubResource("Animation_v40gq"),
+&"spin": SubResource("Animation_sv1wv")
+}
 
 [node name="PlayerBullet" type="CharacterBody2D" unique_id=780977626]
 collision_layer = 4
@@ -17,23 +55,9 @@ script = ExtResource("1_qvyco")
 ammo_scene = ExtResource("2_v40gq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=157630091]
+rotation = 0.7853982
 shape = SubResource("RectangleShape2D_c8fcr")
 debug_color = Color(0.8683968, 0.26145205, 0.6043529, 0.41960785)
-
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1499944657]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -22.5
-offset_top = -7.5
-offset_right = 22.5
-offset_bottom = 7.5
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset_ratio = Vector2(0, 0.5)
-color = Color(1, 0.92941177, 0.627451, 1)
 
 [node name="HitBox" type="Area2D" parent="." unique_id=957724524]
 collision_layer = 4
@@ -41,6 +65,7 @@ collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=454205742]
+rotation = 0.7836824
 shape = SubResource("RectangleShape2D_c8fcr")
 debug_color = Color(0.8683968, 0.26145205, 0.6043529, 0.41960785)
 
@@ -54,3 +79,25 @@ shape = SubResource("CircleShape2D_c8fcr")
 
 [node name="FullSpeedTimer" type="Timer" parent="." unique_id=578000014]
 one_shot = true
+
+[node name="BecomeAmmoTimer" type="Timer" parent="." unique_id=735328669]
+wait_time = 5.0
+one_shot = true
+
+[node name="Shape" type="Polygon2D" parent="." unique_id=1670425541]
+color = Color(1, 0.92941177, 0.627451, 1)
+polygon = PackedVector2Array(4.2915344e-06, -9.536743e-07, -4.9999957, -5.000001, -15.999996, -16, 5.0000043, -5.0000014, 15.000006, -9.536743e-07, 5.0000043, 4.999999, -15.999996, 16, -4.9999957, 4.999999, -10, -6, -10, 6, -4, 0)
+uv = PackedVector2Array(4.2915344e-06, -9.536743e-07, -4.9999957, -5.000001, -15.999996, -16, 5.0000043, -5.0000014, 15.000006, -9.536743e-07, 5.0000043, 4.999999, -15.999996, 16, -4.9999957, 4.999999, -16.000004, -8.000001, -16, 8, -8.000008, 0)
+vertex_colors = PackedColorArray(0, 0, 0.78431374, 1, 0, 0, 0, 1)
+polygons = [PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7), PackedInt32Array(8, 9, 10)]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2094335973]
+process_mode = 3
+libraries/ = SubResource("AnimationLibrary_suti7")
+
+[node name="ExpirationCircle" parent="." unique_id=1423140789 instance=ExtResource("3_sv1wv")]
+visible = false
+max_value = 5.0
+step = 0.1
+value = 5.0
+fill_mode = 5

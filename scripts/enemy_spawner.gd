@@ -14,7 +14,7 @@ extends Node
 
 var chaser_spawn_timer = shooter_spawn_interval
 var shooter_spawn_timer = shooter_spawn_interval
-var ammo_spawn_timer = shooter_spawn_interval
+var ammo_spawn_timer = 0.0
 var heart_spawn_timer = 0.0
 var next_enemy_carry_heart = false
 var is_player_wounded = false
@@ -22,7 +22,7 @@ var is_player_wounded = false
 func _process(delta):
 	chaser_spawn_timer += delta
 	shooter_spawn_timer += delta
-	ammo_spawn_timer += delta
+	#ammo_spawn_timer += delta
 	heart_spawn_timer += delta
 	handle_spawn_logic()
 	

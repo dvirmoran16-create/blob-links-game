@@ -21,6 +21,9 @@ var is_slowing = false
 @onready var homing_range = $HomingRange
 @onready var hitbox = $HitBox
 @onready var full_speed_timer = $FullSpeedTimer
+@onready var become_ammo_timer = $BecomeAmmoTimer
+@onready var animation = $AnimationPlayer
+@onready var expiration_circle = $ExpirationCircle
 
 func _ready():
 	_calcuate_flight_time()
@@ -29,10 +32,14 @@ func _ready():
 	rotation = direction.angle()
 	velocity = direction * speed
 	
+	expiration_circle.max_value = become_ammo_timer.wait_time
+	
+	
 	homing_range.body_entered.connect(_on_detect_enemy)
 	homing_range.body_exited.connect(_on_stop_detect_enemy)
 	hitbox.body_entered.connect(_on_hit_enemy)
 	full_speed_timer.timeout.connect(_on_full_speed_end)
+	become_ammo_timer.timeout.connect(become_ammo)
 
 func _calcuate_flight_time():
 	var distance = global_position.distance_to(target_position)
@@ -45,49 +52,60 @@ func _calcuate_flight_time():
 		_on_full_speed_end()
 
 func _physics_process(delta):
+	if is_slowing:
+		speed -= slow_rate_per_sec * delta
+		speed = clamp(speed, 0.0, initial_speed)
+		velocity = direction * speed
+		if speed <= 0:
+			is_slowing = false
+			become_standing()
+	
 	if bullet_status == BulletStatus.STANDING:
-		pass
-	else:
+		expiration_circle.value = become_ammo_timer.time_left
+	elif bullet_status == BulletStatus.IN_FLIGHT:
 		var collision = move_and_collide(velocity * delta)
 		if collision:
+			full_speed_timer.start(full_speed_ttl)
+			is_slowing = false
 			speed = initial_speed
 			direction = direction.bounce(collision.get_normal())
 			rotation = direction.angle()
 			velocity = direction * speed
-			full_speed_timer.start(full_speed_ttl)
-			is_slowing = false
+	elif bullet_status == BulletStatus.LEAPING:
+		move_and_slide()
+		if is_instance_valid(target_enemy):
+			direction = (target_enemy.global_position - global_position).normalized()
 		elif is_instance_valid(player):
 			direction = (player.global_position - global_position).normalized()
-			rotation = direction.angle()
-			velocity = direction * speed
-		elif is_instance_valid(target_enemy):
-			direction = (target_enemy.global_position - global_position).normalized()
-			rotation = direction.angle()
-			velocity = direction * speed
 			
-		if is_slowing:
-			speed -= slow_rate_per_sec * delta
-			speed = clamp(speed, 0.0, initial_speed)
-			velocity = direction * speed
-			if speed <= 0:
-				bullet_status == BulletStatus.STANDING
+		rotation = direction.angle()
+		velocity = direction * speed
 			
-func spawn_ammo_pickup():
+func become_standing():
+	bullet_status = BulletStatus.STANDING
+	expiration_circle.rotation = -rotation
+	expiration_circle.show()
+	become_ammo_timer.start()
+	animation.play("spin")
+
+func become_ammo():
 	var ammo := ammo_scene.instantiate() as AmmoPickup
 	ammo.global_position = global_position
-	ammo.speed = speed
+	ammo.initial_speed = speed / 2
 	ammo.direction = direction
-	ammo.age = ammo.ttl / 2
 	var game = get_tree().current_scene
 	game.call_deferred("add_child", ammo)
+	queue_free()
 	
 func _on_detect_enemy(body):
 	if body.is_in_group("enemies") and target_enemy == null:
-		target_enemy = body
-		speed = initial_speed
-		full_speed_timer.stop()
-		is_slowing = false
 		bullet_status = BulletStatus.LEAPING
+		animation.stop()
+		speed = initial_speed
+		target_enemy = body
+		full_speed_timer.stop()
+		become_ammo_timer.paused = true
+		is_slowing = false
 
 func _on_stop_detect_enemy(body):
 	if body == target_enemy:
@@ -98,8 +116,7 @@ func _on_hit_enemy(body):
 	if body.is_in_group("enemies"):
 		if body.has_method("yellow_dmg"):
 			body.yellow_dmg()
-		spawn_ammo_pickup()
-		queue_free()
+		become_ammo()
 
 func _on_full_speed_end():
 	is_slowing = true
