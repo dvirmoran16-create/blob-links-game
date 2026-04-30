@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://defqab7707s25" path="res://scenes/blob_scenes/blob_explosion.tscn" id="5_5e6ao"]
 [ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/common_scenes/expiration_circle.tscn" id="5_fuqb5"]
 [ext_resource type="PackedScene" uid="uid://b5fse5ued6qtd" path="res://scenes/blob_scenes/blob_line.tscn" id="6_inhyj"]
+[ext_resource type="PackedScene" uid="uid://c6qis75fihqqs" path="res://scenes/blob_scenes/blob_line_drawer.tscn" id="8_inhyj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 20.0
@@ -58,3 +59,5 @@ debug_color = Color(0.61138725, 0.61138725, 0.73337764, 0.2)
 visible = false
 color = Color(0, 0.3491902, 1, 0.702)
 polygon = PackedVector2Array(-10, 0, -3, -3, 0, -10, 3, -3, 10, 0, 3, 3, 0, 10, -3, 3)
+
+[node name="BlobLineDrawer" parent="." unique_id=1532536550 instance=ExtResource("8_inhyj")]
