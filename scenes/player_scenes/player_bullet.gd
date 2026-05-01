@@ -93,10 +93,10 @@ func _physics_process(delta):
 		velocity = direction * speed
 			
 func become_standing():
+	bullet_status = BulletStatus.STANDING
 	if is_player_far:
 		recall_to_player()
 	else:
-		bullet_status = BulletStatus.STANDING
 		expiration_circle.rotation = -rotation
 		expiration_circle.show()
 		if recall_timer.paused == true:
