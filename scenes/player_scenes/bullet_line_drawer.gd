@@ -1,7 +1,7 @@
 extends Node2D
 
-@export var base_line_color = Color(0.7, 0.5, 0.0, 0.4)
-@export var line_width = 4.0
+@export var base_line_color = Color(0.7, 0.5, 0.0, 0.2)
+@export var line_width = 2.0
 @export var blink_speed = 10.0
 @export var dashed_line_range_squared = 1000 ** 2
 
