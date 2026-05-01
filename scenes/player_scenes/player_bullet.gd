@@ -29,6 +29,7 @@ var is_player_far = false
 @onready var recall_timer = $RecallTimer
 @onready var animation = $AnimationPlayer
 @onready var expiration_circle = $ExpirationCircle
+@onready var detect_enemy_raycast = $RayCast2D
 
 func _ready():
 	_calcuate_flight_time()
@@ -69,6 +70,9 @@ func _physics_process(delta):
 	
 	if bullet_status == BulletStatus.STANDING:
 		expiration_circle.value = recall_timer.time_left
+		detect_enemy_raycast.target_position = to_local(source_player.global_position)
+		if detect_enemy_raycast.get_collider() != null:
+			recall_to_player()
 	elif bullet_status == BulletStatus.IN_FLIGHT:
 		var collision = move_and_collide(velocity * delta)
 		if collision:
@@ -89,17 +93,18 @@ func _physics_process(delta):
 		velocity = direction * speed
 			
 func become_standing():
-	bullet_status = BulletStatus.STANDING
-	expiration_circle.rotation = -rotation
-	expiration_circle.show()
-	if recall_timer.paused == true:
-		recall_timer.paused = false
-	else:
-		recall_timer.start()
-	animation.play("spin")
-	
 	if is_player_far:
 		recall_to_player()
+	else:
+		bullet_status = BulletStatus.STANDING
+		expiration_circle.rotation = -rotation
+		expiration_circle.show()
+		if recall_timer.paused == true:
+			recall_timer.paused = false
+		else:
+			recall_timer.start()
+		animation.play("spin")
+		detect_enemy_raycast.enabled = true
 	
 func become_leaping(leap_speed):
 	bullet_status = BulletStatus.LEAPING
