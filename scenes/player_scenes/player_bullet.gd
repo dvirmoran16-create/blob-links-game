@@ -29,7 +29,7 @@ var is_player_far = false
 @onready var recall_timer = $RecallTimer
 @onready var animation = $AnimationPlayer
 @onready var expiration_circle = $ExpirationCircle
-@onready var detect_enemy_raycast = $RayCast2D
+@onready var detect_enemy_raycast = $DetectEnemyRayCast
 
 func _ready():
 	_calcuate_flight_time()

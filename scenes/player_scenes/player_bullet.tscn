@@ -115,6 +115,6 @@ fill_mode = 5
 
 [node name="BulletLineDrawer" parent="." unique_id=1532536550 instance=ExtResource("4_suti7")]
 
-[node name="RayCast2D" type="RayCast2D" parent="." unique_id=306307939]
+[node name="DetectEnemyRayCast" type="RayCast2D" parent="." unique_id=306307939]
 enabled = false
 collision_mask = 2
