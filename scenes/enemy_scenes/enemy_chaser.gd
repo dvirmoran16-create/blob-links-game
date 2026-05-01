@@ -5,42 +5,32 @@ extends CharacterBody2D
 @export var speed_per_sec = 80.0
 @export var base_strech = 2.0
 @export var strech_per_sec = 0.3
-@export var normal_texture: Texture2D
-@export var alert_texture: Texture2D
 @export var alert_animation_time = 0.3
 @export var baseline_strech = 2.0
 @export var max_extra_strech = 2.0
-@export var max_progress = 20.0
-@export var progress_alert_factor = 4.0
 @export var turn_rate = PI
+@export var normal_texture: Texture2D
+@export var alert_texture: Texture2D
 @export var blob_scene : PackedScene
 @export var explosion_scene : PackedScene
-@export var heart_pickup_scene : PackedScene
 
-
-var player: CharacterBody2D = null
 var speed = base_speed
 var is_alert = false
 var alert_tween: Tween = null
-var is_carry_heart = false
 var is_dying = false
-var progress = 0.0
 var direction = Vector2(0, 0)
 var is_gonna_explode = false
 
+@onready var player = get_tree().get_first_node_in_group("player")
 @onready var sprite = $Sprite2D
 @onready var alert_range = $AlertRange
 @onready var explode_range = $ExplodeRange
-@onready var heart : Polygon2D = $Heart
-@onready var explode_timer : Timer = $ExplodeTimer
+@onready var explode_timer = $ExplodeTimer
 
 func _ready():
-	player = get_tree().get_first_node_in_group("player")
 	add_to_group("enemies")
 	alert_range.body_entered.connect(_on_detect_player)
 	explode_range.body_entered.connect(_on_hit_player)
-	heart.global_position = global_position
-	heart.visible = is_carry_heart
 	direction = (player.global_position - global_position).normalized()
 	explode_timer.timeout.connect(explode)
 	spawn()
@@ -55,9 +45,9 @@ func spawn():
 	shader_material.set_shader_parameter("fade_factor", 0.5)
 	shader_material.set_shader_parameter("progress", 1.0)
 	showup_tween.tween_property(
-		shader_material, 
-		"shader_parameter/progress", 
-		0.0, 
+		shader_material,
+		"shader_parameter/progress",
+		0.0,
 		1.0)
 	await showup_tween.finished
 	shader_material.set_shader_parameter("fade_factor", 0.0)
@@ -86,15 +76,10 @@ func _physics_process(delta):
 	
 	if collision:
 		direction = direction.bounce(collision.get_normal())
-		
-	if is_carry_heart:
-		heart.global_position = global_position
-		var heart_size_this_frame = 0.9 + 0.2 * sin(Time.get_ticks_msec() * 0.002 * PI)
-		heart.scale = Vector2(heart_size_this_frame, heart_size_this_frame)
-		
+
 func adjust_speed_and_strech(delta):
-		speed += speed_per_sec * delta
-		sprite.scale.x += strech_per_sec * delta
+	speed += speed_per_sec * delta
+	sprite.scale.x += strech_per_sec * delta
 		
 func blobify():
 	if is_dying:
@@ -104,12 +89,8 @@ func blobify():
 	blob.global_position = global_position
 	var game = get_parent()
 	game.call_deferred("add_child", blob)
-	if is_carry_heart:
-		var heart_pickup = heart_pickup_scene.instantiate()
-		heart_pickup.global_position = global_position
-		game.call_deferred("add_child", heart_pickup)
 	
-	queue_free()	
+	queue_free()
 	
 func _on_detect_player(body):
 	if body.is_in_group("player"):
@@ -121,16 +102,16 @@ func _on_detect_player(body):
 func run_alert_animation():
 	var alert_tween = create_tween()
 	alert_tween.tween_property(
-		sprite.material, 
-		"shader_parameter/progress", 
+		sprite.material,
+		"shader_parameter/progress",
 		0.2,
 		1.0).from(1.0)
 		
 func run_gonna_explode_animation():
 	var tween = create_tween()
 	tween.tween_property(
-		sprite.material, 
-		"shader_parameter/progress", 
+		sprite.material,
+		"shader_parameter/progress",
 		1.0,
 		0.5)
 		
