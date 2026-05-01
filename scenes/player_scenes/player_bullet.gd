@@ -46,8 +46,10 @@ func _ready():
 	auto_recall_range.body_exited.connect(_on_player_too_far)
 	
 	await get_tree().create_timer(0.05).timeout
+	
 	homing_range.body_entered.connect(_on_detect_enemy)
 	homing_range.body_exited.connect(_on_stop_detect_enemy)
+	source_player.recall.connect(recall_to_player)
 
 func _calcuate_flight_time():
 	var distance = global_position.distance_to(target_position)

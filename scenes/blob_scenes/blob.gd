@@ -23,7 +23,7 @@ var is_dying = false
 @onready var available_range = $AvailableRange
 @onready var available_distance = $AvailableRange/CollisionShape2D.shape.radius
 @onready var expiration_circle = $ExpirationCircle
-@onready var range_indicator = $RangeIndocator
+@onready var range_indicator = $RangeIndicator
 
 
 func _ready():

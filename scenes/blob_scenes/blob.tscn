@@ -55,7 +55,7 @@ debug_color = Color(0.61138725, 0.61138725, 0.73337764, 0.2)
 
 [node name="ExpirationCircle" parent="." unique_id=1423140789 instance=ExtResource("5_fuqb5")]
 
-[node name="RangeIndocator" type="Polygon2D" parent="." unique_id=2122025416]
+[node name="RangeIndicator" type="Polygon2D" parent="." unique_id=2122025416]
 visible = false
 color = Color(0, 0.3491902, 1, 0.702)
 polygon = PackedVector2Array(-10, 0, -3, -3, 0, -10, 3, -3, 10, 0, 3, 3, 0, 10, -3, 3)
