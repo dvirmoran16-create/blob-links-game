@@ -5,9 +5,6 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 25.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_38wbr"]
-radius = 200.0
-
 [sub_resource type="Animation" id="Animation_jrhku"]
 length = 0.001
 tracks/0/type = "value"
@@ -54,13 +51,6 @@ script = ExtResource("1_jvvnm")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
 shape = SubResource("CircleShape2D_7p1mj")
 debug_color = Color(0, 0.60038817, 0.70000815, 0.77400005)
-
-[node name="MagnetRange" type="Area2D" parent="." unique_id=1719310579]
-collision_layer = 0
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MagnetRange" unique_id=1480823044]
-shape = SubResource("CircleShape2D_38wbr")
 
 [node name="AmmoSprite" type="ColorRect" parent="." unique_id=224885444]
 anchors_preset = 8
