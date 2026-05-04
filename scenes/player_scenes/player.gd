@@ -35,12 +35,13 @@ func _physics_process(delta):
 	handle_movement(delta)
 	#recharge_ammo(delta)
 			
-	if Input.is_action_just_pressed("shoot") and current_ammo > 0:
-		shoot()
+	if Input.is_action_just_pressed("shoot"):
+		if current_ammo > 0:
+			shoot()
+		else:
+			recall.emit()
 		
 	if Input.is_action_just_pressed("leap"):
-		recall.emit() # pull in all standing bullets
-		
 		var blobs = get_tree().get_nodes_in_group("blobs")
 		var lit_blobs = []
 		for blob: Blob in blobs:

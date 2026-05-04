@@ -7,7 +7,6 @@
 [ext_resource type="Shader" uid="uid://b7n4vvrhd1pgi" path="res://shaders/explosion.gdshader" id="4_s6v6k"]
 [ext_resource type="PackedScene" uid="uid://c34asqkk2bohy" path="res://scenes/common_scenes/yellow_ring.tscn" id="5_l15ue"]
 [ext_resource type="PackedScene" uid="uid://cp7nc5h25nacn" path="res://scenes/enemy_scenes/enemy_explosion.tscn" id="5_xhlnx"]
-[ext_resource type="PackedScene" uid="uid://spwn1nmm4s0f" path="res://scenes/pickup_scenes/heart_pickup.tscn" id="6_1vna5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 20.0
@@ -32,11 +31,8 @@ collision_layer = 2
 collision_mask = 21
 motion_mode = 1
 script = ExtResource("1_3ddd7")
-normal_texture = ExtResource("2_xdwg6")
-alert_texture = ExtResource("3_4ifjj")
 blob_scene = ExtResource("4_78gb5")
 explosion_scene = ExtResource("5_xhlnx")
-heart_pickup_scene = ExtResource("6_1vna5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
 shape = SubResource("CircleShape2D_7p1mj")
@@ -65,14 +61,6 @@ debug_color = Color(0.74894917, 0.398529, 0.61939365, 0.41960785)
 
 [node name="YellowRing" parent="." unique_id=1777431516 instance=ExtResource("5_l15ue")]
 visible = false
-
-[node name="Heart" type="Polygon2D" parent="." unique_id=539400431]
-visible = false
-top_level = true
-position = Vector2(-5.684342e-14, 2.2737368e-13)
-color = Color(0.9529412, 0, 0.627451, 0.8)
-polygon = PackedVector2Array(0.28366393, 18.058815, -11.786323, 6.3632536, -16.7984, -7.513576, -11.228278, -13.904664, -4.29091, -13.904677, 0.28392202, -9.12947, 4.439081, -13.904677, 11.796022, -13.904677, 17.366245, -7.513576, 11.886565, 6.215829)
-uv = PackedVector2Array(23.304, -55, 9.122284, -68.74178, 3.2333062, -85.04646, 9.777963, -92.55572, 17.929073, -92.55573, 23.304304, -86.94507, 28.186438, -92.55573, 36.83053, -92.55573, 43.3753, -85.04646, 36.936913, -68.915)
 
 [node name="ExplodeTimer" type="Timer" parent="." unique_id=1409138314]
 wait_time = 7.0

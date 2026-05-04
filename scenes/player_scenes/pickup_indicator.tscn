@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ccadqqvdt0hdi"]
+
+[ext_resource type="Script" uid="uid://bmctkrtfdmadt" path="res://scenes/player_scenes/pickup_indicator.gd" id="1_1drmt"]
+
+[node name="PickupIndicator" type="Node2D" unique_id=1485867105]
+process_mode = 3
+script = ExtResource("1_1drmt")
+
+[node name="Arrow" type="Polygon2D" parent="." unique_id=836878780]
+visible = false
+color = Color(0.7021107, 0.5021107, 0, 0.70000005)
+polygon = PackedVector2Array(0, -8, 12, 0, 0, 8)
+uv = PackedVector2Array(8.000002, -8, 15.999998, 0, 8.000002, 7.999999)
