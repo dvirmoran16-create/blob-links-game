@@ -100,7 +100,7 @@ func _player_in_range(body):
 		
 func _player_out_of_range(body):
 	if body.is_in_group("player"):
-		set_status(BlobStatus.OUT_OF_RANGE)
+		recall()
 		
 func set_status(new_status: BlobStatus):
 	blob_status = new_status
