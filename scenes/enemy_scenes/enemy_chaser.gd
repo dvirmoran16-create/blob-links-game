@@ -133,7 +133,7 @@ func yellow_dmg():
 	blobify()
 	
 func blue_dmg():
-	blobify()
+	explode()
 	
 func purple_dmg():
-	blobify()
+	explode()

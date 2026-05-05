@@ -12,6 +12,7 @@ var blob_status = BlobStatus.OUT_OF_RANGE
 @export var expire_warning_threshold_severe = 1.0
 @export var explosion_scene : PackedScene
 @export var blob_line_scene : PackedScene
+@export var magic_bullet_scene : PackedScene
 
 var player: CharacterBody2D = null
 var age = 0.0
@@ -112,3 +113,11 @@ func set_status(new_status: BlobStatus):
 		range_indicator.hide()
 	elif new_status == BlobStatus.HIGHLIGHTED:
 		sprite.texture = alert_texture
+		
+func recall():
+	var magic_bullet : MagicBullet = magic_bullet_scene.instantiate()
+	magic_bullet.global_position = global_position
+	magic_bullet.source_player = player
+	var game = get_parent()
+	game.call_deferred("add_child", magic_bullet)
+	queue_free()

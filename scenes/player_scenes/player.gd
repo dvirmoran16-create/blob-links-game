@@ -40,6 +40,15 @@ func _physics_process(delta):
 			shoot()
 		else:
 			recall.emit()
+			
+	if Input.is_action_just_pressed("recall"):
+		var blobs = get_tree().get_nodes_in_group("blobs")
+		var lit_blobs = []
+		for blob: Blob in blobs:
+			if blob.blob_status == Blob.BlobStatus.HIGHLIGHTED:
+				lit_blobs.append(blob)
+		if not lit_blobs.is_empty():
+			handle_recall(lit_blobs)
 		
 	if Input.is_action_just_pressed("leap"):
 		var blobs = get_tree().get_nodes_in_group("blobs")
@@ -68,14 +77,19 @@ func recharge_ammo(delta):
 		if ammo_recharge_timer >= ammo_recharge_interval:
 			update_ammo_status(1, true)
 		
+func handle_recall(lit_blobs: Array):
+	var chosen_blob: Blob = find_chosen_blob(lit_blobs)
+	if chosen_blob and is_instance_valid(chosen_blob):
+		chosen_blob.recall()
+		
 func handle_leap(lit_blobs: Array):
 	var chosen_blob: Blob = find_chosen_blob(lit_blobs)
 	if chosen_blob and is_instance_valid(chosen_blob):
 		var leap_target_pos = chosen_blob.global_position
-		var num_of_blobs = lit_blobs.size()
-		for blob: Blob in lit_blobs:
-			blob.explode_link()
-		explode(num_of_blobs)
+		var num_of_blobs = 1  # lit_blobs.size()
+		#for blob: Blob in lit_blobs:
+			#blob.explode_link()
+		chosen_blob.explode_link()
 		global_position = leap_target_pos
 		explode(num_of_blobs)
 
@@ -101,7 +115,7 @@ func update_ammo_status(delta : int, reset_timer=false):
 func shoot():
 	var mouse_pos = get_global_mouse_position()
 	create_bullet(mouse_pos)
-	update_ammo_status(-1, true)	
+	update_ammo_status(-1, true)
 
 func create_bullet(mouse_pos):
 	var bullet = bullet_scene.instantiate()
@@ -125,7 +139,7 @@ func update_lives_status(delta):
 	if lives == 0:
 		die()
 	
-func explode(num_of_involved_blobs):
+func explode(num_of_involved_blobs=1):
 	var explosion : BlobExplosion = explosion_scene.instantiate()
 	explosion.global_position = global_position
 	explosion.involved_blobs = num_of_involved_blobs

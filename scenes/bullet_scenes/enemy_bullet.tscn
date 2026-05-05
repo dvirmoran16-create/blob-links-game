@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c2int1bftx5wf"]
 
-[ext_resource type="Script" uid="uid://8pbovilubvtc" path="res://scenes/enemy_scenes/enemy_bullet.gd" id="1_d2qol"]
+[ext_resource type="Script" uid="uid://8pbovilubvtc" path="res://scenes/bullet_scenes/enemy_bullet.gd" id="1_d2qol"]
 [ext_resource type="PackedScene" uid="uid://dj46rbbbhku6u" path="res://scenes/enemy_scenes/enemy_mud.tscn" id="2_f1o5g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6qi02"]

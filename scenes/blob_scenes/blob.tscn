@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://defqab7707s25" path="res://scenes/blob_scenes/blob_explosion.tscn" id="5_5e6ao"]
 [ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/common_scenes/expiration_circle.tscn" id="5_fuqb5"]
 [ext_resource type="PackedScene" uid="uid://b5fse5ued6qtd" path="res://scenes/blob_scenes/blob_line.tscn" id="6_inhyj"]
+[ext_resource type="PackedScene" uid="uid://df127waqj4kt2" path="res://scenes/bullet_scenes/magic_bullet.tscn" id="7_fuqb5"]
 [ext_resource type="PackedScene" uid="uid://dk7xbouy0acc8" path="res://scenes/blob_scenes/blob_line_drawer.tscn" id="8_inhyj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
@@ -27,6 +28,7 @@ normal_texture = ExtResource("3_5e6ao")
 alert_texture = ExtResource("4_inhyj")
 explosion_scene = ExtResource("5_5e6ao")
 blob_line_scene = ExtResource("6_inhyj")
+magic_bullet_scene = ExtResource("7_fuqb5")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=608333645]
 texture = ExtResource("2_njrda")
