@@ -8,6 +8,7 @@ var bullet_status = BulletStatus.IN_FLIGHT
 @export var max_distance = 1000.0
 @export var initial_speed = 1200.0
 @export var recall_speed = 2400.0
+@export var max_rotation_rate = 4 * PI
 @export var ammo_scene : PackedScene
 
 var speed = initial_speed
@@ -24,7 +25,6 @@ var is_player_far = false
 @onready var hitbox = $HitBox
 @onready var homing_range = $HomingRange
 @onready var auto_recall_range = $AutoRecallRange
-@onready var auto_recall_distance = $AutoRecallRange/CollisionShape2D.shape.radius
 @onready var full_speed_timer = $FullSpeedTimer
 @onready var recall_timer = $RecallTimer
 @onready var animation = $AnimationPlayer
@@ -86,10 +86,17 @@ func _physics_process(delta):
 			velocity = direction * speed
 	elif bullet_status == BulletStatus.LEAPING:
 		move_and_slide()
+		var target = null
 		if is_instance_valid(target_enemy):
-			direction = (target_enemy.global_position - global_position).normalized()
+			target = target_enemy
 		elif is_recalled:
-			direction = (source_player.global_position - global_position).normalized()
+			target = source_player
+			
+		if target != null:
+			var direction_to_target = (target.global_position - global_position).normalized()
+			var angle_to_target = get_angle_to(target.global_position)
+			angle_to_target = clamp(angle_to_target, -max_rotation_rate * delta, max_rotation_rate * delta)
+			direction = direction.rotated(angle_to_target)
 			
 		rotation = direction.angle()
 		velocity = direction * speed
@@ -108,7 +115,8 @@ func become_standing():
 		animation.play("spin")
 		detect_enemy_raycast.enabled = true
 	
-func become_leaping(leap_speed):
+func become_leaping(leap_target, leap_speed):
+	direction = global_position.direction_to(leap_target.global_position)
 	bullet_status = BulletStatus.LEAPING
 	animation.stop()
 	speed = leap_speed
@@ -129,7 +137,7 @@ func become_ammo():
 func _on_detect_enemy(body):
 	if body.is_in_group("enemies") and target_enemy == null:
 		target_enemy = body
-		become_leaping(initial_speed)
+		become_leaping(body, initial_speed)
 
 func _on_stop_detect_enemy(body):
 	if body == target_enemy:
@@ -151,7 +159,7 @@ func _on_full_speed_end():
 func recall_to_player():
 	if bullet_status != BulletStatus.IN_FLIGHT:
 		is_recalled = true
-		become_leaping(recall_speed)
+		become_leaping(source_player, recall_speed)
 
 func _on_player_close_enough(body):
 	if body == source_player:
