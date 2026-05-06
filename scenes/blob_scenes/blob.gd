@@ -45,7 +45,10 @@ func _physics_process(delta):
 	expiration_circle.value = ttl - age
 	
 	if age >= ttl:
-		queue_free()
+		if blob_status == BlobStatus.OUT_OF_RANGE:
+			explode()
+		else:
+			recall()
 		return
 		
 	if range_indicator.visible:
@@ -100,7 +103,7 @@ func _player_in_range(body):
 		
 func _player_out_of_range(body):
 	if body.is_in_group("player"):
-		recall()
+		set_status(BlobStatus.OUT_OF_RANGE)
 		
 func set_status(new_status: BlobStatus):
 	blob_status = new_status
