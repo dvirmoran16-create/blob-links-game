@@ -3,8 +3,8 @@ extends CharacterBody2D
 
 static var god_mode = false
 
-@export var max_speed : float = 225.0
-@export var speed_gain_rate : float = 1000.0
+@export var max_speed : float = 250.0
+@export var speed_change_rate : float = 2000.0
 @export var max_ammo : int = 5
 @export var ammo_recharge_interval : float = 2.0
 @export var max_lives : int = 3
@@ -51,15 +51,12 @@ func _physics_process(delta):
 			handle_leap(lit_blobs)
 			
 func handle_movement(delta):
-	var input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	if input_direction == Vector2(0, 0):
-		speed -= speed_gain_rate * delta
+	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	if input_dir != Vector2.ZERO:
+		velocity = velocity.move_toward(input_dir * max_speed, speed_change_rate * delta)
 	else:
-		direction = input_direction
-		speed += speed_gain_rate * delta
-	
-	speed = clamp(speed, 0.0, max_speed)
-	set_velocity(direction * speed)
+		velocity = velocity.move_toward(Vector2.ZERO, speed_change_rate * delta)
+		
 	move_and_slide()
 
 func recharge_ammo(delta):
@@ -146,4 +143,3 @@ func enter_god_mode():
 	max_lives = 100
 	lives = max_lives
 	max_speed = 1000
-	speed_gain_rate = 4000
