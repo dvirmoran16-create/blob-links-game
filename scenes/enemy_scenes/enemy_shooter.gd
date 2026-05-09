@@ -105,11 +105,11 @@ func yellow_dmg():
 	
 func blue_dmg():
 	spawn_speed_pickup()
-  explode()
+	explode()
 	
 func purple_dmg():
 	spawn_speed_pickup()
-  explode()
+	explode()
 
 func spawn_speed_pickup():
 	var speed_pickup = speed_pickup_scene.instantiate()
