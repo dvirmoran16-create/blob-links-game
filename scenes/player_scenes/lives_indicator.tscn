@@ -5,31 +5,31 @@
 [node name="LivesIndicator" type="Node2D" unique_id=1485867105]
 script = ExtResource("1_ah50u")
 
-[node name="wound_1" type="ColorRect" parent="." unique_id=475936666]
+[node name="WoundOne" type="ColorRect" parent="." unique_id=475936666]
 offset_left = -15.0
 offset_top = -15.0
 offset_right = -1.0
 offset_bottom = -1.0
-color = Color(1, 0, 0, 0.5019608)
+color = Color(0.58383155, 0, 0, 0.702)
 metadata/_edit_use_anchors_ = true
 
-[node name="wound_2" type="ColorRect" parent="." unique_id=883486762]
+[node name="WoundTwo" type="ColorRect" parent="." unique_id=883486762]
 offset_left = -5.0
 offset_top = -5.0
 offset_right = 15.0
 offset_bottom = 15.0
-color = Color(1, 0, 0, 0.5)
+color = Color(0.58383155, 0, 0, 0.702)
 metadata/_edit_use_anchors_ = true
 
-[node name="wound_3" type="ColorRect" parent="." unique_id=1984745683]
+[node name="WoundThree" type="ColorRect" parent="." unique_id=1984745683]
 offset_left = -17.0
 offset_top = -17.0
 offset_right = 17.0
 offset_bottom = 17.0
-color = Color(1, 0, 0, 0.5)
+color = Color(0.58383155, 0, 0, 0.702)
 metadata/_edit_use_anchors_ = true
 
-[node name="hurt_rect" type="ColorRect" parent="." unique_id=1060083482]
+[node name="HurtRect" type="ColorRect" parent="." unique_id=1060083482]
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 8
 anchor_left = 0.5
@@ -43,3 +43,9 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
+
+[node name="WoundOneTimer" type="Timer" parent="." unique_id=1496719475]
+wait_time = 0.5
+
+[node name="WoundTwoTimer" type="Timer" parent="." unique_id=308109581]
+wait_time = 0.5
