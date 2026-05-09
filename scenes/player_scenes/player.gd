@@ -4,7 +4,7 @@ extends CharacterBody2D
 static var god_mode = false
 
 @export var max_speed : float = 250.0
-@export var speed_change_rate : float = 2000.0
+@export var speed_change_rate : float = 2500.0
 @export var max_ammo : int = 5
 @export var ammo_recharge_interval : float = 2.0
 @export var max_lives : int = 3
@@ -56,8 +56,12 @@ func handle_movement(delta):
 		velocity = velocity.move_toward(input_dir * max_speed, speed_change_rate * delta)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, speed_change_rate * delta)
-		
+	
+	var last_pos = global_position
 	move_and_slide()
+	
+	if get_slide_collision_count() > 0:
+		velocity = (global_position - last_pos) / delta
 
 func recharge_ammo(delta):
 	if current_ammo < max_ammo:
