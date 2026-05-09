@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bldixm2i0q0um"]
+
+[ext_resource type="Script" uid="uid://cmhp6l5vombii" path="res://scenes/player_scenes/speed_indicator.gd" id="1_r3mqb"]
+
+[sub_resource type="Gradient" id="Gradient_r3mqb"]
+colors = PackedColorArray(1, 1, 1, 0.8, 1, 1, 1, 0)
+
+[node name="SpeedIndicator" type="Line2D" unique_id=112149014]
+top_level = true
+gradient = SubResource("Gradient_r3mqb")
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+script = ExtResource("1_r3mqb")

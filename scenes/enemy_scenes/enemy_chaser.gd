@@ -13,6 +13,7 @@ extends CharacterBody2D
 @export var alert_texture: Texture2D
 @export var blob_scene : PackedScene
 @export var explosion_scene : PackedScene
+@export var speed_pickup_scene : PackedScene
 
 var speed = base_speed
 var is_alert = false
@@ -130,10 +131,19 @@ func explode():
 	queue_free()
 	
 func yellow_dmg():
+	spawn_speed_pickup()
 	blobify()
 	
 func blue_dmg():
+	spawn_speed_pickup()
 	blobify()
 	
 func purple_dmg():
 	blobify()
+	
+func spawn_speed_pickup():
+	var speed_pickup = speed_pickup_scene.instantiate()
+	speed_pickup.global_position = global_position
+	var game = get_tree().current_scene
+	game.call_deferred("add_child", speed_pickup)
+	

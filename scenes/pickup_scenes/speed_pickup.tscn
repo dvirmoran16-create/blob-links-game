@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cr00pbn7gpojl"]
+
+[ext_resource type="Script" uid="uid://bf1nooyqraoca" path="res://scenes/pickup_scenes/speed_pickup.gd" id="1_3q8kt"]
+[ext_resource type="Texture2D" uid="uid://ckkgw8qkurwh8" path="res://assets/sprites/speed_pickup.tres" id="2_tud8q"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tud8q"]
+radius = 16.0
+
+[node name="SpeedPickup" type="Area2D" unique_id=1818380517]
+collision_layer = 8
+collision_mask = 17
+script = ExtResource("1_3q8kt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1798823794]
+visible = false
+shape = SubResource("CircleShape2D_tud8q")
+debug_color = Color(0, 0.60038817, 0.70000815, 0.77400005)
+
+[node name="AmmoSprite" type="ColorRect" parent="." unique_id=224885444]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+color = Color(1, 1, 1, 0.70000005)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=615348787]
+texture = ExtResource("2_tud8q")

@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var blob_scene : PackedScene
 @export var bullet_scene : PackedScene
 @export var explosion_scene : PackedScene
+@export var speed_pickup_scene : PackedScene
 
 var player: Player
 var player_is_close = false
@@ -75,7 +76,7 @@ func blobify():
 	var game = get_tree().current_scene
 	game.call_deferred("add_child", blob)
 	
-	queue_free()	
+	queue_free()
 	
 func shoot(direction):
 	var bullet = bullet_scene.instantiate()
@@ -99,10 +100,18 @@ func _on_detect_player(body):
 		explode()
 		
 func yellow_dmg():
+	spawn_speed_pickup()
 	blobify()
 	
 func blue_dmg():
+	spawn_speed_pickup()
 	blobify()
 	
 func purple_dmg():
 	blobify()
+
+func spawn_speed_pickup():
+	var speed_pickup = speed_pickup_scene.instantiate()
+	speed_pickup.global_position = global_position
+	var game = get_tree().current_scene
+	game.call_deferred("add_child", speed_pickup)

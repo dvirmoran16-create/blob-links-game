@@ -3,8 +3,10 @@ extends CharacterBody2D
 
 static var god_mode = false
 
-@export var max_speed : float = 250.0
+@export var full_speed : float = 250.0
 @export var speed_change_rate : float = 2500.0
+@export var bonus_speed : float = 250.0
+@export var bonus_speed_loss_rate : float = 250.0
 @export var max_ammo : int = 5
 @export var ammo_recharge_interval : float = 2.0
 @export var max_lives : int = 3
@@ -14,10 +16,12 @@ static var god_mode = false
 var current_ammo = max_ammo
 var ammo_recharge_timer = 0.0
 var lives = max_lives
-var speed = 0.0
-var direction : Vector2
+var current_bonus_speed : float = 0.0
+var is_speedy = false
 
+@onready var speed_indicator = $SpeedIndicator
 @onready var burn_timer = $BurnTimer
+@onready var speed_bonus_timer = $SpeedBonusTimer
 
 signal lives_changed(current: int, max: int, delta: int)
 signal ammo_changed(current: int, max: int, delta: int)
@@ -30,6 +34,7 @@ func _ready():
 		
 	update_ammo_status(0)
 	update_lives_status(0)
+	speed_bonus_timer.timeout.connect(speed_bonus_timer_stopped)
 
 func _physics_process(delta):
 	handle_movement(delta)
@@ -52,6 +57,9 @@ func _physics_process(delta):
 			
 func handle_movement(delta):
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var max_speed = full_speed
+	if is_speedy:
+		max_speed += bonus_speed
 	if input_dir != Vector2.ZERO:
 		velocity = velocity.move_toward(input_dir * max_speed, speed_change_rate * delta)
 	else:
@@ -91,7 +99,7 @@ func find_chosen_blob(blobs) -> Blob:
 				chosen_blob = blob
 				chosen_distance_squared = distance_squared
 				
-	return chosen_blob	
+	return chosen_blob
 	
 func update_ammo_status(delta : int, reset_timer=false):
 	current_ammo = clamp(current_ammo + delta, 0, max_ammo)
@@ -102,7 +110,7 @@ func update_ammo_status(delta : int, reset_timer=false):
 func shoot():
 	var mouse_pos = get_global_mouse_position()
 	create_bullet(mouse_pos)
-	update_ammo_status(-1, true)	
+	update_ammo_status(-1, true)
 
 func create_bullet(mouse_pos):
 	var bullet = bullet_scene.instantiate()
@@ -146,4 +154,13 @@ func enter_god_mode():
 	ammo_recharge_interval = 0.5
 	max_lives = 100
 	lives = max_lives
-	max_speed = 1000
+	full_speed = 1000
+	
+func get_speed_bonus():
+	is_speedy = true
+	speed_bonus_timer.start(1.0 + speed_bonus_timer.time_left)
+	speed_indicator.activate()
+	
+func speed_bonus_timer_stopped():
+	is_speedy = false
+	speed_indicator.deactivate()
