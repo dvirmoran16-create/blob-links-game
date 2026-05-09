@@ -49,7 +49,7 @@ func bleed(wound):
 	var game = get_tree().current_scene
 	game.call_deferred("add_child", blood)
 	var a_tween = create_tween()
-	a_tween.tween_property(blood, "modulate:a", 0.0, 1.0)
+	a_tween.tween_property(blood, "modulate:a", 0.3, 2.0)
 	var scale_tween = create_tween()
-	scale_tween.tween_property(blood, "scale", Vector2.ZERO, 1.0)
+	scale_tween.tween_property(blood, "scale", Vector2.ZERO, 2.0)
 	scale_tween.tween_callback(blood.queue_free)
