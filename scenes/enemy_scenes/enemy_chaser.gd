@@ -136,14 +136,15 @@ func yellow_dmg():
 	
 func blue_dmg():
 	spawn_speed_pickup()
-	blobify()
+  explode()
 	
 func purple_dmg():
-	blobify()
+	spawn_speed_pickup()
+  explode()
 	
 func spawn_speed_pickup():
 	var speed_pickup = speed_pickup_scene.instantiate()
 	speed_pickup.global_position = global_position
 	var game = get_tree().current_scene
 	game.call_deferred("add_child", speed_pickup)
-	
+ 
