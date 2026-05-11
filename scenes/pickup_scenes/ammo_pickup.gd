@@ -2,8 +2,7 @@ class_name AmmoPickup
 extends Area2D
 
 @export var speed_loss_rate = 600.0
-@export var far_atract_speed_gain_rate = 20.0
-@export var near_atract_speed_gain_rate = 80.0
+@export var atract_speed_gain_rate = 200.0
 
 var direction = Vector2(0, 0)
 var initial_speed = 600.0
@@ -25,13 +24,9 @@ func _ready():
 	animation_player.play("spin")
 	
 func _physics_process(delta):
-	#var pulse = 1.0 + 0.3 * sin(Time.get_ticks_msec() / 1000.0 * pulse_speed * PI)
-	#modulate = Color(1.5, 1.3, 0.5) * pulse  # Bright yellow
-	#scale = Vector2.ONE * pulse
-	
 	if is_atract_to_player:
 		direction = (player.global_position - global_position).normalized()
-		speed += delta * far_atract_speed_gain_rate
+		speed += delta * atract_speed_gain_rate
 	else:
 		if speed <= 0:
 			is_atract_to_player = true
