@@ -56,7 +56,8 @@ func _physics_process(delta):
 			if blob.blob_status == Blob.BlobStatus.HIGHLIGHTED:
 				lit_blobs.append(blob)
 		if not lit_blobs.is_empty():
-			handle_recall(lit_blobs)
+			pass
+			#handle_recall(lit_blobs)
 		
 	if Input.is_action_just_pressed("leap"):
 		var blobs = get_tree().get_nodes_in_group("blobs")
@@ -93,10 +94,10 @@ func resume_ammo_recharge():
 	ammo_recharge_timer.paused = false
 	ammo_recharge_resumed.emit()
 		
-func handle_recall(lit_blobs: Array):
-	var chosen_blob: Blob = find_chosen_blob(lit_blobs)
-	if chosen_blob and is_instance_valid(chosen_blob):
-		chosen_blob.recall()
+#func handle_recall(lit_blobs: Array):
+	#var chosen_blob: Blob = find_chosen_blob(lit_blobs)
+	#if chosen_blob and is_instance_valid(chosen_blob):
+		#chosen_blob.recall()
 		
 func handle_leap(lit_blobs: Array):
 	var chosen_blob: Blob = find_chosen_blob(lit_blobs)
