@@ -31,11 +31,14 @@ func _draw():
 		draw_line(Vector2.ZERO, to_local(player.global_position), line_color, line_width)
 
 func get_is_frame_blink():
+	if blob.blob_status != Blob.BlobStatus.OUT_OF_RANGE:
+		return false
+		
 	var is_frame_blink = false
-	var remaining_time = blob.ttl - blob.age
+	var remaining_time : float = blob.timer.time_left
 	if remaining_time <= blob.expire_warning_threshold and remaining_time > blob.expire_warning_threshold_severe:
-		is_frame_blink = int(blob.age * blink_speed) % 2 == 0
+		is_frame_blink = int(remaining_time * blink_speed) % 2 == 0
 	if remaining_time <= blob.expire_warning_threshold_severe:
-		is_frame_blink = int(blob.age * blink_speed * 4) % 4 != 0
+		is_frame_blink = int(remaining_time * blink_speed * 4) % 4 != 0
 		
 	return is_frame_blink
