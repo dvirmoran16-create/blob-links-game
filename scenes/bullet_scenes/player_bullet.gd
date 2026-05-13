@@ -125,14 +125,14 @@ func become_leaping(leap_target, leap_speed):
 	recall_timer.paused = true
 	expiration_circle.hide()
 
-func become_ammo():
-	var ammo := ammo_scene.instantiate() as AmmoPickup
-	ammo.global_position = global_position
-	ammo.direction = direction
-	ammo.player = source_player
-	var game = get_tree().current_scene
-	game.call_deferred("add_child", ammo)
-	queue_free()
+#func become_ammo():
+	#var ammo := ammo_scene.instantiate() as AmmoPickup
+	#ammo.global_position = global_position
+	#ammo.direction = direction
+	#ammo.player = source_player
+	#var game = get_tree().current_scene
+	#game.call_deferred("add_child", ammo)
+	#queue_free()
 	
 func _on_detect_enemy(body):
 	if body.is_in_group("enemies") and target_enemy == null:
@@ -148,7 +148,7 @@ func _on_hitbox_hit(body):
 	if body.is_in_group("enemies"):
 		if body.has_method("yellow_dmg"):
 			body.yellow_dmg()
-		become_ammo()
+		queue_free()
 	elif body == source_player and (is_recalled or bullet_status == BulletStatus.STANDING):
 		source_player.update_ammo_status(1)
 		queue_free()

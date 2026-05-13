@@ -46,5 +46,12 @@ one_shot = true
 [node name="SpeedBonusTimer" type="Timer" parent="." unique_id=1261700266]
 one_shot = true
 
+[node name="AmmoRechargeTimer" type="Timer" parent="." unique_id=901899937]
+autostart = true
+
+[node name="AmmoPauseTimer" type="Timer" parent="." unique_id=1639683892]
+one_shot = true
+
 [connection signal="ammo_changed" from="." to="AmmoIndicator" method="_on_player_ammo_changed"]
+[connection signal="ammo_recharge_resumed" from="." to="AmmoIndicator" method="_on_player_ammo_recharge_resumed"]
 [connection signal="lives_changed" from="." to="LivesIndicator" method="_on_player_lives_changed"]

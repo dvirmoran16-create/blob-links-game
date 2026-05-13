@@ -14,7 +14,6 @@ static var god_mode = false
 @export var explosion_scene : PackedScene
 
 var current_ammo = max_ammo
-var ammo_recharge_timer = 0.0
 var lives = max_lives
 var current_bonus_speed : float = 0.0
 var is_speedy = false
@@ -22,9 +21,12 @@ var is_speedy = false
 @onready var speed_indicator = $SpeedIndicator
 @onready var burn_timer = $BurnTimer
 @onready var speed_bonus_timer = $SpeedBonusTimer
+@onready var ammo_recharge_timer = $AmmoRechargeTimer
+@onready var ammo_pause_timer = $AmmoPauseTimer
 
 signal lives_changed(current: int, max: int, delta: int)
 signal ammo_changed(current: int, max: int, delta: int)
+signal ammo_recharge_resumed
 signal died
 signal recall
 
@@ -35,10 +37,11 @@ func _ready():
 	update_ammo_status(0)
 	update_lives_status(0)
 	speed_bonus_timer.timeout.connect(speed_bonus_timer_stopped)
+	ammo_recharge_timer.timeout.connect(recharge_ammo)
+	ammo_pause_timer.timeout.connect(resume_ammo_recharge)
 
 func _physics_process(delta):
 	handle_movement(delta)
-	#recharge_ammo(delta)
 			
 	if Input.is_action_just_pressed("shoot"):
 		if current_ammo > 0:
@@ -80,11 +83,15 @@ func handle_movement(delta):
 	if get_slide_collision_count() > 0:
 		velocity = (global_position - last_pos) / delta
 
-func recharge_ammo(delta):
-	if current_ammo < max_ammo:
-		ammo_recharge_timer += delta
-		if ammo_recharge_timer >= ammo_recharge_interval:
-			update_ammo_status(1, true)
+func recharge_ammo():
+	if current_ammo == max_ammo:
+		ammo_recharge_timer.paused = true
+	else:
+		update_ammo_status(1)
+		
+func resume_ammo_recharge():
+	ammo_recharge_timer.paused = false
+	ammo_recharge_resumed.emit()
 		
 func handle_recall(lit_blobs: Array):
 	var chosen_blob: Blob = find_chosen_blob(lit_blobs)
@@ -115,16 +122,20 @@ func find_chosen_blob(blobs) -> Blob:
 				
 	return chosen_blob
 	
-func update_ammo_status(delta : int, reset_timer=false):
+func update_ammo_status(delta : int):
 	current_ammo = clamp(current_ammo + delta, 0, max_ammo)
-	ammo_changed.emit(current_ammo, max_ammo, delta)	
-	if reset_timer:
-		ammo_recharge_timer = 0.0
+	ammo_changed.emit(current_ammo, max_ammo, delta)
+
 	
 func shoot():
 	var mouse_pos = get_global_mouse_position()
 	create_bullet(mouse_pos)
-	update_ammo_status(-1, true)
+	update_ammo_status(-1)
+	pause_ammo_recharge()
+	
+func pause_ammo_recharge():
+	ammo_recharge_timer.paused = true
+	ammo_pause_timer.start(1.0)
 
 func create_bullet(mouse_pos):
 	var bullet = bullet_scene.instantiate()
