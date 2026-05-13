@@ -85,11 +85,12 @@ func handle_movement(delta):
 		velocity = (global_position - last_pos) / delta
 
 func recharge_ammo():
-	if current_ammo == max_ammo:
-		ammo_recharge_timer.paused = true
-	else:
-		update_ammo_status(1)
+	update_ammo_status(1)
 		
+func pause_ammo_recharge():
+	ammo_recharge_timer.paused = true
+	ammo_pause_timer.start(1.0)
+	
 func resume_ammo_recharge():
 	ammo_recharge_timer.paused = false
 	ammo_recharge_resumed.emit()
@@ -125,18 +126,15 @@ func find_chosen_blob(blobs) -> Blob:
 	
 func update_ammo_status(delta : int):
 	current_ammo = clamp(current_ammo + delta, 0, max_ammo)
+	if current_ammo == max_ammo:
+		ammo_recharge_timer.paused = true
 	ammo_changed.emit(current_ammo, max_ammo, delta)
 
-	
 func shoot():
 	var mouse_pos = get_global_mouse_position()
 	create_bullet(mouse_pos)
 	update_ammo_status(-1)
 	pause_ammo_recharge()
-	
-func pause_ammo_recharge():
-	ammo_recharge_timer.paused = true
-	ammo_pause_timer.start(1.0)
 
 func create_bullet(mouse_pos):
 	var bullet = bullet_scene.instantiate()

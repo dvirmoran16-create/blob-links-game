@@ -47,6 +47,7 @@ one_shot = true
 one_shot = true
 
 [node name="AmmoRechargeTimer" type="Timer" parent="." unique_id=901899937]
+wait_time = 2.0
 autostart = true
 
 [node name="AmmoPauseTimer" type="Timer" parent="." unique_id=1639683892]
