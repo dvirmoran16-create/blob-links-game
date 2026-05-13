@@ -102,9 +102,9 @@ func handle_leap(lit_blobs: Array):
 	var chosen_blob: Blob = find_chosen_blob(lit_blobs)
 	if chosen_blob and is_instance_valid(chosen_blob):
 		var leap_target_pos = chosen_blob.global_position
-		var num_of_blobs = 1  # lit_blobs.size()
-		#for blob: Blob in lit_blobs:
-			#blob.explode_link()
+		var num_of_blobs = lit_blobs.size()
+		for blob: Blob in lit_blobs:
+			blob.explode_link()
 		chosen_blob.explode_link()
 		global_position = leap_target_pos
 		explode(num_of_blobs)
