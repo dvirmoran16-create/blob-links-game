@@ -2,8 +2,8 @@ class_name BlobLine
 extends Line2D
 
 @export var fade_duration = 0.5
-@export var line_width = 40.0
-@export var start_color = Color(0.0, 0.0, 1.0, 1.0)  # Semi-opaque blue
+@export var max_width = 40.0
+@export var start_color = Color(0.3, 0.5, 1.0, 1.0)  # Semi-opaque blue
 @export var end_color = Color(0.0, 0.0, 1.0, 1.0)  # Semi-opaque blue
 
 var age = 0.0
@@ -16,9 +16,10 @@ var end_pos: Vector2
 
 func _ready():
 	age = 0.0
-	width = line_width
+	width = max_width
 	collision_shape_setup()
 	hit_area.monitoring = true
+	hit_area.body_entered.connect(_on_detect_enemy)
 	await get_tree().physics_frame
 	call_deferred("collect_pickups")
 	await get_tree().create_timer(0.2).timeout
@@ -34,6 +35,7 @@ func _physics_process(delta):
 	
 	default_color = start_color.lerp(end_color, progress)
 	default_color.a = 1.0 - progress
+	width = max_width * (1.0 - progress)
 
 func collision_shape_setup():
 	clear_points()
@@ -52,15 +54,22 @@ func collision_shape_setup():
 			var line_angle = line_vec.angle() + PI / 2
 			
 			# Set capsule dimensions
-			capsule.radius = line_width / 2  # Thickness
+			capsule.radius = max_width / 2  # Thickness
 			capsule.height = line_length  # Length
 			
 			# Position and rotate capsule
 			collision_shape.position = line_center
 			collision_shape.rotation = line_angle
 		
+func _on_detect_enemy(body):
+	if body not in damaged_enemies and body.has_method("blue_dmg"):
+		body.blue_dmg()
+		damaged_enemies.append(body)
+
 func collect_pickups():
 	var bodies = hit_area.get_overlapping_areas()
 	for b in bodies:
 		if b.is_in_group("pickups"):
 			b._on_detect_player(player)
+		else:
+			_on_detect_enemy(b)

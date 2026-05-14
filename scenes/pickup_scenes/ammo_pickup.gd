@@ -52,5 +52,5 @@ func _on_player_ammo_changed(current, max, _delta):
 				
 func get_consumed():
 	is_active = false
-	player.update_ammo_status(1, false)
+	player.update_ammo_status(1)
 	queue_free()

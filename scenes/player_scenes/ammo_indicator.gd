@@ -7,12 +7,14 @@ extends Node2D
 
 @onready var ammo_sprite : ColorRect = $AmmoSprite
 var dots = []
+var is_rotate = true
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _physics_process(delta):
-	rotate(rotation_speed * delta)
+	if is_rotate:
+		rotate(rotation_speed * delta)
 	for d in dots:
 		d.rotation -= rotation_speed * delta * 2
 	
@@ -37,9 +39,15 @@ func place_dots(num_of_dots: int):
 		dots[i].position = Vector2(x, y) + dot_center_vector
 		
 func _on_player_ammo_changed(current, max, delta):
+	if delta < 0:
+		is_rotate = false
 	if max != dots.size():
 		create_dots(max)
 		place_dots(current)
 		
 	for i in range(dots.size()):
 		dots[i].visible = (i < current)
+
+
+func _on_player_ammo_recharge_resumed() -> void:
+	is_rotate = true

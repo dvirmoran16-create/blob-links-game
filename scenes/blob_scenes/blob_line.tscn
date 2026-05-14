@@ -7,6 +7,8 @@
 [node name="BlobLine" type="Line2D" unique_id=1444137202]
 width = 24.0
 default_color = Color(0.3, 0.25, 1, 1)
+begin_cap_mode = 2
+end_cap_mode = 2
 script = ExtResource("1_r60ku")
 
 [node name="HitArea" type="Area2D" parent="." unique_id=145552374]

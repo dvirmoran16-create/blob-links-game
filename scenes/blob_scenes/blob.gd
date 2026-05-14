@@ -7,15 +7,11 @@ var blob_status = BlobStatus.OUT_OF_RANGE
 @export var inactive_texture: Texture2D
 @export var normal_texture: Texture2D
 @export var alert_texture: Texture2D
-@export var ttl = 15.0
-@export var expire_warning_threshold = 3.0
-@export var expire_warning_threshold_severe = 1.0
 @export var explosion_scene : PackedScene
 @export var blob_line_scene : PackedScene
 @export var magic_bullet_scene : PackedScene
 
 var player: CharacterBody2D = null
-var age = 0.0
 var is_dying = false
 
 @onready var sprite = $Sprite2D
@@ -24,6 +20,7 @@ var is_dying = false
 @onready var available_range = $AvailableRange
 @onready var available_distance = $AvailableRange/CollisionShape2D.shape.radius
 @onready var expiration_circle = $ExpirationCircle
+@onready var timer = $Timer
 @onready var range_indicator = $RangeIndicator
 
 
@@ -36,20 +33,13 @@ func _ready():
 	highlight_range.mouse_exited.connect(undo_highlight)
 	body_entered.connect(_on_stepped_on_by_player)
 	add_to_group("blobs")
-	expiration_circle.max_value = ttl
-	expiration_circle.step = 0.25
+	expiration_circle.max_value = timer.wait_time
 	expiration_circle.tint_progress.a = 0.7
+	timer.timeout.connect(queue_free)
 		
 func _physics_process(delta):
-	age += delta
-	expiration_circle.value = ttl - age
-	
-	if age >= ttl:
-		if blob_status == BlobStatus.OUT_OF_RANGE:
-			explode()
-		else:
-			recall()
-		return
+	if blob_status == BlobStatus.OUT_OF_RANGE:
+		expiration_circle.value = timer.time_left
 		
 	if range_indicator.visible:
 		set_indicator_pos()
@@ -111,16 +101,18 @@ func set_status(new_status: BlobStatus):
 	if new_status == BlobStatus.OUT_OF_RANGE:
 		sprite.texture = inactive_texture
 		range_indicator.show()
+		timer.paused = false
 	elif new_status == BlobStatus.IN_RANGE:
 		sprite.texture = normal_texture
 		range_indicator.hide()
+		timer.paused = true
 	elif new_status == BlobStatus.HIGHLIGHTED:
 		sprite.texture = alert_texture
 		
-func recall():
-	var magic_bullet : MagicBullet = magic_bullet_scene.instantiate()
-	magic_bullet.global_position = global_position
-	magic_bullet.source_player = player
-	var game = get_parent()
-	game.call_deferred("add_child", magic_bullet)
-	queue_free()
+#func recall():
+	#var magic_bullet : MagicBullet = magic_bullet_scene.instantiate()
+	#magic_bullet.global_position = global_position
+	#magic_bullet.source_player = player
+	#var game = get_parent()
+	#game.call_deferred("add_child", magic_bullet)
+	#queue_free()

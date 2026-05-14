@@ -100,16 +100,18 @@ func _on_detect_player(body):
 		explode()
 		
 func yellow_dmg():
-	spawn_speed_pickup()
+	#spawn_speed_pickup()
 	blobify()
 	
 func blue_dmg():
-	spawn_speed_pickup()
-	explode()
+	#spawn_speed_pickup()
+	#explode()
+	blobify()
 	
 func purple_dmg():
-	spawn_speed_pickup()
-	explode()
+	#spawn_speed_pickup()
+	#explode()
+	blobify()
 
 func spawn_speed_pickup():
 	var speed_pickup = speed_pickup_scene.instantiate()

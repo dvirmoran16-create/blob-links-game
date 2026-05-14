@@ -7,6 +7,8 @@ extends Node2D
 @export var highlight_line_width = 8.0
 @export var blink_speed = 10.0
 @export var dashed_line_range_squared = 1000 ** 2
+@export var expire_warning_threshold = 3.0
+@export var expire_warning_threshold_severe = 1.0
 
 @onready var player: Player = get_tree().get_first_node_in_group("player")
 @onready var blob: Blob = get_parent()
@@ -31,11 +33,14 @@ func _draw():
 		draw_line(Vector2.ZERO, to_local(player.global_position), line_color, line_width)
 
 func get_is_frame_blink():
+	if blob.blob_status != Blob.BlobStatus.OUT_OF_RANGE:
+		return false
+		
 	var is_frame_blink = false
-	var remaining_time = blob.ttl - blob.age
-	if remaining_time <= blob.expire_warning_threshold and remaining_time > blob.expire_warning_threshold_severe:
-		is_frame_blink = int(blob.age * blink_speed) % 2 == 0
-	if remaining_time <= blob.expire_warning_threshold_severe:
-		is_frame_blink = int(blob.age * blink_speed * 4) % 4 != 0
+	var remaining_time : float = blob.timer.time_left
+	if remaining_time <= expire_warning_threshold and remaining_time > expire_warning_threshold_severe:
+		is_frame_blink = int(remaining_time * blink_speed) % 2 == 0
+	if remaining_time <= expire_warning_threshold_severe:
+		is_frame_blink = int(remaining_time * blink_speed * 4) % 4 != 0
 		
 	return is_frame_blink
