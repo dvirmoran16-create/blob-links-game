@@ -7,15 +7,11 @@ var blob_status = BlobStatus.OUT_OF_RANGE
 @export var inactive_texture: Texture2D
 @export var normal_texture: Texture2D
 @export var alert_texture: Texture2D
-@export var ttl = 7.0
-@export var expire_warning_threshold = 3.0
-@export var expire_warning_threshold_severe = 1.0
 @export var explosion_scene : PackedScene
 @export var blob_line_scene : PackedScene
 @export var magic_bullet_scene : PackedScene
 
 var player: CharacterBody2D = null
-var age = 0.0
 var is_dying = false
 
 @onready var sprite = $Sprite2D
