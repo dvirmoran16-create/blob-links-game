@@ -46,8 +46,6 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("shoot"):
 		if current_ammo > 0:
 			shoot()
-		else:
-			recall.emit()
 			
 	if Input.is_action_just_pressed("recall"):
 		var blobs = get_tree().get_nodes_in_group("blobs")
@@ -132,16 +130,31 @@ func update_ammo_status(delta : int):
 
 func shoot():
 	var mouse_pos = get_global_mouse_position()
-	create_bullet(mouse_pos)
+	var enemy_target = find_target_enemy(mouse_pos)
+	create_bullet(mouse_pos, enemy_target)
 	update_ammo_status(-1)
 	pause_ammo_recharge()
+	
+func find_target_enemy(pos):
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	var target_enemy = null
+	var chosen_distance_squared = 150.0 ** 2
+	for enemy : CharacterBody2D in enemies:
+		if is_instance_valid(enemy):
+			var distance_squared = pos.distance_squared_to(enemy.global_position)
+			if distance_squared < chosen_distance_squared:
+				target_enemy = enemy
+				chosen_distance_squared = distance_squared
+				
+	return target_enemy
 
-func create_bullet(mouse_pos):
+func create_bullet(mouse_pos, target_enemy):
 	var bullet = bullet_scene.instantiate()
 	var direction_to_mouse = (mouse_pos - global_position).normalized()
 	bullet.global_position = global_position + direction_to_mouse * 30
 	bullet.target_position = mouse_pos
 	bullet.source_player = self
+	bullet.target_enemy = target_enemy
 	get_parent().add_child(bullet)
 
 func get_hit():

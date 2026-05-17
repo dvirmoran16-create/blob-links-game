@@ -50,6 +50,9 @@ func _ready():
 	homing_range.body_entered.connect(_on_detect_enemy)
 	homing_range.body_exited.connect(_on_stop_detect_enemy)
 	source_player.recall.connect(recall_to_player)
+	
+	if target_enemy != null:
+		become_leaping(target_enemy, initial_speed)
 
 func _calcuate_flight_time():
 	var distance = global_position.distance_to(target_position)

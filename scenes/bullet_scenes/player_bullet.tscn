@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://b1bb8qt7nmhed" path="res://scenes/player_scenes/bullet_line_drawer.tscn" id="4_suti7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8fcr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ekvtf"]
 size = Vector2(22, 22)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c8fcr"]
@@ -60,6 +62,7 @@ ammo_scene = ExtResource("2_v40gq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=157630091]
 rotation = 0.7853982
+scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("RectangleShape2D_c8fcr")
 debug_color = Color(0.8683968, 0.26145205, 0.6043529, 0.41960785)
 
@@ -70,7 +73,8 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=454205742]
 rotation = 0.7836824
-shape = SubResource("RectangleShape2D_c8fcr")
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_ekvtf")
 debug_color = Color(0.8683968, 0.26145205, 0.6043529, 0.41960785)
 
 [node name="HomingRange" type="Area2D" parent="." unique_id=1728895127]
