@@ -1,53 +1,37 @@
 class_name AmmoPickup
 extends Area2D
 
-@export var speed_loss_rate = 600.0
-@export var atract_speed_gain_rate = 200.0
+@export var ttl = 7.0
 
-var direction = Vector2(0, 0)
-var initial_speed = 600.0
-var speed = 0.0
 var is_active = true
-var is_atract_to_player = false
 
 @onready var animation_player = $AnimationPlayer
+@onready var expiration_circle = $ExpirationCircle
+@onready var timer = $Timer
 @onready var player : Player = get_tree().get_first_node_in_group("player")
 
 func _ready():
-	if direction != Vector2.ZERO:
-		speed = initial_speed
-		global_position += direction * speed / 10
-		
+	timer.start(ttl)
+	expiration_circle.max_value = ttl
+	
 	player.ammo_changed.connect(_on_player_ammo_changed)
 	body_entered.connect(_on_detect_player)
+	timer.timeout.connect(queue_free)
 	add_to_group("pickups")
 	animation_player.play("spin")
-	
-func _physics_process(delta):
-	if is_atract_to_player:
-		direction = (player.global_position - global_position).normalized()
-		speed += delta * atract_speed_gain_rate
-	else:
-		if speed <= 0:
-			is_atract_to_player = true
-		else:
-			speed -= delta * speed_loss_rate
-			speed = clamp(speed, 0, initial_speed)
-			
-	position += delta * speed * direction
+
+func _physics_process(delta: float) -> void:
+	expiration_circle.value = timer.time_left
 		
 func _on_detect_player(body):
-	if not body.is_in_group("player"):
-		speed = 0.0
-	else:
-		if player.current_ammo < player.max_ammo and is_active == true:
-			get_consumed()
+	if body == player and player.current_ammo < player.max_ammo and is_active == true:
+		get_consumed()
 		
 func _on_player_ammo_changed(current, max, _delta):
 	if current < max and is_active:
 		var bodies = get_overlapping_bodies()
 		for body in bodies:
-			if body.is_in_group("player"):
+			if body == player:
 				get_consumed()
 				
 func get_consumed():

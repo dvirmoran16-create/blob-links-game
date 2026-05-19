@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var speed_loss_rate = 600.0
 @export var initial_speed = 1200.0
 @export var rotation_rate = 4 * PI
+@export var ammo_scene : PackedScene
 
 var speed = initial_speed
 var direction = Vector2.ZERO
@@ -54,7 +55,16 @@ func _handle_wall_collision(collision):
 	rotation = direction.angle()
 
 func _on_expire():
+	become_ammo()
+	
+func become_ammo():
+	var ammo := ammo_scene.instantiate() as AmmoPickup
+	ammo.global_position = global_position
+	ammo.player = source_player
+	var game = get_tree().current_scene
+	game.call_deferred("add_child", ammo)
 	queue_free()
+	
 #
 #enum BulletStatus { IN_FLIGHT, LEAPING, STANDING }
 #var bullet_status = BulletStatus.IN_FLIGHT

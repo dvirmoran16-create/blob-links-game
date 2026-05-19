@@ -34,7 +34,11 @@ func _on_player_lives_changed(current, max, delta):
 	
 	if delta < 0:
 		var hurt_tween = create_tween()
-		hurt_tween.tween_property(hurt_rect, "modulate:a", 0.0, 0.4).from(1.0)
+		if current > 0:
+			hurt_tween.tween_property(hurt_rect, "modulate:a", 0.0, 0.4).from(1.0)
+		else:
+			hurt_rect.scale = Vector2(2.0, 2.0)
+			hurt_tween.tween_property(hurt_rect, "modulate:a", 0.0, 0.8).from(1.0)
 
 func bleed_1():
 	bleed(wound_1)

@@ -56,7 +56,6 @@ shape = SubResource("CircleShape2D_17po2")
 debug_color = Color(0.61138725, 0.61138725, 0.73337764, 0.2)
 
 [node name="ExpirationCircle" parent="." unique_id=1423140789 instance=ExtResource("5_fuqb5")]
-step = 0.1
 
 [node name="RangeIndicator" type="Polygon2D" parent="." unique_id=2122025416]
 visible = false
