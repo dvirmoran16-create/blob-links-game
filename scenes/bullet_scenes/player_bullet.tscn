@@ -1,9 +1,7 @@
 [gd_scene format=3 uid="uid://bka7uju8o5ino"]
 
 [ext_resource type="Script" uid="uid://daeeh1yjl1bm5" path="res://scenes/bullet_scenes/player_bullet.gd" id="1_qvyco"]
-[ext_resource type="PackedScene" uid="uid://dgi0sk5jfht1k" path="res://scenes/pickup_scenes/ammo_pickup.tscn" id="2_v40gq"]
 [ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/common_scenes/expiration_circle.tscn" id="3_sv1wv"]
-[ext_resource type="PackedScene" uid="uid://b1bb8qt7nmhed" path="res://scenes/player_scenes/bullet_line_drawer.tscn" id="4_suti7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8fcr"]
 
@@ -58,11 +56,9 @@ collision_layer = 4
 collision_mask = 16
 motion_mode = 1
 script = ExtResource("1_qvyco")
-ammo_scene = ExtResource("2_v40gq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=157630091]
 rotation = 0.7853982
-scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("RectangleShape2D_c8fcr")
 debug_color = Color(0.8683968, 0.26145205, 0.6043529, 0.41960785)
 
@@ -73,7 +69,6 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=454205742]
 rotation = 0.7836824
-scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("RectangleShape2D_ekvtf")
 debug_color = Color(0.8683968, 0.26145205, 0.6043529, 0.41960785)
 
@@ -116,8 +111,6 @@ max_value = 5.0
 step = 0.1
 value = 5.0
 fill_mode = 5
-
-[node name="BulletLineDrawer" parent="." unique_id=1532536550 instance=ExtResource("4_suti7")]
 
 [node name="DetectEnemyRayCast" type="RayCast2D" parent="." unique_id=306307939]
 enabled = false
