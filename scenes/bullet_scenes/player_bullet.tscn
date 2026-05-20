@@ -94,6 +94,10 @@ debug_color = Color(0.61138725, 0.61138725, 0.3944329, 0.2)
 [node name="FullSpeedTimer" type="Timer" parent="." unique_id=578000014]
 one_shot = true
 
+[node name="TrailTimer" type="Timer" parent="." unique_id=935031920]
+wait_time = 0.1
+autostart = true
+
 [node name="RecallTimer" type="Timer" parent="." unique_id=735328669]
 wait_time = 5.0
 one_shot = true
@@ -112,7 +116,6 @@ visible = false
 max_value = 5.0
 step = 0.1
 value = 5.0
-fill_mode = 5
 
 [node name="DetectEnemyRayCast" type="RayCast2D" parent="." unique_id=306307939]
 enabled = false

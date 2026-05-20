@@ -13,6 +13,8 @@ var source_player: Player
 var target_enemy: CharacterBody2D = null
 
 @onready var hitbox = $HitBox
+@onready var shape = $Shape
+@onready var trail_timer = $TrailTimer
 
 func _ready():
 	if is_instance_valid(target_enemy):
@@ -23,6 +25,7 @@ func _ready():
 	velocity = direction * speed
 
 	hitbox.body_entered.connect(_on_hitbox_hit)
+	trail_timer.timeout.connect(create_trail_mark)
 	
 func _on_hitbox_hit(body):
 	if body.is_in_group("enemies"):
@@ -64,6 +67,19 @@ func become_ammo():
 	var game = get_tree().current_scene
 	game.call_deferred("add_child", ammo)
 	queue_free()
+	
+func create_trail_mark():
+	var trail_mark = shape.duplicate()
+	trail_mark.global_position = global_position
+	trail_mark.rotation = rotation
+	trail_mark.modulate.a = 0.4
+	#var a_tween = trail_mark.create_tween()
+	#a_tween.tween_property(trail_mark, "modulate:a", 0.0, 0.4).from(0.5)
+	var scale_tween = trail_mark.create_tween()
+	scale_tween.tween_property(trail_mark, "scale", Vector2.ZERO, 0.4)
+	scale_tween.tween_callback(trail_mark.queue_free)
+	var game = get_tree().current_scene
+	game.call_deferred("add_child", trail_mark)
 	
 #
 #enum BulletStatus { IN_FLIGHT, LEAPING, STANDING }
