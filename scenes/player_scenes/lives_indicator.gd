@@ -62,7 +62,7 @@ func bleed(wound):
 func create_death_rect() -> void:
 	var death_rect = hurt_rect.duplicate()
 	call_deferred("add_child", death_rect)
-	death_rect.scale = Vector2(2.0, 2.0)
 	var death_tween = create_tween()
 	death_tween.tween_property(death_rect, "modulate:a", 0.0, 0.8).from(1.0)
+	death_tween.parallel().tween_property(death_rect, "scale", Vector2(4.0, 4.0), 0.8)
 	death_tween.finished.connect(death_rect.queue_free)

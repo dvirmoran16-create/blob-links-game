@@ -12,9 +12,6 @@ size = Vector2(22, 22)
 [sub_resource type="CircleShape2D" id="CircleShape2D_c8fcr"]
 radius = 150.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_sv1wv"]
-radius = 1250.0
-
 [sub_resource type="Animation" id="Animation_v40gq"]
 length = 0.001
 tracks/0/type = "value"
@@ -82,25 +79,14 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HomingRange" unique_id=1827381852]
 shape = SubResource("CircleShape2D_c8fcr")
 
-[node name="AutoRecallRange" type="Area2D" parent="." unique_id=407801766]
-collision_layer = 8
-input_pickable = false
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AutoRecallRange" unique_id=759042080]
-shape = SubResource("CircleShape2D_sv1wv")
-debug_color = Color(0.61138725, 0.61138725, 0.3944329, 0.2)
-
-[node name="FullSpeedTimer" type="Timer" parent="." unique_id=578000014]
-one_shot = true
+[node name="DetectEnemyRayCast" type="RayCast2D" parent="." unique_id=306307939]
+enabled = false
+target_position = Vector2(1200, 0)
+collision_mask = 2
 
 [node name="TrailTimer" type="Timer" parent="." unique_id=935031920]
 wait_time = 0.1
 autostart = true
-
-[node name="RecallTimer" type="Timer" parent="." unique_id=735328669]
-wait_time = 5.0
-one_shot = true
 
 [node name="Shape" type="Polygon2D" parent="." unique_id=1670425541]
 color = Color(1, 0.92941177, 0.627451, 1)
@@ -116,7 +102,3 @@ visible = false
 max_value = 5.0
 step = 0.1
 value = 5.0
-
-[node name="DetectEnemyRayCast" type="RayCast2D" parent="." unique_id=306307939]
-enabled = false
-collision_mask = 2
