@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dgi0sk5jfht1k"]
 
 [ext_resource type="Script" uid="uid://kockplyy44nb" path="res://scenes/pickup_scenes/ammo_pickup.gd" id="1_jvvnm"]
+[ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/common_scenes/expiration_circle.tscn" id="2_2bcxr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 25.0
@@ -70,3 +71,8 @@ color = Color(1, 0.92947316, 0.62782896, 0.70000005)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1656530875]
 process_mode = 3
 libraries/ = SubResource("AnimationLibrary_jrhku")
+
+[node name="ExpirationCircle" parent="." unique_id=1423140789 instance=ExtResource("2_2bcxr")]
+
+[node name="Timer" type="Timer" parent="." unique_id=74418826]
+one_shot = true

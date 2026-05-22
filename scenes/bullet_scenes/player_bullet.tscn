@@ -3,16 +3,14 @@
 [ext_resource type="Script" uid="uid://daeeh1yjl1bm5" path="res://scenes/bullet_scenes/player_bullet.gd" id="1_qvyco"]
 [ext_resource type="PackedScene" uid="uid://dgi0sk5jfht1k" path="res://scenes/pickup_scenes/ammo_pickup.tscn" id="2_v40gq"]
 [ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/common_scenes/expiration_circle.tscn" id="3_sv1wv"]
-[ext_resource type="PackedScene" uid="uid://b1bb8qt7nmhed" path="res://scenes/player_scenes/bullet_line_drawer.tscn" id="4_suti7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8fcr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ekvtf"]
 size = Vector2(22, 22)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c8fcr"]
 radius = 150.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_sv1wv"]
-radius = 1250.0
 
 [sub_resource type="Animation" id="Animation_v40gq"]
 length = 0.001
@@ -70,7 +68,7 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=454205742]
 rotation = 0.7836824
-shape = SubResource("RectangleShape2D_c8fcr")
+shape = SubResource("RectangleShape2D_ekvtf")
 debug_color = Color(0.8683968, 0.26145205, 0.6043529, 0.41960785)
 
 [node name="HomingRange" type="Area2D" parent="." unique_id=1728895127]
@@ -81,21 +79,14 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HomingRange" unique_id=1827381852]
 shape = SubResource("CircleShape2D_c8fcr")
 
-[node name="AutoRecallRange" type="Area2D" parent="." unique_id=407801766]
-collision_layer = 8
-input_pickable = false
-monitorable = false
+[node name="DetectEnemyRayCast" type="RayCast2D" parent="." unique_id=306307939]
+enabled = false
+target_position = Vector2(1200, 0)
+collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AutoRecallRange" unique_id=759042080]
-shape = SubResource("CircleShape2D_sv1wv")
-debug_color = Color(0.61138725, 0.61138725, 0.3944329, 0.2)
-
-[node name="FullSpeedTimer" type="Timer" parent="." unique_id=578000014]
-one_shot = true
-
-[node name="RecallTimer" type="Timer" parent="." unique_id=735328669]
-wait_time = 5.0
-one_shot = true
+[node name="TrailTimer" type="Timer" parent="." unique_id=935031920]
+wait_time = 0.1
+autostart = true
 
 [node name="Shape" type="Polygon2D" parent="." unique_id=1670425541]
 color = Color(1, 0.92941177, 0.627451, 1)
@@ -111,10 +102,3 @@ visible = false
 max_value = 5.0
 step = 0.1
 value = 5.0
-fill_mode = 5
-
-[node name="BulletLineDrawer" parent="." unique_id=1532536550 instance=ExtResource("4_suti7")]
-
-[node name="DetectEnemyRayCast" type="RayCast2D" parent="." unique_id=306307939]
-enabled = false
-collision_mask = 2
