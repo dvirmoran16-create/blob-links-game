@@ -2,7 +2,7 @@ extends Node2D
 
 @export var normal_line_color = Color(0.3, 0.5, 1.0, 0.4)
 @export var highlight_line_color = Color(0.3, 0.5, 1.0, 0.6)
-@export var inactive_line_color = Color(0.3, 0.3, 0.3, 0.6)
+@export var inactive_line_color = Color(0.35, 0.35, 0.35, 0.6)
 @export var normal_line_width = 4.0
 @export var highlight_line_width = 8.0
 @export var blink_speed = 10.0
@@ -41,6 +41,6 @@ func get_is_frame_blink():
 	if remaining_time <= expire_warning_threshold and remaining_time > expire_warning_threshold_severe:
 		is_frame_blink = int(remaining_time * blink_speed) % 2 == 0
 	if remaining_time <= expire_warning_threshold_severe:
-		is_frame_blink = int(remaining_time * blink_speed * 4) % 4 != 0
+		is_frame_blink = int(remaining_time * blink_speed * 2) % 2 == 0
 		
 	return is_frame_blink

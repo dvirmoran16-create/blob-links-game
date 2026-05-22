@@ -36,7 +36,7 @@ func _on_player_lives_changed(current, max, delta):
 	
 	if delta < 0:
 		var hurt_tween = create_tween()
-		hurt_tween.tween_property(hurt_rect, "modulate:a", 0.0, 0.4).from(1.0)
+		hurt_tween.tween_property(hurt_rect, "modulate:a", 0.0, 0.5).from(1.0)
 		if is_alive and current <= 0:
 			is_alive = false
 			create_death_rect()
@@ -63,6 +63,6 @@ func create_death_rect() -> void:
 	var death_rect = hurt_rect.duplicate()
 	call_deferred("add_child", death_rect)
 	var death_tween = create_tween()
-	death_tween.tween_property(death_rect, "modulate:a", 0.0, 0.8).from(1.0)
-	death_tween.parallel().tween_property(death_rect, "scale", Vector2(4.0, 4.0), 0.8)
+	death_tween.tween_property(death_rect, "modulate:a", 0.0, 1.0).from(1.0)
+	death_tween.parallel().tween_property(death_rect, "scale", Vector2(5.0, 5.0), 1.0)
 	death_tween.finished.connect(death_rect.queue_free)
