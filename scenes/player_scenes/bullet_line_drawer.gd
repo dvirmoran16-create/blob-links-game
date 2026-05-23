@@ -13,7 +13,7 @@ func _process(_delta):
 
 func _draw():
 	var line_color = base_line_color
-	if bullet.bullet_status == PlayerBullet.BulletStatus.STANDING:
+	if true: #bullet.bullet_status == PlayerBullet.BulletStatus.STANDING:
 		var is_frame_blink = get_is_frame_blink()
 		if is_frame_blink:
 			line_color.a *= 0.3

@@ -23,6 +23,7 @@ var is_speedy = false
 @onready var speed_bonus_timer = $SpeedBonusTimer
 @onready var ammo_recharge_timer = $AmmoRechargeTimer
 @onready var ammo_pause_timer = $AmmoPauseTimer
+@onready var targeting = get_parent().get_node("TargetManager")
 
 signal lives_changed(current: int, max: int, delta: int)
 signal ammo_changed(current: int, max: int, delta: int)
@@ -46,25 +47,11 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("shoot"):
 		if current_ammo > 0:
 			shoot()
-			
-	if Input.is_action_just_pressed("recall"):
-		var blobs = get_tree().get_nodes_in_group("blobs")
-		var lit_blobs = []
-		for blob: Blob in blobs:
-			if blob.blob_status == Blob.BlobStatus.HIGHLIGHTED:
-				lit_blobs.append(blob)
-		if not lit_blobs.is_empty():
-			pass
-			#handle_recall(lit_blobs)
 		
 	if Input.is_action_just_pressed("leap"):
-		var blobs = get_tree().get_nodes_in_group("blobs")
-		var lit_blobs = []
-		for blob: Blob in blobs:
-			if blob.blob_status == Blob.BlobStatus.HIGHLIGHTED:
-				lit_blobs.append(blob)
-		if not lit_blobs.is_empty():
-			handle_leap(lit_blobs)
+		var leap_blob = targeting.current_blob
+		if is_instance_valid(leap_blob):
+			handle_leap(leap_blob)
 			
 func handle_movement(delta):
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -92,35 +79,12 @@ func pause_ammo_recharge():
 func resume_ammo_recharge():
 	ammo_recharge_timer.paused = false
 	ammo_recharge_resumed.emit()
-		
-#func handle_recall(lit_blobs: Array):
-	#var chosen_blob: Blob = find_chosen_blob(lit_blobs)
-	#if chosen_blob and is_instance_valid(chosen_blob):
-		#chosen_blob.recall()
-		
-func handle_leap(lit_blobs: Array):
-	var chosen_blob: Blob = find_chosen_blob(lit_blobs)
-	if chosen_blob and is_instance_valid(chosen_blob):
-		var leap_target_pos = chosen_blob.global_position
-		var num_of_blobs = lit_blobs.size()
-		for blob: Blob in lit_blobs:
-			blob.explode_link()
-		chosen_blob.explode_link()
-		global_position = leap_target_pos
-		explode(num_of_blobs)
 
-func find_chosen_blob(blobs) -> Blob:
-	var mouse_pos = get_global_mouse_position()
-	var chosen_blob : Blob = null
-	var chosen_distance_squared = INF
-	for blob : Blob in blobs:
-		if is_instance_valid(blob):
-			var distance_squared = mouse_pos.distance_squared_to(blob.global_position)
-			if distance_squared < chosen_distance_squared:
-				chosen_blob = blob
-				chosen_distance_squared = distance_squared
-				
-	return chosen_blob
+func handle_leap(leap_blob: Blob):
+	var leap_target_pos = leap_blob.global_position
+	leap_blob.explode_link()
+	global_position = leap_target_pos
+	explode()
 	
 func update_ammo_status(delta : int):
 	current_ammo = clamp(current_ammo + delta, 0, max_ammo)

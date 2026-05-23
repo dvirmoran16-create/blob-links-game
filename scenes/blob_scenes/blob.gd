@@ -13,6 +13,7 @@ var blob_status = BlobStatus.OUT_OF_RANGE
 
 var player: CharacterBody2D = null
 var is_dying = false
+var is_highlighted = false
 
 @onready var sprite = $Sprite2D
 @onready var highlight_range = $HighlightRange
@@ -29,8 +30,8 @@ func _ready():
 	player = get_tree().get_first_node_in_group("player")
 	available_range.body_entered.connect(_player_in_range)
 	available_range.body_exited.connect(_player_out_of_range)
-	highlight_range.mouse_entered.connect(highlight)
-	highlight_range.mouse_exited.connect(undo_highlight)
+	#highlight_range.mouse_entered.connect(highlight)
+	#highlight_range.mouse_exited.connect(undo_highlight)
 	body_entered.connect(_on_stepped_on_by_player)
 	add_to_group("blobs")
 	expiration_circle.max_value = timer.wait_time
@@ -102,17 +103,11 @@ func set_status(new_status: BlobStatus):
 		sprite.texture = inactive_texture
 		range_indicator.show()
 		timer.paused = false
+		remove_from_group("blobs")
 	elif new_status == BlobStatus.IN_RANGE:
 		sprite.texture = normal_texture
 		range_indicator.hide()
 		timer.paused = true
+		add_to_group("blobs")
 	elif new_status == BlobStatus.HIGHLIGHTED:
 		sprite.texture = alert_texture
-		
-#func recall():
-	#var magic_bullet : MagicBullet = magic_bullet_scene.instantiate()
-	#magic_bullet.global_position = global_position
-	#magic_bullet.source_player = player
-	#var game = get_parent()
-	#game.call_deferred("add_child", magic_bullet)
-	#queue_free()
