@@ -43,6 +43,12 @@ heart_scene = ExtResource("9_e71x3")
 [node name="TargetManager" type="Node2D" parent="." unique_id=861454402]
 script = ExtResource("14_nk7qa")
 
+[node name="EnemyTargetIndicator" type="Polygon2D" parent="TargetManager" unique_id=1671412376]
+visible = false
+top_level = true
+color = Color(1, 0.92947316, 0.62782896, 0.70000005)
+polygon = PackedVector2Array(-10, 0, -3, -3, 0, -10, 3, -3, 10, 0, 3, 3, 0, 10, -3, 3)
+
 [node name="Player" parent="." unique_id=1281867858 instance=ExtResource("6_m0ooe")]
 top_level = true
 

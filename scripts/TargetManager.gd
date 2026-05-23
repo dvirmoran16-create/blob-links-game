@@ -1,16 +1,19 @@
+class_name TargetManager
 extends Node2D
 
 const TARGETING_RADIUS_SQUARED = 150.0 ** 2
 
 var current_enemy: Node2D = null
 var current_blob: Blob  = null
+@onready var enemy_target_indicator = $EnemyTargetIndicator
 
 func _process(_delta):
 	var mouse = get_global_mouse_position()
-	var new_enemy = _find_closest(mouse, "enemies")
+	current_enemy = _find_closest(mouse, "enemies")
 	var new_blob : Blob = _find_closest(mouse, "blobs")
+	handle_enemy_indicator()
 	handle_blob_transitioning(new_blob)
-		
+
 func handle_blob_transitioning(new_blob: Blob):
 	if new_blob == current_blob:
 		return
@@ -31,12 +34,9 @@ func _find_closest(pos: Vector2, group: String) -> Node2D:
 			closest = node
 	return closest
 
-func _update_indicator(indicator: Node2D, target: Node2D):
-	if target:
-		indicator.global_position = target.global_position
-		indicator.modulate.a = 0.4
-		if target.has_method("highlight"):
-			target.highlight
-		indicator.show()
+func handle_enemy_indicator():
+	if is_instance_valid(current_enemy):
+		enemy_target_indicator.show()
+		enemy_target_indicator.global_position = current_enemy.global_position
 	else:
-		indicator.hide()
+		enemy_target_indicator.hide()

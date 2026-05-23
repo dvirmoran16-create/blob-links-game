@@ -94,23 +94,10 @@ func update_ammo_status(delta : int):
 
 func shoot():
 	var mouse_pos = get_global_mouse_position()
-	var enemy_target = find_target_enemy(mouse_pos)
+	var enemy_target = targeting.current_enemy
 	create_bullet(mouse_pos, enemy_target)
 	update_ammo_status(-1)
 	pause_ammo_recharge()
-	
-func find_target_enemy(pos):
-	var enemies = get_tree().get_nodes_in_group("enemies")
-	var target_enemy = null
-	var chosen_distance_squared = 150.0 ** 2
-	for enemy : CharacterBody2D in enemies:
-		if is_instance_valid(enemy):
-			var distance_squared = pos.distance_squared_to(enemy.global_position)
-			if distance_squared < chosen_distance_squared:
-				target_enemy = enemy
-				chosen_distance_squared = distance_squared
-				
-	return target_enemy
 
 func create_bullet(mouse_pos, target_enemy):
 	var bullet = bullet_scene.instantiate()
