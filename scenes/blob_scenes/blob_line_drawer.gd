@@ -20,9 +20,9 @@ func _draw():
 	var is_frame_blink = get_is_frame_blink()
 	var line_color = normal_line_color
 	var line_width = normal_line_width
-	if blob.blob_status == Blob.BlobStatus.OUT_OF_RANGE:
+	if not blob.is_activated:
 		line_color = inactive_line_color
-	elif blob.blob_status == Blob.BlobStatus.HIGHLIGHTED:
+	elif blob.is_highlighted:
 		line_color = highlight_line_color
 		line_width = highlight_line_width
 	if is_frame_blink:
@@ -33,7 +33,7 @@ func _draw():
 		draw_line(Vector2.ZERO, to_local(player.global_position), line_color, line_width)
 
 func get_is_frame_blink():
-	if blob.blob_status != Blob.BlobStatus.OUT_OF_RANGE:
+	if blob.is_activated:
 		return false
 		
 	var is_frame_blink = false

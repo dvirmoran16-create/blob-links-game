@@ -49,15 +49,14 @@ func bleed_2():
 	bleed(wound_2)
 
 func bleed(wound):
-	var blood = wound.duplicate()
+	var blood : ColorRect = wound.duplicate()
 	blood.global_position = global_position
 	var game = get_tree().current_scene
 	game.call_deferred("add_child", blood)
-	var a_tween = create_tween()
-	a_tween.tween_property(blood, "modulate:a", 0.3, 2.0)
-	var scale_tween = create_tween()
-	scale_tween.tween_property(blood, "scale", Vector2.ZERO, 2.0)
-	scale_tween.tween_callback(blood.queue_free)
+	var fade_tween = blood.create_tween()
+	fade_tween.tween_property(blood, "color:a", 0.0, 2.0)
+	fade_tween.parallel().tween_property(blood, "scale", Vector2.ZERO, 2.0)
+	fade_tween.tween_callback(blood.queue_free)
 	
 func create_death_rect() -> void:
 	var death_rect = hurt_rect.duplicate()

@@ -20,6 +20,10 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 run/max_fps=120
 config/icon="uid://bvweadrbi431x"
 
+[autoload]
+
+GameConfig="*uid://b6yv21ijorwu7"
+
 [display]
 
 window/size/viewport_width=640
