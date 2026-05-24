@@ -26,7 +26,7 @@ func _ready():
 	player = get_tree().get_first_node_in_group("player")
 	available_range.body_entered.connect(_player_in_range)
 	available_range.body_exited.connect(_player_out_of_range)
-	body_entered.connect(_on_stepped_on_by_player)
+	#body_entered.connect(_on_stepped_on_by_player)
 	expiration_circle.max_value = timer.wait_time
 	expiration_circle.tint_progress.a = 0.7
 	timer.timeout.connect(queue_free)

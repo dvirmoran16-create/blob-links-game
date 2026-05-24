@@ -29,7 +29,6 @@ signal lives_changed(current: int, max: int, delta: int)
 signal ammo_changed(current: int, max: int, delta: int)
 signal ammo_recharge_resumed
 signal died
-signal recall
 
 func _ready():
 	if god_mode:
@@ -83,7 +82,8 @@ func resume_ammo_recharge():
 func handle_leap(leap_blob: Blob):
 	var leap_target_pos = leap_blob.global_position
 	leap_blob.explode_link()
-	global_position = leap_target_pos
+	await get_tree().process_frame
+	set_deferred("global_position", leap_target_pos)
 	#explode()
 	
 func update_ammo_status(delta : int):
