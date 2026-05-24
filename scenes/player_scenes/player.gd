@@ -84,7 +84,7 @@ func handle_leap(leap_blob: Blob):
 	var leap_target_pos = leap_blob.global_position
 	leap_blob.explode_link()
 	global_position = leap_target_pos
-	explode()
+	#explode()
 	
 func update_ammo_status(delta : int):
 	current_ammo = clamp(current_ammo + delta, 0, max_ammo)
