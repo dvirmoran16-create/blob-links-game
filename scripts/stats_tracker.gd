@@ -15,7 +15,7 @@ func _on_player_lives_changed(current: int, max: int, delta: int) -> void:
 
 func _on_score_keeper_score_changed(new_score: int) -> void:
 	if score_label:
-		if not Player.god_mode:
+		if not GameConfig.is_god_mode:
 			score_label.text = "Score: %d" % new_score
 		else:
 			score_label.text = "Score: NO SCORE IN GOD MODE"

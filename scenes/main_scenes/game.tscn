@@ -158,7 +158,6 @@ horizontal_alignment = 1
 
 [connection signal="highscore_changed" from="ScoreKeeper" to="StatsTracker" method="_on_score_keeper_highscore_changed"]
 [connection signal="score_changed" from="ScoreKeeper" to="StatsTracker" method="_on_score_keeper_score_changed"]
-[connection signal="ammo_changed" from="Player" to="StatsTracker" method="_on_player_ammo_changed"]
 [connection signal="lives_changed" from="Player" to="StatsTracker" method="_on_player_lives_changed"]
 [connection signal="lives_changed" from="Player" to="ScoreKeeper" method="_on_player_lives_changed"]
 [connection signal="lives_changed" from="Player" to="EnemySpawner" method="_on_player_lives_changed"]
