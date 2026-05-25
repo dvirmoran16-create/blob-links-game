@@ -3,10 +3,11 @@ extends CharacterBody2D
 
 static var god_mode = false
 
-@export var full_speed : float = 250.0
-@export var speed_change_rate : float = 2500.0
-@export var bonus_speed : float = 250.0
-@export var bonus_speed_loss_rate : float = 250.0
+@export var max_base_speed : float = 250.0
+@export var speed_change_rate : int = 10
+@export var speed_bonus_amount : float = 75.0
+@export var bonus_speed_loss_rate : float = 75.0
+@export var max_bonus_speed : float = 375.0
 @export var max_ammo : int = 5
 @export var ammo_recharge_interval : float = 2.0
 @export var max_lives : int = 3
@@ -17,6 +18,7 @@ var current_ammo = max_ammo
 var lives = max_lives
 var current_bonus_speed : float = 0.0
 var is_speedy = false
+var is_bonus_speed_decay = true
 
 @onready var speed_indicator = $SpeedIndicator
 @onready var burn_timer = $BurnTimer
@@ -42,7 +44,7 @@ func _ready():
 
 func _physics_process(delta):
 	handle_movement(delta)
-			
+	
 	if Input.is_action_just_pressed("shoot"):
 		if current_ammo > 0:
 			shoot()
@@ -51,22 +53,24 @@ func _physics_process(delta):
 		var leap_blob = targeting.current_blob
 		if is_instance_valid(leap_blob):
 			handle_leap(leap_blob)
-			
+	
 func handle_movement(delta):
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	var max_speed = full_speed
-	if is_speedy:
-		max_speed += bonus_speed
-	if input_dir != Vector2.ZERO:
-		velocity = velocity.move_toward(input_dir * max_speed, speed_change_rate * delta)
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, speed_change_rate * delta)
+	var frame_max_speed = max_base_speed + current_bonus_speed
+	velocity = velocity.move_toward(input_dir * frame_max_speed, speed_change_rate * frame_max_speed * delta)
 	
 	var last_pos = global_position
 	move_and_slide()
 	
 	if get_slide_collision_count() > 0:
 		velocity = (global_position - last_pos) / delta
+		
+	if is_bonus_speed_decay:
+		current_bonus_speed -= bonus_speed_loss_rate * delta
+		current_bonus_speed = max(current_bonus_speed, 0.0)
+		if current_bonus_speed <= 0.0:
+			is_bonus_speed_decay = false
+			speed_indicator.deactivate()
 
 func recharge_ammo():
 	update_ammo_status(1)
@@ -142,13 +146,14 @@ func enter_god_mode():
 	ammo_recharge_interval = 0.5
 	max_lives = 100
 	lives = max_lives
-	full_speed = 1000
+	max_base_speed = 1000
 	
 func get_speed_bonus():
-	is_speedy = true
-	speed_bonus_timer.start(1.0 + speed_bonus_timer.time_left)
+	current_bonus_speed += speed_bonus_amount
+	current_bonus_speed = min(current_bonus_speed, max_bonus_speed)
 	speed_indicator.activate()
+	is_bonus_speed_decay = false
+	speed_bonus_timer.start()
 	
 func speed_bonus_timer_stopped():
-	is_speedy = false
-	speed_indicator.deactivate()
+	is_bonus_speed_decay = true

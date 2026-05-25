@@ -10,6 +10,7 @@ var age = 0.0
 var damaged_enemies = []
 var start_pos: Vector2
 var end_pos: Vector2
+var has_hurt_an_enemy = false
 
 @onready var hit_area = $HitArea
 @onready var player: Player = get_tree().get_first_node_in_group("player")
@@ -65,6 +66,9 @@ func _on_detect_enemy(body):
 	if body not in damaged_enemies and body.has_method("blue_dmg"):
 		body.blue_dmg()
 		damaged_enemies.append(body)
+		if not has_hurt_an_enemy:
+			has_hurt_an_enemy = true
+			player.get_speed_bonus()
 
 func collect_pickups():
 	var bodies = hit_area.get_overlapping_areas()
