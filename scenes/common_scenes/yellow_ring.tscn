@@ -10,7 +10,7 @@ shader_parameter/tex_1 = ExtResource("2_qaya3")
 shader_parameter/tex_2 = ExtResource("3_qaya3")
 shader_parameter/has_second_texture = true
 shader_parameter/fade_factor = 0.0
-shader_parameter/progress = 1.0
+shader_parameter/progress = 0.0
 
 [node name="YellowRing" type="Sprite2D" unique_id=1777431516]
 material = SubResource("ShaderMaterial_6i5bp")

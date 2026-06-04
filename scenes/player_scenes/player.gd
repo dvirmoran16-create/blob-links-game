@@ -79,7 +79,8 @@ func create_bullet(mouse_pos, target_enemy):
 	bullet.global_position = global_position + direction_to_mouse * 30
 	bullet.target_position = mouse_pos
 	bullet.source_player = self
-	bullet.target_enemy = target_enemy
+	if is_instance_valid(target_enemy):
+		bullet.target_enemy = target_enemy
 	get_parent().add_child(bullet)
 
 func get_hit():

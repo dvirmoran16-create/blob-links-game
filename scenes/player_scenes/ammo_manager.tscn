@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://1lk0ybrbu4ax"]
 
 [ext_resource type="Script" uid="uid://fetylr86gje0" path="res://scenes/player_scenes/ammo_manager.gd" id="1_5ae4s"]
+[ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/common_scenes/expiration_circle.tscn" id="2_pd00a"]
 
 [sub_resource type="Animation" id="Animation_vuchg"]
 length = 0.001
@@ -40,6 +41,17 @@ _data = {
 &"rotate": SubResource("Animation_5rvpj")
 }
 
+[sub_resource type="Gradient" id="Gradient_7a8vc"]
+offsets = PackedFloat32Array(0.35, 0.5, 0.65)
+colors = PackedColorArray(0, 0, 0, 0, 1, 0.92947316, 0.62782896, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pd00a"]
+gradient = SubResource("Gradient_7a8vc")
+width = 48
+height = 48
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="AmmoManager" type="Node2D" unique_id=1485867105]
 script = ExtResource("1_5ae4s")
 
@@ -69,3 +81,11 @@ one_shot = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1960022925]
 process_mode = 3
 libraries/ = SubResource("AnimationLibrary_vuchg")
+
+[node name="ChargeCircle" parent="." unique_id=1423140789 instance=ExtResource("2_pd00a")]
+max_value = 5.0
+step = 0.1
+value = 5.0
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_pd00a")
+tint_progress = Color(1, 1, 1, 0.3)
