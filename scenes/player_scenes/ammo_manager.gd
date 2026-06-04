@@ -20,13 +20,16 @@ func _ready() -> void:
 	pause_timer.wait_time = GameConfig.ammo_recharge_pause
 	recharge_timer.timeout.connect(_on_recharge_timer_timeout)
 	pause_timer.timeout.connect(_on_pause_timer_timeout)
-	charge_circle.max_value = max_ammo
+	charge_circle.max_value = recharge_timer.wait_time
 	_create_dots()
 	_update_dots()
+	recharge_timer.start()
+	recharge_timer.paused = true
 	#animation_player.play("rotate")
 
 func _physics_process(delta) -> void:
-	charge_circle.value = current_ammo + 1 - (recharge_timer.time_left / recharge_timer.wait_time)
+	charge_circle.value = recharge_timer.wait_time - recharge_timer.time_left
+	charge_circle.rotation = -global_rotation
 	rotate(rotation_speed * delta)
 	for d in dots:
 		d.rotation -= 2 * rotation_speed * delta
@@ -46,7 +49,7 @@ func _create_dots() -> void:
 func _place_dots() -> void:
 	# Position visible dots in a circle
 	var basic_angle = TAU / dots.size()
-	charge_circle.rotation = PI / 2 - basic_angle
+	#charge_circle.rotation = PI / 2 - basic_angle
 	for i in dots.size():
 		var angle = i * basic_angle  # TAU = 2 * PI
 		var x = cos(angle) * radius
@@ -70,7 +73,7 @@ func _update_dots() -> void:
 
 func _on_recharge_timer_timeout() -> void:
 	if current_ammo == max_ammo:
-		return
+		recharge_timer.paused = true
 	
 	current_ammo += 1
 	_update_dots()
