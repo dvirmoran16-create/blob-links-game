@@ -63,5 +63,5 @@ func create_death_rect() -> void:
 	call_deferred("add_child", death_rect)
 	var death_tween = create_tween()
 	death_tween.tween_property(death_rect, "modulate:a", 0.0, 1.0).from(1.0)
-	death_tween.parallel().tween_property(death_rect, "scale", Vector2(5.0, 5.0), 1.0)
-	death_tween.finished.connect(death_rect.queue_free)
+	death_tween.parallel().tween_property(death_rect, "scale", Vector2(6.0, 6.0), 1.0)
+	death_tween.tween_callback(death_rect.queue_free)
