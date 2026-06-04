@@ -16,7 +16,7 @@ func _ready():
 	highscore_changed.emit(highscore)
 
 func _process(delta):
-	if is_player_alive and not Player.god_mode:
+	if is_player_alive and not GameConfig.is_god_mode:
 		time_passed += delta
 		var is_score_changed = int(time_passed) > score
 		if is_score_changed:

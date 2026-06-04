@@ -12,7 +12,11 @@ func _ready():
 	tutorial_popup.hide()
 
 func _on_play_pressed():
-	Player.god_mode = is_god_mode
+	GameConfig.is_god_mode = is_god_mode
+	if is_god_mode:
+		GameConfig.set_god_values()
+	else:
+		GameConfig.set_normal_values()
 	get_tree().change_scene_to_file("res://scenes/main_scenes/game.tscn")
 
 func _on_tutorial_pressed():

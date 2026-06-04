@@ -1,21 +1,16 @@
 class_name Player
 extends CharacterBody2D
 
-static var god_mode = false
-
-@export var max_base_speed : float = 250.0
 @export var speed_change_rate : int = 10
 @export var speed_bonus_amount : float = 75.0
 @export var bonus_speed_loss_rate : float = 75.0
 @export var max_bonus_speed : float = 375.0
-@export var max_ammo : int = 5
-@export var ammo_recharge_interval : float = 2.0
-@export var max_lives : int = 3
 @export var bullet_scene : PackedScene
 @export var explosion_scene : PackedScene
 
-var current_ammo = max_ammo
-var lives = max_lives
+var max_base_speed : float = GameConfig.player_base_speed
+var max_lives : int = GameConfig.starting_max_lives
+var lives: int = max_lives
 var current_bonus_speed : float = 0.0
 var is_speedy = false
 var is_bonus_speed_decay = true
@@ -23,30 +18,23 @@ var is_bonus_speed_decay = true
 @onready var speed_indicator = $SpeedIndicator
 @onready var burn_timer = $BurnTimer
 @onready var speed_bonus_timer = $SpeedBonusTimer
-@onready var ammo_recharge_timer = $AmmoRechargeTimer
-@onready var ammo_pause_timer = $AmmoPauseTimer
+@onready var ammo_manager: AmmoManager = $AmmoManager
 @onready var targeting = get_parent().get_node("TargetManager")
 
 signal lives_changed(current: int, max: int, delta: int)
-signal ammo_changed(current: int, max: int, delta: int)
-signal ammo_recharge_resumed
+signal bullet_fired
+signal blinked
 signal died
 
 func _ready():
-	if god_mode:
-		enter_god_mode()
-		
-	update_ammo_status(0)
 	update_lives_status(0)
 	speed_bonus_timer.timeout.connect(speed_bonus_timer_stopped)
-	ammo_recharge_timer.timeout.connect(recharge_ammo)
-	ammo_pause_timer.timeout.connect(resume_ammo_recharge)
 
 func _physics_process(delta):
 	handle_movement(delta)
 	
 	if Input.is_action_just_pressed("shoot"):
-		if current_ammo > 0:
+		if ammo_manager.current_ammo > 0:
 			shoot()
 		
 	if Input.is_action_just_pressed("leap"):
@@ -72,36 +60,18 @@ func handle_movement(delta):
 			is_bonus_speed_decay = false
 			speed_indicator.deactivate()
 
-func recharge_ammo():
-	update_ammo_status(1)
-		
-func pause_ammo_recharge():
-	ammo_recharge_timer.paused = true
-	ammo_pause_timer.start(1.0)
-	
-func resume_ammo_recharge():
-	ammo_recharge_timer.paused = false
-	ammo_recharge_resumed.emit()
-
 func handle_leap(leap_blob: Blob):
 	var leap_target_pos = leap_blob.global_position
 	leap_blob.explode_link()
 	await get_tree().process_frame
 	set_deferred("global_position", leap_target_pos)
 	#explode()
-	
-func update_ammo_status(delta : int):
-	current_ammo = clamp(current_ammo + delta, 0, max_ammo)
-	if current_ammo == max_ammo:
-		ammo_recharge_timer.paused = true
-	ammo_changed.emit(current_ammo, max_ammo, delta)
 
 func shoot():
 	var mouse_pos = get_global_mouse_position()
 	var enemy_target = targeting.current_enemy
 	create_bullet(mouse_pos, enemy_target)
-	update_ammo_status(-1)
-	pause_ammo_recharge()
+	bullet_fired.emit()
 
 func create_bullet(mouse_pos, target_enemy):
 	var bullet = bullet_scene.instantiate()
@@ -109,7 +79,8 @@ func create_bullet(mouse_pos, target_enemy):
 	bullet.global_position = global_position + direction_to_mouse * 30
 	bullet.target_position = mouse_pos
 	bullet.source_player = self
-	bullet.target_enemy = target_enemy
+	if is_instance_valid(target_enemy):
+		bullet.target_enemy = target_enemy
 	get_parent().add_child(bullet)
 
 func get_hit():
@@ -139,14 +110,6 @@ func die():
 	death_tween.tween_property(self, "modulate:a", 0.2, 2.0)
 	await death_tween.finished
 	died.emit()
-	
-func enter_god_mode():
-	max_ammo = 12
-	current_ammo = max_ammo
-	ammo_recharge_interval = 0.5
-	max_lives = 100
-	lives = max_lives
-	max_base_speed = 1000
 	
 func get_speed_bonus():
 	current_bonus_speed += speed_bonus_amount
