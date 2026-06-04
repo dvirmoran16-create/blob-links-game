@@ -45,6 +45,6 @@ func get_consumed():
 	animation_player.stop()
 	expiration_circle.hide()
 	var tween = create_tween()
-	tween.tween_property(self, "modulate:a", 0.0, 1.0)
+	tween.tween_property(self, "modulate:a", 0.0, 1.0).from(1.0)
 	tween.parallel().tween_property(self, "scale", Vector2(4.0, 4.0), 1.0)
 	tween.tween_callback(queue_free)
