@@ -5,17 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://1lk0ybrbu4ax" path="res://scenes/player_scenes/ammo_manager.tscn" id="2_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://dnygcf0qpbgbf" path="res://scenes/player_scenes/lives_indicator.tscn" id="3_dqkch"]
 [ext_resource type="PackedScene" uid="uid://defqab7707s25" path="res://scenes/blob_scenes/blob_explosion.tscn" id="3_shuw1"]
+[ext_resource type="PackedScene" uid="uid://cvrsyh062i2h7" path="res://scenes/player_scenes/mana_manager.tscn" id="5_b744r"]
 [ext_resource type="PackedScene" uid="uid://bldixm2i0q0um" path="res://scenes/player_scenes/speed_indicator.tscn" id="6_shuw1"]
-
-[sub_resource type="Gradient" id="Gradient_b744r"]
-offsets = PackedFloat32Array(0.4, 0.5, 0.75)
-colors = PackedColorArray(0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_j2xde"]
-gradient = SubResource("Gradient_b744r")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
 
@@ -40,34 +31,13 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.8350781, 0.48677072, 0.48452926, 1)
 
-[node name="MagicCircle" type="TextureProgressBar" parent="." unique_id=1423140789]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(2, 2)
-pivot_offset_ratio = Vector2(0.5, 0.5)
-max_value = 7.0
-value = 3.0
-rounded = true
-allow_lesser = true
-fill_mode = 5
-texture_progress = SubResource("GradientTexture2D_j2xde")
-tint_progress = Color(1, 1, 1, 0.5)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2092138550]
 shape = SubResource("RectangleShape2D_g2els")
 debug_color = Color(0, 0.60038817, 0.70000815, 0.72700006)
 
 [node name="AmmoManager" parent="." unique_id=1485867105 instance=ExtResource("2_qhqgy")]
+
+[node name="ManaManager" parent="." unique_id=2027381723 instance=ExtResource("5_b744r")]
 
 [node name="LivesIndicator" parent="." unique_id=988840852 instance=ExtResource("3_dqkch")]
 
@@ -80,4 +50,6 @@ one_shot = true
 one_shot = true
 
 [connection signal="bullet_fired" from="." to="AmmoManager" method="_on_player_bullet_fired"]
+[connection signal="casted" from="." to="ManaManager" method="_on_player_cast"]
+[connection signal="leaped" from="." to="ManaManager" method="_on_player_leaped"]
 [connection signal="lives_changed" from="." to="LivesIndicator" method="_on_player_lives_changed"]

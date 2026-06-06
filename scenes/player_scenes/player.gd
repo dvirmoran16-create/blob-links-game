@@ -19,11 +19,13 @@ var is_bonus_speed_decay = true
 @onready var burn_timer = $BurnTimer
 @onready var speed_bonus_timer = $SpeedBonusTimer
 @onready var ammo_manager: AmmoManager = $AmmoManager
+@onready var mana_manager: ManaManager = $ManaManager
 @onready var targeting = get_parent().get_node("TargetManager")
 
 signal lives_changed(current: int, max: int, delta: int)
 signal bullet_fired
-signal blinked
+signal leaped
+signal casted
 signal died
 
 func _ready():
@@ -37,10 +39,19 @@ func _physics_process(delta):
 		if ammo_manager.current_ammo > 0:
 			shoot()
 		
-	if Input.is_action_just_pressed("leap"):
+	elif Input.is_action_just_pressed("leap"):
 		var leap_blob = targeting.current_blob
 		if is_instance_valid(leap_blob):
 			handle_leap(leap_blob)
+			
+	elif Input.is_action_just_pressed("cast"):
+		var cast_ready = mana_manager.current_mana == mana_manager.max_mana
+		if cast_ready:
+			perform_cast()
+	
+func perform_cast():
+	get_speed_bonus(5)
+	casted.emit()
 	
 func handle_movement(delta):
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -65,6 +76,7 @@ func handle_leap(leap_blob: Blob):
 	leap_blob.explode_link()
 	await get_tree().process_frame
 	set_deferred("global_position", leap_target_pos)
+	leaped.emit()
 	#explode()
 
 func shoot():
@@ -111,8 +123,8 @@ func die():
 	await death_tween.finished
 	died.emit()
 	
-func get_speed_bonus():
-	current_bonus_speed += speed_bonus_amount
+func get_speed_bonus(factor = 1):
+	current_bonus_speed += factor * speed_bonus_amount
 	current_bonus_speed = min(current_bonus_speed, max_bonus_speed)
 	speed_indicator.activate()
 	is_bonus_speed_decay = false

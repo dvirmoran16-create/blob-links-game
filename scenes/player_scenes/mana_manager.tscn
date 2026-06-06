@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://cvrsyh062i2h7"]
+
+[ext_resource type="Script" uid="uid://brqkocwsj6q3w" path="res://scenes/player_scenes/mana_manager.gd" id="1_c82ao"]
+
+[sub_resource type="Gradient" id="Gradient_j2xde"]
+offsets = PackedFloat32Array(0.45, 0.5, 0.65, 0.7)
+colors = PackedColorArray(0, 0, 1, 0, 0, 0, 1, 1, 0.100000024, 0.100000024, 1, 1, 0.19999999, 0.19999999, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xp2br"]
+gradient = SubResource("Gradient_j2xde")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="ManaManager" type="Node2D" unique_id=1485867105]
+script = ExtResource("1_c82ao")
+
+[node name="ManaCircle" type="TextureProgressBar" parent="." unique_id=1423158543]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+max_value = 7.0
+rounded = true
+fill_mode = 5
+texture_progress = SubResource("GradientTexture2D_xp2br")
+tint_progress = Color(1, 1, 1, 0.70000005)
