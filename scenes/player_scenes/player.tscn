@@ -35,9 +35,9 @@ color = Color(0.8350781, 0.48677072, 0.48452926, 1)
 shape = SubResource("RectangleShape2D_g2els")
 debug_color = Color(0, 0.60038817, 0.70000815, 0.72700006)
 
-[node name="AmmoManager" parent="." unique_id=1485867105 instance=ExtResource("2_qhqgy")]
-
 [node name="ManaManager" parent="." unique_id=2027381723 instance=ExtResource("5_b744r")]
+
+[node name="AmmoManager" parent="." unique_id=1485867105 instance=ExtResource("2_qhqgy")]
 
 [node name="LivesIndicator" parent="." unique_id=988840852 instance=ExtResource("3_dqkch")]
 

@@ -45,7 +45,7 @@ func _physics_process(delta):
 			handle_leap(leap_blob)
 			
 	elif Input.is_action_just_pressed("cast"):
-		var cast_ready = mana_manager.current_mana == mana_manager.max_mana
+		var cast_ready = mana_manager.current_mana >= mana_manager.mana_threshold
 		if cast_ready:
 			perform_cast()
 	
