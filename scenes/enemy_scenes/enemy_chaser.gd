@@ -150,3 +150,9 @@ func spawn_speed_pickup():
 	var game = get_tree().current_scene
 	game.call_deferred("add_child", speed_pickup)
  
+func freeze(duration):
+	modulate = Color(5.0, 5.0, 5.0, 1.0)
+	set_physics_process(false)
+	await get_tree().create_timer(duration).timeout
+	set_physics_process(true)
+	modulate = Color(1.0, 1.0, 1.0)

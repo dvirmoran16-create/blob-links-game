@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var max_bonus_speed : float = 375.0
 @export var bullet_scene : PackedScene
 @export var explosion_scene : PackedScene
+@export var freeze_circle_scene : PackedScene
 
 var max_base_speed : float = GameConfig.player_base_speed
 var max_lives : int = GameConfig.starting_max_lives
@@ -50,7 +51,9 @@ func _physics_process(delta):
 			perform_cast()
 	
 func perform_cast():
-	get_speed_bonus(5)
+	var freeze_circle: FreezeCircle = freeze_circle_scene.instantiate()
+	freeze_circle.global_position = get_global_mouse_position()
+	get_parent().add_child(freeze_circle)
 	casted.emit()
 	
 func handle_movement(delta):

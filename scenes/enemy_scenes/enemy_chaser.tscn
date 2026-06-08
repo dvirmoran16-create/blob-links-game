@@ -65,5 +65,6 @@ debug_color = Color(0.74894917, 0.398529, 0.61939365, 0.41960785)
 visible = false
 
 [node name="ExplodeTimer" type="Timer" parent="." unique_id=1409138314]
+process_callback = 0
 wait_time = 7.0
 one_shot = true
