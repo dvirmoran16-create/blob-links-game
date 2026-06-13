@@ -7,6 +7,9 @@ var current_mana = 0
 @onready var mana_circle : TextureProgressBar = $ManaCircle
 
 func _ready() -> void:
+	var player: Player = get_parent()
+	player.leaped.connect(_on_player_leaped)
+	player.cast_used.connect(_on_player_cast)
 	mana_circle.max_value = mana_threshold
 	update_circle_indicator()
 	
@@ -25,3 +28,5 @@ func update_circle_indicator():
 		mana_circle.tint_progress.a = 1.0
 	else:
 		mana_circle.tint_progress.a = 0.7
+		
+	GlobalEvents.mana_changed.emit(current_mana, mana_threshold)

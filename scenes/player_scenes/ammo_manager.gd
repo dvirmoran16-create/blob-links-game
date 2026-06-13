@@ -25,6 +25,8 @@ func _ready() -> void:
 	_update_dots()
 	recharge_timer.start()
 	recharge_timer.paused = true
+	var player: Player = get_parent()
+	player.bullet_fired.connect(_on_player_bullet_fired)
 	#animation_player.play("rotate")
 
 func _physics_process(delta) -> void:
@@ -70,6 +72,8 @@ func _update_dots() -> void:
 	for i in range(dots.size()):
 		dots[i].visible = (i < current_ammo)
 		dots[i].modulate.a = 0.5
+	
+	GlobalEvents.ammo_changed.emit(current_ammo, max_ammo)
 
 func _on_recharge_timer_timeout() -> void:
 	if current_ammo == max_ammo:
@@ -86,7 +90,6 @@ func run_new_ammo_animation():
 	var tween = new_ammo_dot.create_tween()
 	tween.tween_property(new_ammo_dot, "modulate:a", 0.5, 0.5).from(0.8)
 	tween.parallel().tween_property(new_ammo_dot, "scale", Vector2(1.0, 1.0), 0.5).from(Vector2(2.0, 2.0))
-		
 
 func _on_pause_timer_timeout() -> void:
 	is_recharging = true

@@ -25,8 +25,9 @@ var is_bonus_speed_decay = true
 
 signal lives_changed(current: int, max: int, delta: int)
 signal bullet_fired
+signal cast_used
 signal leaped
-signal casted
+signal hurt
 signal died
 
 func _ready():
@@ -54,7 +55,7 @@ func perform_cast():
 	var freeze_circle: FreezeCircle = freeze_circle_scene.instantiate()
 	freeze_circle.global_position = get_global_mouse_position()
 	get_parent().add_child(freeze_circle)
-	casted.emit()
+	cast_used.emit()
 	
 func handle_movement(delta):
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -100,11 +101,12 @@ func create_bullet(mouse_pos, target_enemy):
 
 func get_hit():
 	update_lives_status(-1)
+	hurt.emit()
 	
 func burn():
 	if burn_timer.is_stopped():
 		burn_timer.start()
-		update_lives_status(-1)
+		get_hit()
 	
 func update_lives_status(delta):
 	lives = clamp(lives + delta, 0, max_lives)

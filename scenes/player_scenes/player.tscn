@@ -51,7 +51,4 @@ one_shot = true
 [node name="SpeedBonusTimer" type="Timer" parent="." unique_id=1261700266]
 one_shot = true
 
-[connection signal="bullet_fired" from="." to="AmmoManager" method="_on_player_bullet_fired"]
-[connection signal="casted" from="." to="ManaManager" method="_on_player_cast"]
-[connection signal="leaped" from="." to="ManaManager" method="_on_player_leaped"]
 [connection signal="lives_changed" from="." to="LivesIndicator" method="_on_player_lives_changed"]

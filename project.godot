@@ -23,6 +23,7 @@ config/icon="uid://bvweadrbi431x"
 [autoload]
 
 GameConfig="*uid://b6yv21ijorwu7"
+GlobalEvents="*uid://c0sapea2seu5o"
 
 [display]
 

@@ -15,6 +15,18 @@
 [ext_resource type="PackedScene" uid="uid://bmpjavl32iqoi" path="res://scenes/menu_scenes/pause_overlay.tscn" id="10_bbl8c"]
 [ext_resource type="Script" uid="uid://bipnyk8ui3iqh" path="res://scripts/TargetManager.gd" id="14_nk7qa"]
 
+[sub_resource type="Gradient" id="Gradient_nk7qa"]
+offsets = PackedFloat32Array(0.5, 0.55, 0.6)
+colors = PackedColorArray(0.8, 0.8, 0.8, 0, 1, 1, 1, 0.2, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_m0ooe"]
+gradient = SubResource("Gradient_nk7qa")
+width = 200
+height = 200
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yqjtg"]
 size = Vector2(3000, 20)
 
@@ -48,6 +60,10 @@ visible = false
 top_level = true
 color = Color(1, 0.92947316, 0.62782896, 0.70000005)
 polygon = PackedVector2Array(-10, 0, -3, -3, 0, -10, 3, -3, 10, 0, 3, 3, 0, 10, -3, 3)
+
+[node name="CastIndicator" type="Sprite2D" parent="TargetManager" unique_id=1738788295]
+scale = Vector2(4, 4)
+texture = SubResource("GradientTexture2D_m0ooe")
 
 [node name="Player" parent="." unique_id=1281867858 instance=ExtResource("6_m0ooe")]
 top_level = true

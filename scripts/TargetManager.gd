@@ -6,13 +6,22 @@ const TARGETING_RADIUS_SQUARED = 150.0 ** 2
 var current_enemy: Node2D = null
 var current_blob: Blob  = null
 @onready var enemy_target_indicator = $EnemyTargetIndicator
+@onready var cast_indicator = $CastIndicator
 
-func _process(_delta):
-	var mouse = get_global_mouse_position()
-	current_enemy = _find_closest(mouse, "enemies")
-	var new_blob : Blob = _find_closest(mouse, "blobs")
+func _ready() -> void:
+	enemy_target_indicator.hide()
+	cast_indicator.hide()
+	GlobalEvents.mana_changed.connect(update_cast_indicator_status)
+
+func _process(_delta) -> void:
+	var mouse_pos = get_global_mouse_position()
+	current_enemy = _find_closest(mouse_pos, "enemies")
+	var new_blob : Blob = _find_closest(mouse_pos, "blobs")
 	handle_enemy_indicator()
 	handle_blob_transitioning(new_blob)
+	
+	if cast_indicator.visible:
+		cast_indicator.global_position = mouse_pos
 
 func handle_blob_transitioning(new_blob: Blob):
 	if new_blob == current_blob:
@@ -40,3 +49,9 @@ func handle_enemy_indicator():
 		enemy_target_indicator.global_position = current_enemy.global_position
 	else:
 		enemy_target_indicator.hide()
+		
+func update_cast_indicator_status(current_mana, mana_threshold):
+	if current_mana >= mana_threshold:
+		cast_indicator.show()
+	else:
+		cast_indicator.hide()
