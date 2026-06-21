@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var max_bonus_speed : float = 375.0
 @export var bullet_scene : PackedScene
 @export var explosion_scene : PackedScene
+@export var cast_circle_scene : PackedScene
 
 var max_base_speed : float = GameConfig.player_base_speed
 var max_lives : int = GameConfig.starting_max_lives
@@ -19,11 +20,14 @@ var is_bonus_speed_decay = true
 @onready var burn_timer = $BurnTimer
 @onready var speed_bonus_timer = $SpeedBonusTimer
 @onready var ammo_manager: AmmoManager = $AmmoManager
+@onready var mana_manager: ManaManager = $ManaManager
 @onready var targeting = get_parent().get_node("TargetManager")
 
 signal lives_changed(current: int, max: int, delta: int)
 signal bullet_fired
-signal blinked
+signal cast_used
+signal leaped
+signal hurt
 signal died
 
 func _ready():
@@ -37,10 +41,21 @@ func _physics_process(delta):
 		if ammo_manager.current_ammo > 0:
 			shoot()
 		
-	if Input.is_action_just_pressed("leap"):
+	elif Input.is_action_just_pressed("leap"):
 		var leap_blob = targeting.current_blob
 		if is_instance_valid(leap_blob):
 			handle_leap(leap_blob)
+			
+	elif Input.is_action_just_pressed("cast"):
+		var cast_ready = mana_manager.current_mana >= mana_manager.mana_threshold
+		if cast_ready:
+			perform_cast()
+	
+func perform_cast():
+	var cast_circle: CastCircle = cast_circle_scene.instantiate()
+	cast_circle.global_position = get_global_mouse_position()
+	get_parent().add_child(cast_circle)
+	cast_used.emit()
 	
 func handle_movement(delta):
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -65,6 +80,7 @@ func handle_leap(leap_blob: Blob):
 	leap_blob.explode_link()
 	await get_tree().process_frame
 	set_deferred("global_position", leap_target_pos)
+	leaped.emit()
 	#explode()
 
 func shoot():
@@ -85,11 +101,12 @@ func create_bullet(mouse_pos, target_enemy):
 
 func get_hit():
 	update_lives_status(-1)
+	hurt.emit()
 	
 func burn():
 	if burn_timer.is_stopped():
 		burn_timer.start()
-		update_lives_status(-1)
+		get_hit()
 	
 func update_lives_status(delta):
 	lives = clamp(lives + delta, 0, max_lives)
@@ -111,8 +128,8 @@ func die():
 	await death_tween.finished
 	died.emit()
 	
-func get_speed_bonus():
-	current_bonus_speed += speed_bonus_amount
+func get_speed_bonus(factor = 1):
+	current_bonus_speed += factor * speed_bonus_amount
 	current_bonus_speed = min(current_bonus_speed, max_bonus_speed)
 	speed_indicator.activate()
 	is_bonus_speed_decay = false

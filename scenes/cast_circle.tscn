@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://td7feuf4hkhd"]
+
+[ext_resource type="Script" uid="uid://bw84l674ai7bk" path="res://scenes/cast_circle.gd" id="1_3adil"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_imuyu"]
+radius = 55.0
+
+[sub_resource type="Gradient" id="Gradient_li0bw"]
+offsets = PackedFloat32Array(0.5, 0.525, 0.55)
+colors = PackedColorArray(0.8001019, 0.8001019, 0.8001019, 0.5, 0.8001019, 0.8001019, 0.8001019, 0.5, 0.8001019, 0.8001019, 0.8001019, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_e1sf5"]
+gradient = SubResource("Gradient_li0bw")
+width = 200
+height = 200
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_th8hw"]
+offsets = PackedFloat32Array(0.5, 0.55, 0.6)
+colors = PackedColorArray(0.8001019, 0.8001019, 0.8001019, 0.2, 1, 1, 1, 0.70000005, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xjv3r"]
+gradient = SubResource("Gradient_th8hw")
+width = 200
+height = 200
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="CastCircle" type="Area2D" unique_id=1896747936]
+scale = Vector2(4, 4)
+collision_layer = 32
+collision_mask = 34
+input_pickable = false
+script = ExtResource("1_3adil")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1965501441]
+shape = SubResource("CircleShape2D_imuyu")
+debug_color = Color(0.24532345, 0.60867363, 0.527242, 0.41960785)
+
+[node name="InsideSprite" type="Sprite2D" parent="." unique_id=1435513232]
+texture = SubResource("GradientTexture2D_e1sf5")
+
+[node name="BorderSprite" type="Sprite2D" parent="." unique_id=1476648123]
+texture = SubResource("GradientTexture2D_xjv3r")

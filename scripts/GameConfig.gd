@@ -19,6 +19,10 @@ var is_god_mode = false
 
 var player_base_speed = 250
 var starting_max_lives = 3
+var starting_mana_threshold = 7
+
+# cast
+var cast_circle_duration = 3.0
 
 # ammo
 var starting_max_ammo = 5

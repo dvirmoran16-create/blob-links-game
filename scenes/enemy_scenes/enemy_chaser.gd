@@ -149,4 +149,3 @@ func spawn_speed_pickup():
 	speed_pickup.global_position = global_position
 	var game = get_tree().current_scene
 	game.call_deferred("add_child", speed_pickup)
- 

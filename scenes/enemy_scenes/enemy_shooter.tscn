@@ -16,8 +16,8 @@ size = Vector2(6.75, 11)
 radius = 32.0
 
 [sub_resource type="Gradient" id="Gradient_mneqe"]
-offsets = PackedFloat32Array(0.5, 0.509434)
-colors = PackedColorArray(0.85430586, 0, 0, 1, 0, 0, 0, 0)
+offsets = PackedFloat32Array(0, 0.5, 0.55, 0.6)
+colors = PackedColorArray(0, 0, 0, 0.3, 1, 0.20000005, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_t4tug"]
 gradient = SubResource("Gradient_mneqe")
@@ -66,4 +66,4 @@ offset_right = -34.0
 offset_bottom = -27.0
 grow_horizontal = 0
 grow_vertical = 2
-color = Color(1, 0.15170373, 0, 1)
+color = Color(1, 0.20000005, 0, 1)
