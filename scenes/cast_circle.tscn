@@ -19,7 +19,7 @@ fill_to = Vector2(1, 0.5)
 
 [sub_resource type="Gradient" id="Gradient_th8hw"]
 offsets = PackedFloat32Array(0.5, 0.55, 0.6)
-colors = PackedColorArray(0.8001019, 0.8001019, 0.8001019, 0, 1, 1, 1, 0.70000005, 1, 1, 1, 0)
+colors = PackedColorArray(0.8001019, 0.8001019, 0.8001019, 0.2, 1, 1, 1, 0.70000005, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_xjv3r"]
 gradient = SubResource("Gradient_th8hw")

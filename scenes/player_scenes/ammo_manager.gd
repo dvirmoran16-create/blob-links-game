@@ -7,7 +7,6 @@ extends Node2D
 var max_ammo = GameConfig.starting_max_ammo
 var current_ammo = max_ammo
 var dots: Array[ColorRect] = []
-var is_recharging = true
 
 @onready var ammo_sprite : ColorRect = $AmmoSprite
 @onready var recharge_timer : Timer = $RechargeTimer
@@ -63,7 +62,6 @@ func _on_player_bullet_fired() -> void:
 	if current_ammo > 0:
 		current_ammo -= 1
 	recharge_timer.paused = true
-	is_recharging = false
 	pause_timer.start()
 	charge_circle.tint_progress.a = 0.1
 	_update_dots()
@@ -89,10 +87,9 @@ func run_new_ammo_animation():
 	var new_ammo_dot = dots[current_ammo - 1]
 	var tween = new_ammo_dot.create_tween()
 	tween.tween_property(new_ammo_dot, "modulate:a", 0.5, 0.5).from(0.8)
-	tween.parallel().tween_property(new_ammo_dot, "scale", Vector2(1.0, 1.0), 0.5).from(Vector2(2.0, 2.0))
+	tween.parallel().tween_property(new_ammo_dot, "scale", Vector2.ONE, 0.5).from(Vector2(2.0, 2.0))
 
 func _on_pause_timer_timeout() -> void:
-	is_recharging = true
 	if current_ammo < max_ammo:
 		recharge_timer.paused = false
 		charge_circle.tint_progress.a = 0.3
