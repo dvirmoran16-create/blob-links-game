@@ -4,17 +4,15 @@ extends Area2D
 var duration = GameConfig.cast_circle_duration
 
 var affected_enemies = []
-@onready var sprite = $Sprite2D
-@onready var timer = $Timer
+@onready var inside_sprite = $InsideSprite
 
 func _ready():
-	timer.start(duration)
 	var shader_tween = create_tween()
 	shader_tween.tween_property(
-		self, 
-		"modulate:a", 
-		0.0, 
-		timer.wait_time).from(1.0)
+		inside_sprite, 
+		"scale", 
+		Vector2.ZERO, 
+		duration).from(Vector2.ONE)
 	shader_tween.tween_callback(queue_free)
 	body_entered.connect(_on_detect_enemy)
 
