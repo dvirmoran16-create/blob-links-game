@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://1lk0ybrbu4ax" path="res://scenes/player_scenes/ammo_manager.tscn" id="2_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://dnygcf0qpbgbf" path="res://scenes/player_scenes/lives_indicator.tscn" id="3_dqkch"]
 [ext_resource type="PackedScene" uid="uid://defqab7707s25" path="res://scenes/blob_scenes/blob_explosion.tscn" id="3_shuw1"]
-[ext_resource type="PackedScene" uid="uid://td7feuf4hkhd" path="res://scenes/blob_scenes/freeze_circle.tscn" id="4_j2xde"]
+[ext_resource type="PackedScene" uid="uid://td7feuf4hkhd" path="res://scenes/cast_circle.tscn" id="4_j2xde"]
 [ext_resource type="PackedScene" uid="uid://cvrsyh062i2h7" path="res://scenes/player_scenes/mana_manager.tscn" id="5_b744r"]
 [ext_resource type="PackedScene" uid="uid://bldixm2i0q0um" path="res://scenes/player_scenes/speed_indicator.tscn" id="6_shuw1"]
 
@@ -17,7 +17,7 @@ motion_mode = 1
 script = ExtResource("1_3vyb7")
 bullet_scene = ExtResource("2_k3sny")
 explosion_scene = ExtResource("3_shuw1")
-freeze_circle_scene = ExtResource("4_j2xde")
+cast_circle_scene = ExtResource("4_j2xde")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1617706281]
 anchors_preset = 8

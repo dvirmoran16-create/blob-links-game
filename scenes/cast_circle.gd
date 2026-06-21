@@ -1,7 +1,7 @@
-class_name FreezeCircle
+class_name CastCircle
 extends Area2D
 
-@export var duration = 3.0  # GameConfig.freeze_circle_duration INSTEAD OF @export
+var duration = GameConfig.cast_circle_duration
 
 var affected_enemies = []
 @onready var sprite = $Sprite2D
@@ -19,9 +19,6 @@ func _ready():
 	body_entered.connect(_on_detect_enemy)
 
 func _on_detect_enemy(body):
-	#if body not in affected_enemies and body.has_method("freeze"):
-		#body.freeze(timer.time_left)
-		#affected_enemies.append(body)
 	if body not in affected_enemies and body.has_method("blue_dmg"):
 		body.blue_dmg()
 		affected_enemies.append(body)

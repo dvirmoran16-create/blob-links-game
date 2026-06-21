@@ -21,14 +21,12 @@ var alert_tween: Tween = null
 var is_dying = false
 var direction = Vector2(0, 0)
 var is_gonna_explode = false
-var is_frozen
 
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var sprite = $Sprite2D
 @onready var alert_range = $AlertRange
 @onready var explode_range = $ExplodeRange
 @onready var explode_timer = $ExplodeTimer
-@onready var freeze_timer = $FreezeTimer
 
 func _ready():
 	add_to_group("enemies")
@@ -151,10 +149,3 @@ func spawn_speed_pickup():
 	speed_pickup.global_position = global_position
 	var game = get_tree().current_scene
 	game.call_deferred("add_child", speed_pickup)
- 
-func freeze(duration):
-	modulate = Color(5.0, 5.0, 5.0, 1.0)
-	set_physics_process(false)
-	await get_tree().create_timer(duration).timeout
-	set_physics_process(true)
-	modulate = Color(1.0, 1.0, 1.0)

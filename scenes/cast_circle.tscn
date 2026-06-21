@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://td7feuf4hkhd"]
 
-[ext_resource type="Script" uid="uid://bw84l674ai7bk" path="res://scenes/blob_scenes/freeze_circle.gd" id="1_li0bw"]
+[ext_resource type="Script" uid="uid://bw84l674ai7bk" path="res://scenes/cast_circle.gd" id="1_3adil"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_imuyu"]
 radius = 55.0
@@ -17,12 +17,12 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
-[node name="FreezeCircle" type="Area2D" unique_id=1896747936]
+[node name="CastCircle" type="Area2D" unique_id=1896747936]
 scale = Vector2(4, 4)
 collision_layer = 32
 collision_mask = 34
 input_pickable = false
-script = ExtResource("1_li0bw")
+script = ExtResource("1_3adil")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1965501441]
 shape = SubResource("CircleShape2D_imuyu")
