@@ -21,12 +21,14 @@ var alert_tween: Tween = null
 var is_dying = false
 var direction = Vector2(0, 0)
 var is_gonna_explode = false
+var is_frozen
 
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var sprite = $Sprite2D
 @onready var alert_range = $AlertRange
 @onready var explode_range = $ExplodeRange
 @onready var explode_timer = $ExplodeTimer
+@onready var freeze_timer = $FreezeTimer
 
 func _ready():
 	add_to_group("enemies")

@@ -19,6 +19,9 @@ func _ready():
 	body_entered.connect(_on_detect_enemy)
 
 func _on_detect_enemy(body):
-	if body not in affected_enemies and body.has_method("freeze"):
-		body.freeze(timer.time_left)
+	#if body not in affected_enemies and body.has_method("freeze"):
+		#body.freeze(timer.time_left)
+		#affected_enemies.append(body)
+	if body not in affected_enemies and body.has_method("blue_dmg"):
+		body.blue_dmg()
 		affected_enemies.append(body)
