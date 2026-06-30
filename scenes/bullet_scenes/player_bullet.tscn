@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://daeeh1yjl1bm5" path="res://scenes/bullet_scenes/player_bullet.gd" id="1_qvyco"]
 [ext_resource type="PackedScene" uid="uid://dgi0sk5jfht1k" path="res://scenes/pickup_scenes/ammo_pickup.tscn" id="2_v40gq"]
+[ext_resource type="PackedScene" uid="uid://td7feuf4hkhd" path="res://scenes/cast_circle.tscn" id="3_ekvtf"]
 [ext_resource type="PackedScene" uid="uid://bj20dsehsqhds" path="res://scenes/common_scenes/expiration_circle.tscn" id="3_sv1wv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8fcr"]
@@ -55,6 +56,7 @@ collision_mask = 16
 motion_mode = 1
 script = ExtResource("1_qvyco")
 ammo_scene = ExtResource("2_v40gq")
+boom_scene = ExtResource("3_ekvtf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=157630091]
 rotation = 0.7853982

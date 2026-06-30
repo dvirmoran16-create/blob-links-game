@@ -5,6 +5,7 @@ extends CharacterBody2D
 @export var initial_speed = 1200.0
 @export var rotation_rate = 4 * PI
 @export var ammo_scene : PackedScene
+@export var boom_scene : PackedScene
 
 var speed = initial_speed
 var direction = Vector2.ZERO
@@ -13,6 +14,7 @@ var source_player: Player
 var target_enemy: CharacterBody2D = null
 var enemy_detect_cone: Array[RayCast2D]
 var is_slowing = false
+var is_super = false
 
 @onready var hitbox = $HitBox
 @onready var detect_enemy_raycast = $DetectEnemyRayCast
@@ -37,6 +39,8 @@ func _on_hitbox_hit(body):
 	if body.is_in_group("enemies"):
 		if body.has_method("yellow_dmg"):
 			body.yellow_dmg()
+		if is_super:
+			summon_boom(body.global_position)
 		queue_free()
 		
 func _physics_process(delta):
@@ -54,7 +58,7 @@ func _physics_process(delta):
 		speed -= speed_loss_rate * delta
 	if speed <= 0.0:
 		speed = 0.0
-		_on_expire()
+		expire()
 		return
 
 func _handle_enemy_homing(delta):
@@ -80,9 +84,17 @@ func _handle_wall_collision(collision):
 	is_slowing = false
 	no_target_timer.start()
 
-func _on_expire():
+func expire():
 	#create_ammo()
+	if is_super:
+		summon_boom(global_position)
 	queue_free()
+	
+func summon_boom(pos):
+	var boom: CastCircle = boom_scene.instantiate()
+	boom.global_position = pos
+	var parent = get_parent()
+	parent.call_deferred("add_child", boom)
 	
 func _on_no_target_timeout():
 	is_slowing = true

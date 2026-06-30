@@ -90,11 +90,15 @@ func shoot():
 	bullet_fired.emit()
 
 func create_bullet(mouse_pos, target_enemy):
-	var bullet = bullet_scene.instantiate()
+	var is_super_bullet = mana_manager.current_mana >= mana_manager.mana_threshold
+	var bullet: PlayerBullet = bullet_scene.instantiate()
 	var direction_to_mouse = (mouse_pos - global_position).normalized()
 	bullet.global_position = global_position + direction_to_mouse * 30
 	bullet.target_position = mouse_pos
 	bullet.source_player = self
+	if is_super_bullet:
+		bullet.is_super = true
+		cast_used.emit()
 	if is_instance_valid(target_enemy):
 		bullet.target_enemy = target_enemy
 	get_parent().add_child(bullet)
